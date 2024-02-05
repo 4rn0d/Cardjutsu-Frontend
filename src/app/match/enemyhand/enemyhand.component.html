@@ -1,0 +1,5 @@
+<div style="display: flex; position: absolute; width: 100%; top: -250px;">
+  <div class="container">
+    <app-card *ngFor="let card of cards" [card]="card.card" [show]="'back'" class="card fadeIn"></app-card>
+  </div>
+</div>
