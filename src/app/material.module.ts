@@ -12,6 +12,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ApiInterceptor} from "./api.interceptor";
 
 @NgModule({
   imports: [
@@ -42,6 +44,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatSelectModule,
     MatTableModule,
     MatGridListModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
   ],
 })
 export class MaterialModule { }

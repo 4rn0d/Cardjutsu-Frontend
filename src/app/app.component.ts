@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatchService } from './services/match.service';
 import { Router } from '@angular/router';
+import {ApiService} from "./services/api.service";
+import {connect} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'supercartesinfinies';
 
-  constructor(public router: Router, public matchService:MatchService) { }
+  constructor(public router: Router, public matchService:MatchService, public api:ApiService) { }
 
   isLogged(){
     // TODO: Gérer l'affichage du joueur lorsqu'il est connecté
@@ -25,4 +27,5 @@ export class AppComponent {
     // TODO: Gérer le logout
   }
 
+  protected readonly connect = connect;
 }

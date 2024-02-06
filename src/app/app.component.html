@@ -8,4 +8,13 @@
   </mat-chip>
   <button mat-raised-button color="warn" *ngIf="isLogged()" (click)="logout()">Se déconnecter</button>
 </mat-toolbar>
+
+<div>
+  <button (click)="api.publicRequest()">Requête publique</button>
+  <button (click)="api.privateRequest()">Requête privée</button>
+  <hr>
+  <button (click)="api.register()">Enregistrer</button>
+  <button (click)="api.connect()">Connecter</button>
+  <button *ngIf="api.isLoggedIn()" (click)="api.logout()">Déconnecter</button>
+</div>
 <router-outlet></router-outlet>
