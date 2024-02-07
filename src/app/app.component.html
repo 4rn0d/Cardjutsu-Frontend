@@ -3,18 +3,18 @@
   <a routerLink="/"><span>Super Cartes Infinies</span></a>
   <span style="flex: 1 1 auto;"></span>
 
-  <mat-chip *ngIf="isLogged()" style="margin-right: 20px;">
+  <mat-chip *ngIf="isLoggedIn()" style="margin-right: 20px;">
     {{getUsername()}}
   </mat-chip>
-  <button mat-raised-button color="warn" *ngIf="isLogged()" (click)="logout()">Se déconnecter</button>
+  <button mat-raised-button color="warn" *ngIf="isLoggedIn()" (click)="logout()">Se déconnecter</button>
 </mat-toolbar>
 
 <div>
-  <button (click)="api.publicRequest()">Requête publique</button>
-  <button (click)="api.privateRequest()">Requête privée</button>
+  <button (click)="publicRequest()">Requête publique</button>
+  <button (click)="privateRequest()">Requête privée</button>
   <hr>
-  <button (click)="api.register()">Enregistrer</button>
-  <button (click)="api.connect()">Connecter</button>
-  <button *ngIf="api.isLoggedIn()" (click)="api.logout()">Déconnecter</button>
+  <button (click)="register()">Enregistrer</button>
+  <button (click)="connect()">Connecter</button>
+  <button *ngIf="isLoggedIn()" (click)="logout()">Déconnecter</button>
 </div>
 <router-outlet></router-outlet>
