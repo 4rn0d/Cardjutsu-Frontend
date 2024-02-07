@@ -11,10 +11,10 @@
         <td><i class="fas fa-fist-raised"></i></td>
         <td>{{card?.attack}}</td>
       </tr>
-      <tr [class.red]="health < card?.defense! && health>0">
+      <tr [class.red]="health < card?.health! && health>0">
         <td><i class="fas fa-shield-alt"></i></td>
         <td *ngIf="health>0">{{health}}</td>
-        <td *ngIf="health==0">{{card?.defense}}</td>
+        <td *ngIf="health==0">{{card?.health}}</td>
       </tr>
     </table>
   </mat-card-content>
