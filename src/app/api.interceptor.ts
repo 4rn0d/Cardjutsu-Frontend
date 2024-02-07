@@ -6,21 +6,24 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor( public cookieService: CookieService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     request = request.clone({ withCredentials: true });
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
+    const token = this.cookieService.get(".AspNetCore.Identity.Application");
+    if (token != null) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
+          'Authorization': 'Bearer ' + token
         }
       });
+    }else{
+      console.log("token rip")
     }
     return next.handle(request);
   }

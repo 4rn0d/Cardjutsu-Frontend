@@ -4,7 +4,7 @@
   <span style="flex: 1 1 auto;"></span>
 
   <mat-chip *ngIf="isLoggedIn()" style="margin-right: 20px;">
-    {{getUsername()}}
+    {{username}}
   </mat-chip>
   <button mat-raised-button color="warn" *ngIf="isLoggedIn()" (click)="logout()">Se déconnecter</button>
 </mat-toolbar>
