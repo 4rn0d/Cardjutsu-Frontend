@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MatchComponent } from './match/match.component';
-import {ShopComponent} from "./shop/shop.component";
+import {ShopComponent} from "./home/shop/shop.component";
 
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
   { path: '', component: HomeComponent, children: [
-
-  ]},
-  { path: 'shop/', component: ShopComponent },
+      { path: 'shop', component: ShopComponent },
+    ]},
   { path: '**', redirectTo: '/'}
 ];
 

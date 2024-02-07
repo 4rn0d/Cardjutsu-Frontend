@@ -14,7 +14,7 @@ import { PlayerhandComponent } from './match/playerhand/playerhand.component';
 import { EnemyhandComponent } from './match/enemyhand/enemyhand.component';
 import { HealthComponent } from './match/health/health.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
-import { ShopComponent } from './shop/shop.component';
+import { ShopComponent } from './home/shop/shop.component';
 
 @NgModule({
   declarations: [
