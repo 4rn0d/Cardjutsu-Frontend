@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
   accountBaseUrl = this.baseUrl + "Account/";
   username = "";
 
-  constructor(public router: Router, public matchService:MatchService, public api:ApiService, public http: HttpClient, public cookieService: CookieService) { }
+  constructor(public router: Router, public matchService:MatchService,public http: HttpClient, public cookieService: CookieService) { }
 
 
  async ngOnInit(): Promise<void> {
@@ -32,22 +32,22 @@ export class AppComponent implements OnInit{
 
 
 
-  async register(){
+  async register(usernameQuestion: string | null | undefined, passwordQuestion: string | null | undefined, passwordConfirm: any){
     let registerData = {
-      email : "autre2@test.com",
-      password : "Passw0rd!",
-      passwordConfirm : "Passw0rd!",
+      email : usernameQuestion,
+      password : passwordQuestion,
+      passwordConfirm : passwordConfirm,
     }
     let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Register', registerData));
     console.log(result);
   }
 
-  async connect(){
+  async connect(email: string | null | undefined, password: string | null | undefined){
     let registerData = {
-      username : "autre2@test2.com",
-      password : "Passw0rd!2",
+      username : email,
+      password : password,
 
-    }
+    }//"autre2@test2.com" //"Passw0rd!2"
     let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
     console.log(result);
   }
@@ -76,6 +76,7 @@ export class AppComponent implements OnInit{
 
 
   protected readonly connwect = connect;
+
 
 
 }

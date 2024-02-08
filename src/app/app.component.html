@@ -13,8 +13,8 @@
   <button (click)="publicRequest()">Requête publique</button>
   <button (click)="privateRequest()">Requête privée</button>
   <hr>
-  <button (click)="register()">Enregistrer</button>
-  <button (click)="connect()">Connecter</button>
+  <button [routerLink]="['/login']" >Aller login</button>
+  <button [routerLink]="['/register']" >Aller register</button>
   <button *ngIf="isLoggedIn()" (click)="logout()">Déconnecter</button>
 </div>
 <router-outlet></router-outlet>
