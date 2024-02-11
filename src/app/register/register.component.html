@@ -17,6 +17,9 @@
             <mat-error *ngIf="loginForm.get('passwordQuestion')?.hasError('required')">
                 Ce champs est <strong>requis</strong>
             </mat-error>
+          <mat-error *ngIf="loginForm.get('passwordQuestion')?.hasError('passwordLength')">
+            Le mot de passe est trop <strong>court</strong>
+          </mat-error>
         </mat-form-field>
         <mat-form-field style="width: 100%">
 

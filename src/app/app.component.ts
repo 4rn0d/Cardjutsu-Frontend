@@ -26,8 +26,12 @@ export class AppComponent implements OnInit{
   }
  async getUsername(){
    let options = { withCredentials: true };
-    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'GetUsername'));
-   return result.email;
+   if (this.isLoggedIn())
+   {
+     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'GetUsername'));
+     return result.email;
+   }
+
   }
 
 

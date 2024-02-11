@@ -17,7 +17,11 @@
       <mat-error *ngIf="loginForm.get('passwordQuestion')?.hasError('required')">
         Ce champs est <strong>requis</strong>
       </mat-error>
-    </mat-form-field>
+</mat-form-field>
+    <div *ngIf="problemeLogin"  >
+      Ce champs est <strong>erroner</strong>
+    </div>
+
     <button mat-raised-button color="primary" [disabled]="!loginForm.valid" (click)="login()">Login</button>
   </form>
 </mat-card>
