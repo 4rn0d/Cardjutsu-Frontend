@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import { MatchService } from '../services/match.service';
-import {MatDialog} from "@angular/material/dialog";
-import {MaterialModule} from "../material.module";
-import {DialogComponent} from "../components/dialog/dialog.component";
+import {MatDialog, MatDialogState} from "@angular/material/dialog";
+import {DialogWaitingComponent} from "../components/dialogWaiting/dialogWaiting.component";
+import {DataService} from "../services/data.service";
 
 @Component({
   selector: 'app-home',
@@ -12,7 +11,7 @@ import {DialogComponent} from "../components/dialog/dialog.component";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public router: Router, public match: MatchService, public dialog: MatDialog) { }
+  constructor(public router: Router, public data: DataService, public dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -21,13 +20,23 @@ export class HomeComponent implements OnInit {
   joinMatch() {
     // TODO: Anuglar: Afficher un dialogue qui montre que l'on attend de joindre un match
     // TODO: Hub: Se connecter au Hub et joindre un match
-    const dialogRef = this.dialog.open(DialogComponent);
+    const dialogRef = this.dialog.open(DialogWaitingComponent);
 
-    setTimeout(() => {
-      dialogRef.close();
-      let matchId = -1;
-      this.router.navigate(['/match/' + matchId]);
-    }, 10000);
+    console.log(this.data.dialogIsOpen)
+
+    let timeout : number
+
+    dialogRef.afterOpened().subscribe(_ => {
+      timeout = setTimeout(() => {
+        dialogRef.close()
+        let matchId = -1;
+        this.router.navigate(['/match/' + matchId]);
+      }, 5000)
+    })
+
+    dialogRef.afterClosed().subscribe(_ => {
+      clearTimeout(timeout)
+    })
 
   }
 
