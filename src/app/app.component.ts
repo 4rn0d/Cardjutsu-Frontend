@@ -22,15 +22,21 @@ export class AppComponent implements OnInit{
 
 
  async ngOnInit(): Promise<void> {
-    this.username = await this.getUsername();
+    if(this.isLoggedIn()){
+        this.username = await this.getUsername();
+
+    }else{
+      this.router.navigate(['/login']);
+    }
+
+
   }
  async getUsername(){
    let options = { withCredentials: true };
-   if (this.isLoggedIn())
-   {
+
      let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'GetUsername'));
      return result.email;
-   }
+
 
   }
 
@@ -51,8 +57,11 @@ export class AppComponent implements OnInit{
       username : email,
       password : password,
 
-    }//"autre2@test2.com" //"Passw0rd!2"
+    }
     let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
+
+    this.router.navigate(['']);
+    this.getUsername();
     console.log(result);
   }
 
@@ -70,6 +79,7 @@ export class AppComponent implements OnInit{
 
   async logout(){
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'Logout'));
+    this.router.navigate(['/login']);
     console.log(result);
   }
 

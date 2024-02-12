@@ -8,10 +8,10 @@ import {RegisterComponent} from "./register/register.component";
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
 
-  { path: '', component: HomeComponent, children: [
+  { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-  ]},
+
   { path: '**', redirectTo: '/'}
 ];
 

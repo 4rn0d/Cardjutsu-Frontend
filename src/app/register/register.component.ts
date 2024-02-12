@@ -88,6 +88,8 @@ export class RegisterComponent {
         passwordConfirm : this.userData?.passwordConfirmQuestion,
       }
       let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Register', registerData));
+      await this.appcompenemt.connect(registerData.email, registerData.password);
+
     } catch (err: any) {
       if (err instanceof HttpErrorResponse) {
         this.loginForm.reset("usernameQuestion");

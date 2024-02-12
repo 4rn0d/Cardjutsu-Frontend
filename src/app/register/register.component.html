@@ -32,6 +32,7 @@
             </mat-error>
         </mat-form-field>
         <button mat-raised-button color="primary" [disabled]="!loginForm.valid" (click)="registering()">Register</button>
+      <button mat-raised-button color="secondary" [routerLink]="['/login']" style="margin-left:30px" >Deja un compte</button>
     </form>
 </mat-card>
 

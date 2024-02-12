@@ -3,6 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} f
 import {AppComponent} from "../app.component";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
+import {Router} from "@angular/router";
 interface QuestionsData {
   usernameQuestion?: string | null ;
   passwordQuestion?: string | null ;
@@ -20,7 +21,7 @@ export class LoginComponent {
   problemeLogin = false; // pour le afterSubmit
 
   userData:QuestionsData | null = null;
-  constructor(private fb: FormBuilder, public appcompenemt: AppComponent,public http: HttpClient) {
+  constructor(private fb: FormBuilder, public appcompenemt: AppComponent,public http: HttpClient,public router: Router,) {
 
     this.loginForm = this.fb.group({
       usernameQuestion: ['', [Validators.required, Validators.email, this.gmailValidator]],
@@ -49,13 +50,15 @@ export class LoginComponent {
 
     async login() {
       try {
-        //this.appcompenemt.connect(this.userData?.usernameQuestion, this.userData?.passwordQuestion);
+
         let registerData = {
           username: this.userData?.usernameQuestion,
           password: this.userData?.passwordQuestion,
 
         }
         let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
+        //this.appcompenemt.getUsername();
+        this.router.navigate(['']);
         this.appcompenemt.getUsername();
       } catch (err: any) {
         if (err instanceof HttpErrorResponse) {

@@ -23,5 +23,6 @@
     </div>
 
     <button mat-raised-button color="primary" [disabled]="!loginForm.valid" (click)="login()">Login</button>
-  </form>
+    <button mat-raised-button color="secondary" [routerLink]="['/register']" style="margin-left:30px" >Creer un compte</button>
+ </form>
 </mat-card>
