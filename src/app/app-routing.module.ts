@@ -4,11 +4,12 @@ import { HomeComponent } from './home/home.component';
 import { MatchComponent } from './match/match.component';
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
+import {apiGuard} from "./guards/api.guards";
 
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
 
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate:[apiGuard]  },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
 

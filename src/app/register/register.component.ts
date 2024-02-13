@@ -3,6 +3,8 @@ import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} f
 import {AppComponent} from "../app.component";
 import {lastValueFrom} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {ApiService} from "../services/api.service";
+import {Router} from "@angular/router";
 
 interface QuestionsData {
   usernameQuestion?: string | null ;
@@ -20,7 +22,7 @@ export class RegisterComponent {
   userData:QuestionsData | null = null;
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
-  constructor(private fb: FormBuilder, public appcompenemt: AppComponent,public http: HttpClient) {
+  constructor(private fb: FormBuilder,public router: Router, public appcompenemt: AppComponent,public http: HttpClient, public apiService:ApiService) {
 
     this.loginForm = this.fb.group({
       usernameQuestion: ['', [Validators.required, Validators.email, this.gmailValidator]],
@@ -76,9 +78,7 @@ export class RegisterComponent {
   }
 
 
- // registering() {
-   // this.appcompenemt.register(this.userData?.usernameQuestion, this.userData?.passwordQuestion,this.userData?.passwordConfirmQuestion )
-  //}
+
 
   async registering() {
     try {
@@ -87,8 +87,10 @@ export class RegisterComponent {
         password : this.userData?.passwordQuestion,
         passwordConfirm : this.userData?.passwordConfirmQuestion,
       }
-      let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Register', registerData));
-      await this.appcompenemt.connect(registerData.email, registerData.password);
+      await this.apiService.register(registerData.email,registerData.password,registerData.passwordConfirm);
+      await this.apiService.connect(registerData.email, registerData.password);
+      await this.router.navigate(['']);
+      await this.appcompenemt.getUsername();
 
     } catch (err: any) {
       if (err instanceof HttpErrorResponse) {

@@ -18,12 +18,12 @@ export class AppComponent implements OnInit{
   accountBaseUrl = this.baseUrl + "Account/";
   username = "";
 
-  constructor(public router: Router, public matchService:MatchService,public http: HttpClient, public cookieService: CookieService) { }
+  constructor(public router: Router, public matchService:MatchService,public http: HttpClient, public cookieService: CookieService, public apiService:ApiService) { }
 
 
  async ngOnInit(): Promise<void> {
     if(this.isLoggedIn()){
-        this.username = await this.getUsername();
+        this.username = await this.apiService.getUsername();
 
     }else{
       this.router.navigate(['/login']);
@@ -31,56 +31,30 @@ export class AppComponent implements OnInit{
 
 
   }
+
+
  async getUsername(){
    let options = { withCredentials: true };
 
      let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'GetUsername'));
-     return result.email;
-
-
+      this.username = result.email
   }
 
 
 
   async register(usernameQuestion: string | null | undefined, passwordQuestion: string | null | undefined, passwordConfirm: any){
-    let registerData = {
-      email : usernameQuestion,
-      password : passwordQuestion,
-      passwordConfirm : passwordConfirm,
-    }
-    let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Register', registerData));
-    console.log(result);
+      await this.apiService.register(usernameQuestion,passwordQuestion,passwordConfirm);
   }
 
   async connect(email: string | null | undefined, password: string | null | undefined){
-    let registerData = {
-      username : email,
-      password : password,
-
-    }
-    let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
-
-    this.router.navigate(['']);
-    this.getUsername();
-    console.log(result);
-  }
-
-  async privateRequest(){
-    let options = {withCredentials :true};
-    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'PrivateData', options));
-    console.log(result);
-  }
-
-  async publicRequest(){
-    let options = {withCredentials :true};
-    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'PublicData'));
-    console.log(result);
+    await this.apiService.connect(email,password);
+    await this.router.navigate(['']);
+    this.username =await this.apiService.getUsername();
   }
 
   async logout(){
-    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'Logout'));
+    await this.apiService.logout();
     this.router.navigate(['/login']);
-    console.log(result);
   }
 
   isLoggedIn(){
@@ -92,5 +66,12 @@ export class AppComponent implements OnInit{
   protected readonly connwect = connect;
 
 
-
+  gohome() {
+    if (this.isLoggedIn()){
+      this.router.navigate(['/']);
+    }
+    else{
+      return;
+    }
+  }
 }

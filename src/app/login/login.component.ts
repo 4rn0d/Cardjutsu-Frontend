@@ -4,6 +4,7 @@ import {AppComponent} from "../app.component";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
 import {Router} from "@angular/router";
+import {ApiService} from "../services/api.service";
 interface QuestionsData {
   usernameQuestion?: string | null ;
   passwordQuestion?: string | null ;
@@ -21,7 +22,7 @@ export class LoginComponent {
   problemeLogin = false; // pour le afterSubmit
 
   userData:QuestionsData | null = null;
-  constructor(private fb: FormBuilder, public appcompenemt: AppComponent,public http: HttpClient,public router: Router,) {
+  constructor(private fb: FormBuilder, public appcompenemt: AppComponent,public http: HttpClient,public router: Router,public apiService :ApiService) {
 
     this.loginForm = this.fb.group({
       usernameQuestion: ['', [Validators.required, Validators.email, this.gmailValidator]],
@@ -56,10 +57,9 @@ export class LoginComponent {
           password: this.userData?.passwordQuestion,
 
         }
-        let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
-        //this.appcompenemt.getUsername();
-        this.router.navigate(['']);
-        this.appcompenemt.getUsername();
+        await this.apiService.connect(registerData.username, registerData.password);
+        await  this.router.navigate(['']);
+        await this.appcompenemt.getUsername();
       } catch (err: any) {
         if (err instanceof HttpErrorResponse) {
           this.loginForm.reset("passwordQuestion");
