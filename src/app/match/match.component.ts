@@ -3,6 +3,9 @@ import { MatchData, PlayerData } from '../models/models';
 import { MatchService } from './../services/match.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import {DialogWaitingComponent} from "../components/dialogWaiting/dialogWaiting.component";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogFinComponent} from "../components/dialogFin/dialogFin.component";
 
 @Component({
   selector: 'app-match',
@@ -13,7 +16,7 @@ export class MatchComponent implements OnInit {
 
   matchData:MatchData|null = null;
 
-  constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService) { }
+  constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public dialog: MatDialog) { }
 
   async ngOnInit() {
     let matchId:number  = parseInt(this.route.snapshot.params["id"]);
@@ -60,8 +63,13 @@ export class MatchComponent implements OnInit {
   }
 
   endMatch() {
-    this.matchService.clearMatch();
-    this.router.navigate(['/'])
+    const dialogRef = this.dialog.open(DialogFinComponent);
+    let instance = dialogRef.componentInstance
+    instance.win = this.isVictory()
+    dialogRef.afterClosed().subscribe(_ => {
+        this.matchService.clearMatch();
+        this.router.navigate(['/'])
+      })
   }
 
   async endTurn() {
@@ -112,11 +120,14 @@ export class MatchComponent implements OnInit {
 
   surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
+
     let fakeEndMatchEvent = {
       $type: "EndMatch",
       WinningPlayerId: this.matchService.adversaryData?.playerId
     }
     this.matchService.applyEvent(fakeEndMatchEvent);
+
+    this.endMatch()
   }
 
   isVictory() {

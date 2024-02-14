@@ -17,6 +17,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { ShopComponent } from './home/shop/shop.component';
 import { MyCardsComponent } from './home/my-cards/my-cards.component';
 import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting.component';
+import { DialogFinComponent } from './components/dialogFin/dialogFin.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting
     ShopComponent,
     MyCardsComponent,
     DialogWaitingComponent,
+    DialogFinComponent,
    ],
   imports: [
     BrowserModule,
