@@ -8,12 +8,13 @@ import {apiGuard} from "./guards/api.guards";
 
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '', component: HomeComponent, canActivate:[apiGuard]},
+      { path: '**', redirectTo: '/'}
 
-  { path: '', component: HomeComponent, canActivate:[apiGuard]  },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
 
-  { path: '**', redirectTo: '/'}
+
 ];
 
 @NgModule({

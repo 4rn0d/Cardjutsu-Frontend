@@ -19,13 +19,13 @@ export class LoginComponent {
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
   loginForm:FormGroup<any>;
-  problemeLogin = false; // pour le afterSubmit
+  problemeLogin:any; // pour le afterSubmit
 
   userData:QuestionsData | null = null;
   constructor(private fb: FormBuilder, public appcompenemt: AppComponent,public http: HttpClient,public router: Router,public apiService :ApiService) {
 
     this.loginForm = this.fb.group({
-      usernameQuestion: ['', [Validators.required, Validators.email, this.gmailValidator]],
+      usernameQuestion: ['', [Validators.required, Validators.email]],
       passwordQuestion: ['',[Validators.required]],
     });
 
@@ -61,17 +61,19 @@ export class LoginComponent {
         await  this.router.navigate(['']);
         await this.appcompenemt.getUsername();
       } catch (err: any) {
-        if (err instanceof HttpErrorResponse) {
-          this.loginForm.reset("passwordQuestion");
-          this.loginForm.reset("usernameQuestion");
-          console.log(this.problemeLogin)
+        if (err instanceof HttpErrorResponse){
+          this.problemeLogin = err.error;
+          console.log(err.error)
           return;
-
         }
+
+
+
       }
       return null;
 
     }
+
 
 
 

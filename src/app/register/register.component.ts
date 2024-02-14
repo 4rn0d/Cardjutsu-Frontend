@@ -18,7 +18,7 @@ interface QuestionsData {
 })
 export class RegisterComponent {
   loginForm:FormGroup<any>;
-  problemeRegister = false; // pour le afterSubmit
+  problemeRegister:any; // pour le afterSubmit
   userData:QuestionsData | null = null;
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
@@ -94,10 +94,8 @@ export class RegisterComponent {
 
     } catch (err: any) {
       if (err instanceof HttpErrorResponse) {
-        this.loginForm.reset("usernameQuestion");
-        this.loginForm.reset("passwordQuestion");
-        this.loginForm.reset("passwordConfirmQuestion");
-        console.log(this.problemeRegister)
+       this.problemeRegister = err;
+        console.log(err.error.message)
         return;
 
       }
