@@ -3,6 +3,8 @@ import { MatchData, PlayerData } from '../models/models';
 import { MatchService } from './../services/match.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import * as signalR from "@microsoft/signalr"
+import {environment} from "../../environments/environment.development";
 
 @Component({
   selector: 'app-match',
@@ -10,6 +12,9 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./match.component.css']
 })
 export class MatchComponent implements OnInit {
+
+  private hubConnect?: signalR.HubConnection;
+
 
   matchData:MatchData|null = null;
 
@@ -19,7 +24,8 @@ export class MatchComponent implements OnInit {
     let matchId:number  = parseInt(this.route.snapshot.params["id"]);
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
     // Test: À retirer une fois que le Hub est fonctionnel
-    await this.initTest();
+    this.ConnectToHub();
+    // await this.initTest();
   }
 
   async initTest() {
@@ -64,9 +70,28 @@ export class MatchComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
+  async ConnectToHub(){
+    this.hubConnect = new signalR.HubConnectionBuilder().withUrl(environment.apiUrl + "matchHub").build();
+
+    this.hubConnect.start().then(()=>{
+      console.log("connection au hub");
+
+      this.hubConnect!.on('endTurn', (data) =>{
+        console.log(data);
+      })
+
+      this.hubConnect!.on('surrender', (data) =>{
+        console.log(data);
+      })
+
+      }).catch(err => console.log('Error connection : ' + err))
+  }
+
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
     // Pour TEST
+    this.hubConnect!.invoke('endTurn', this.matchService.match?.id)
+
     let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
     events.push({
       $type: "GainMana",
@@ -112,6 +137,7 @@ export class MatchComponent implements OnInit {
 
   surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
+    this.hubConnect!.invoke('surrender', this.matchService.match?.id)
     let fakeEndMatchEvent = {
       $type: "EndMatch",
       WinningPlayerId: this.matchService.adversaryData?.playerId
