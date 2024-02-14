@@ -13,7 +13,7 @@ export class ApiService {
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, public cookieService: CookieService) { }
 
   async getAllCards(): Promise<Card[]> {
     let result = await lastValueFrom(this.http.get<Card[]>(environment.apiUrl+'api/card/GetAllCards'));
@@ -51,7 +51,9 @@ export class ApiService {
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'Logout'));
 
   }
-
+  isLoggedIn(){
+    return this.cookieService.get(".AspNetCore.Identity.Application");
+  }
 
 
 

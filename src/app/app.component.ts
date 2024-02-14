@@ -65,13 +65,4 @@ export class AppComponent implements OnInit{
 
   protected readonly connwect = connect;
 
-
-  gohome() {
-    if (this.isLoggedIn()){
-      this.router.navigate(['/']);
-    }
-    else{
-      return;
-    }
-  }
 }
