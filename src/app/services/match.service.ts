@@ -125,6 +125,12 @@ export class MatchService {
 
       case "GainMana": {
         // TODO
+        let playerData = this.getPlayerData(event.PlayerId);
+        if(playerData)
+        {
+          this.playerData!.mana += event.Mana;
+          await new Promise(resolve => setTimeout(resolve, 250));
+        }
         break;
       }
 
