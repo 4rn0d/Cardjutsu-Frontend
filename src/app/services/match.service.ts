@@ -2,14 +2,19 @@ import { Card, MatchData, PlayableCard } from 'src/app/models/models';
 import { PlayerData } from '../models/models';
 import { Injectable } from '@angular/core';
 import { Match } from '../models/models';
+import * as signalR from "@microsoft/signalr";
+import {environment} from "../../environments/environment.development";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
+
+  hubConnect?: signalR.HubConnection;
+
   match:Match | null = null;
   matchData:MatchData | null = null;
-  currentPlayerId:number = -1;
+  currentPlayerId:number = parseInt(localStorage.getItem("playerId")!);
 
   playerData: PlayerData | undefined;
   adversaryData: PlayerData | undefined;
@@ -177,5 +182,23 @@ export class MatchService {
       src.splice(index, 1);
       dst.push(playableCard);
     }
+  }
+
+  async ConnectToHub(){
+    this.hubConnect = new signalR.HubConnectionBuilder().withUrl(environment.apiUrl + "matchHub").build();
+
+    this.hubConnect.start().then(()=>{
+      this.hubConnect?.invoke("JoinMatch", localStorage.getItem("playerId"))
+      console.log("connection au hub");
+
+      this.hubConnect!.on('endTurn', (data) =>{
+        console.log(data);
+      })
+
+      this.hubConnect!.on('surrender', (data) =>{
+        console.log(data);
+      })
+
+    }).catch(err => console.log('Error connection : ' + err))
   }
 }

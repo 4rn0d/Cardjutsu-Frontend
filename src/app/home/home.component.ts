@@ -15,9 +15,14 @@ export class HomeComponent implements OnInit {
 
   }
 
-  joinMatch() {
+  joinMatch(user1:boolean) {
     // TODO: Anuglar: Afficher un dialogue qui montre que l'on attend de joindre un match
     // TODO: Hub: Se connecter au Hub et joindre un match
+    let userId:string = user1 ? "User1Id" : "User2Id";
+    if(user1)
+      localStorage.setItem("playerId", "1");
+    else
+      localStorage.setItem("playerId", "2");
     let matchId = -1;
     this.router.navigate(['/match/' + matchId]);
   }

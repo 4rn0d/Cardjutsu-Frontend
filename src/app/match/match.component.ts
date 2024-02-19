@@ -13,10 +13,9 @@ import {environment} from "../../environments/environment.development";
 })
 export class MatchComponent implements OnInit {
 
-  private hubConnect?: signalR.HubConnection;
-
 
   matchData:MatchData|null = null;
+
 
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService) { }
 
@@ -24,7 +23,7 @@ export class MatchComponent implements OnInit {
     let matchId:number  = parseInt(this.route.snapshot.params["id"]);
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
     // Test: À retirer une fois que le Hub est fonctionnel
-    this.ConnectToHub();
+    this.matchService.ConnectToHub();
     // await this.initTest();
   }
 
@@ -70,27 +69,10 @@ export class MatchComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
-  async ConnectToHub(){
-    this.hubConnect = new signalR.HubConnectionBuilder().withUrl(environment.apiUrl + "matchHub").build();
-
-    this.hubConnect.start().then(()=>{
-      console.log("connection au hub");
-
-      this.hubConnect!.on('endTurn', (data) =>{
-        console.log(data);
-      })
-
-      this.hubConnect!.on('surrender', (data) =>{
-        console.log(data);
-      })
-
-      }).catch(err => console.log('Error connection : ' + err))
-  }
-
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
     // Pour TEST
-    this.hubConnect!.invoke('endTurn', this.matchService.match?.id)
+    this.matchService.hubConnect!.invoke('endTurn', this.matchService.match?.id)
 
     let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
     events.push({
@@ -137,7 +119,7 @@ export class MatchComponent implements OnInit {
 
   surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
-    this.hubConnect!.invoke('surrender', this.matchService.match?.id)
+    this.matchService.hubConnect!.invoke('surrender', this.matchService.match?.id)
     let fakeEndMatchEvent = {
       $type: "EndMatch",
       WinningPlayerId: this.matchService.adversaryData?.playerId
