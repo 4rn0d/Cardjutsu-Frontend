@@ -188,7 +188,7 @@ export class MatchService {
     this.hubConnect = new signalR.HubConnectionBuilder().withUrl(environment.apiUrl + "matchHub").build();
 
     this.hubConnect.start().then(()=>{
-      this.hubConnect?.invoke("JoinMatch", localStorage.getItem("playerId"))
+      this.hubConnect?.invoke("JoinMatch", localStorage.getItem("playerId")) //Va falloir changer joinMatch() dans Home.component.ts afin d'utiliser le hub + J majuscule
       console.log("connection au hub");
 
       this.hubConnect!.on('endTurn', (data) =>{
