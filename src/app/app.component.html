@@ -10,5 +10,6 @@
     {{username}}
   </mat-chip>
   <button mat-raised-button color="warn" *ngIf="isLoggedIn()" (click)="logout()" >Se déconnecter</button>
+  <button mat-raised-button color="primary" *ngIf="isLoggedIn()" (click)="test()" >Test</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

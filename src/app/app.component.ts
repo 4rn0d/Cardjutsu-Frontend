@@ -65,4 +65,7 @@ export class AppComponent implements OnInit{
 
   protected readonly connwect = connect;
 
+  async test() {
+    await this.apiService.test();
+  }
 }

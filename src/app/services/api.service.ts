@@ -56,5 +56,8 @@ export class ApiService {
   }
 
 
-
+  async test() {
+    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'PrivateData'));
+    console.log(result)
+  }
 }
