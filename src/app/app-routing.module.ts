@@ -8,8 +8,9 @@ import {MyCardsComponent} from "./home/my-cards/my-cards.component";
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
   { path: '', component: HomeComponent, children: [
+      { path: '', component: MyCardsComponent, pathMatch: 'full' },
       { path: 'shop', component: ShopComponent },
-      { path: 'myCards', component: MyCardsComponent },
+      { path: 'myCards', component: MyCardsComponent }
     ]},
   { path: '**', redirectTo: '/'}
 ];

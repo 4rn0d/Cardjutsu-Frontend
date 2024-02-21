@@ -69,7 +69,7 @@ export class MatchComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_ => {
         this.matchService.clearMatch();
         this.router.navigate(['/'])
-      })
+    })
   }
 
   async endTurn() {
