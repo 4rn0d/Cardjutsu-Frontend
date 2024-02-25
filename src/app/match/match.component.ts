@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import * as signalR from "@microsoft/signalr"
 import {environment} from "../../environments/environment.development";
+import {HubService} from "../services/hub.service";
 
 @Component({
   selector: 'app-match',
@@ -17,14 +18,21 @@ export class MatchComponent implements OnInit {
   matchData:MatchData|null = null;
 
 
-  constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService) { }
+  constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService) { }
 
   async ngOnInit() {
     let matchId:number  = parseInt(this.route.snapshot.params["id"]);
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
-    // Test: À retirer une fois que le Hub est fonctionnel
-    this.matchService.ConnectToHub();
-    // await this.initTest();
+    this.hubService.ConnectToHub();
+    this.hubService.hubConnect!.on('GetMatchData', (data) => {
+      this.matchData = data
+      console.log(data)
+    });
+    this.hubService.hubConnect!.on('StartMatch', (data) => {
+      console.log("this is the startMatch event")
+      this.matchService.applyEvent(data)
+    });
+    this.hubService.hubConnect?.invoke("StartMatch", this.matchService.currentPlayerId, this.matchData)
   }
 
   async initTest() {
@@ -72,7 +80,7 @@ export class MatchComponent implements OnInit {
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
     // Pour TEST
-    this.matchService.hubConnect!.invoke('endTurn', this.matchService.match?.id)
+    this.hubService.hubConnect!.invoke('endTurn', this.matchService.match?.id)
 
     let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
     events.push({
@@ -119,7 +127,7 @@ export class MatchComponent implements OnInit {
 
   surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
-    this.matchService.hubConnect!.invoke('surrender', this.matchService.match?.id)
+    this.hubService.hubConnect!.invoke('surrender', this.matchService.match?.id)
     let fakeEndMatchEvent = {
       $type: "EndMatch",
       WinningPlayerId: this.matchService.adversaryData?.playerId
