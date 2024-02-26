@@ -141,6 +141,7 @@ export class MatchService {
         if(this.match)
         {
           this.match.isPlayerATurn = !this.match.isPlayerATurn;
+          
           this.isCurrentPlayerTurn = event.PlayerId != this.currentPlayerId;
           console.log(this.isCurrentPlayerTurn)
         }
@@ -168,6 +169,7 @@ export class MatchService {
       for(let e of event.Events){
         await this.applyEvent(e);
       }
+      console.log(event.PlayerId + "  testing  " + this.currentPlayerId)
     }
   }
 
