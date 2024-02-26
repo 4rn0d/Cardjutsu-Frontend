@@ -73,8 +73,7 @@ export class MatchComponent implements OnInit {
 
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
-    await this.hubService.hubConnect!.invoke('EndTurn', this.matchService.match?.id)
-    await this.matchService.applyEvent(this.hubService.EndTurnEvent);
+    await this.hubService.hubConnect!.invoke('EndTurn', this.matchService.userId, this.matchService.matchData?.match.id)
     // Pour TEST
 
     // let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
@@ -122,13 +121,13 @@ export class MatchComponent implements OnInit {
 
   async surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
-    await this.hubService.hubConnect!.invoke('Surrender', this.matchService.match?.id)
-    // await this.matchService.applyEvent(this.hubService.SurrenderEvent);
+    console.log("surrender")
+    await this.hubService.hubConnect!.invoke('Surrender', this.matchService.userId, this.matchService.matchData?.match?.id)
+    this.endMatch()
     // let fakeEndMatchEvent = {
     //   $type: "EndMatch",
     //   WinningPlayerId: this.matchService.adversaryData?.playerId
     // }
-    // this.matchService.applyEvent(fakeEndMatchEvent);
   }
 
   isVictory() {

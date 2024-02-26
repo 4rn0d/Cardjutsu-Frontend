@@ -124,7 +124,7 @@ export class MatchService {
   }
 
   async applyEvent(event:any){
-    console.log("ApplyingEvent: " + event.PlayerId);
+    console.log("ApplyingEvent: " + event.$type);
     switch(event.$type){
       case "StartMatch": {
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -137,21 +137,12 @@ export class MatchService {
         break;
       }
 
-      case "PlayerStartTurn": {
-        if(this.match)
-        {
-          // this.match.isPlayerATurn = this.match.isPlayerATurn;
-          this.isCurrentPlayerTurn = event.PlayerId == this.currentPlayerId;
-        }
-
-        break;
-      }
-
       case "PlayerEndTurn": {
         if(this.match)
         {
           this.match.isPlayerATurn = !this.match.isPlayerATurn;
           this.isCurrentPlayerTurn = event.PlayerId != this.currentPlayerId;
+          console.log(this.isCurrentPlayerTurn)
         }
 
         break;

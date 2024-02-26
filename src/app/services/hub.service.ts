@@ -9,17 +9,13 @@ import {MatchService} from "./match.service";
 })
 export class HubService {
 
+  isConnected: boolean = false
+
   hubConnect?: signalR.HubConnection;
 
   matchData?: MatchData
 
   currentPlayerId?: number
-
-  StartMatchEvent: any;
-
-  SurrenderEvent: any;
-
-  EndTurnEvent: any;
 
   constructor(public matchService: MatchService) { }
 
@@ -28,6 +24,7 @@ export class HubService {
 
     this.hubConnect.start().then(()=>{
       console.log("connection au hub");
+      this.isConnected = true;
 
       this.hubConnect!.on('GetMatchData', (data) => {
         this.matchData = data
@@ -40,23 +37,17 @@ export class HubService {
       });
 
       this.hubConnect!.on('StartMatch', (data) => {
-        console.log('StartMatchEvent: ')
-        console.log(data)
-        this.matchService.applyEvent(data)
+        this.matchService.applyEvent(JSON.parse(data))
       })
 
       this.hubConnect!.on('EndTurn', (data) =>{
         console.log('EndTurn');
-        this.EndTurnEvent = data
-        this.matchService.applyEvent(data)
-        console.log(data);
+        this.matchService.applyEvent(JSON.parse(data))
       })
 
       this.hubConnect!.on('Surrender', (data) =>{
         console.log('Surrender');
-        this.SurrenderEvent = data
-        this.matchService.applyEvent(data)
-        console.log(data);
+        this.matchService.applyEvent(JSON.parse(data))
       })
 
     }).catch(err => console.log('Error connection : ' + err))
