@@ -19,15 +19,20 @@ export class HomeComponent implements OnInit {
   async joinMatch(user1:boolean) {
     // TODO: Anuglar: Afficher un dialogue qui montre que l'on attend de joindre un match
     // TODO: Hub: Se connecter au Hub et joindre un match
+
     this.matchService.userId = user1 ? "User1Id" : "User2Id";
     if(user1)
       localStorage.setItem("playerId", "1");
     else
       localStorage.setItem("playerId", "2");
 
-    this.hubService.hubConnect?.invoke("JoinMatch", this.matchService.userId)
+    await this.hubService.hubConnect?.invoke("JoinMatch", this.matchService.userId)
 
     await this.router.navigate(['/match/' + this.matchService.matchId]);
+  }
+
+  async connectToHub(){
+    await this.hubService.ConnectToHub();
   }
 }
 

@@ -11,7 +11,15 @@ export class HubService {
 
   hubConnect?: signalR.HubConnection;
 
-  matchData:MatchData|null = null;
+  matchData?: MatchData
+
+  currentPlayerId?: number
+
+  StartMatchEvent: any;
+
+  SurrenderEvent: any;
+
+  EndTurnEvent: any;
 
   constructor(public matchService: MatchService) { }
 
@@ -23,29 +31,32 @@ export class HubService {
 
       this.hubConnect!.on('GetMatchData', (data) => {
         this.matchData = data
-        console.log(data)
       });
-
-
-
-      this.hubConnect!.on('StartMatch', (data) => {
-        console.log("this is the startMatch event")
-        this.matchService.applyEvent(data)
-      });
-
-      this.hubConnect!.on('endTurn', (data) =>{
-        console.log('endTurn');
-        console.log(data);
-      })
 
       this.hubConnect!.on('GetMatchId', (data) => {
         this.matchService.matchId = data
-        console.log('THIS IS THE FKG MATCH ID')
+        console.log('MatchId:')
         console.log(this.matchService.matchId)
       });
 
-      this.hubConnect!.on('surrender', (data) =>{
-        console.log('surrender');
+      this.hubConnect!.on('StartMatch', (data) => {
+        console.log('StartMatchEvent: ')
+        console.log(data)
+        this.matchService.applyEvent(data)
+      })
+
+      this.hubConnect!.on('EndTurn', (data) =>{
+        console.log('EndTurn');
+        this.EndTurnEvent = data
+        this.matchService.applyEvent(data)
+        console.log(data);
+      })
+
+      this.hubConnect!.on('Surrender', (data) =>{
+        console.log('Surrender');
+        this.SurrenderEvent = data
+        this.matchService.applyEvent(data)
+        console.log(data);
       })
 
     }).catch(err => console.log('Error connection : ' + err))

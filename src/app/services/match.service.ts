@@ -14,7 +14,7 @@ export class MatchService {
   matchId?:number;
   match:Match | null = null;
   matchData:MatchData | null = null;
-  currentPlayerId:number = parseInt(localStorage.getItem("playerId")!);
+  currentPlayerId:number = -1;
 
   playerData: PlayerData | undefined;
   adversaryData: PlayerData | undefined;
@@ -124,15 +124,26 @@ export class MatchService {
   }
 
   async applyEvent(event:any){
-    console.log("ApplyingEvent: " + event.$type);
+    console.log("ApplyingEvent: " + event.PlayerId);
     switch(event.$type){
       case "StartMatch": {
         await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log("starting...")
         break;
       }
 
       case "GainMana": {
         // TODO
+        break;
+      }
+
+      case "PlayerStartTurn": {
+        if(this.match)
+        {
+          // this.match.isPlayerATurn = this.match.isPlayerATurn;
+          this.isCurrentPlayerTurn = event.PlayerId == this.currentPlayerId;
+        }
+
         break;
       }
 
@@ -147,6 +158,7 @@ export class MatchService {
       }
       case "DrawCard": {
         let playerData = this.getPlayerData(event.PlayerId);
+        console.log(playerData)
         if(playerData)
         {
           this.moveCard(playerData.cardsPile, playerData.hand, event.PlayableCardId);
@@ -161,6 +173,7 @@ export class MatchService {
       }
     }
     if(event.Events){
+      console.log(event)
       for(let e of event.Events){
         await this.applyEvent(e);
       }

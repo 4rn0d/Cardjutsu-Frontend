@@ -15,31 +15,25 @@ import {HubService} from "../services/hub.service";
 export class MatchComponent implements OnInit {
 
 
-  matchData:MatchData|null = null;
-
-
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService) { }
 
   async ngOnInit() {
     let matchId:number  = parseInt(this.route.snapshot.params["id"]);
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
-    this.hubService.ConnectToHub();
-    this.hubService.hubConnect!.on('GetMatchData', (data) => {
-      this.matchData = data
-      console.log(data)
-    });
-    this.hubService.hubConnect!.on('StartMatch', (data) => {
-      console.log("this is the startMatch event")
-      this.matchService.applyEvent(data)
-    });
-    this.hubService.hubConnect?.invoke("StartMatch", this.matchService.currentPlayerId, this.matchData)
+    await this.hubService.hubConnect?.invoke("GetMatchData", matchId)
+
+    this.matchService.playMatch(this.hubService.matchData!, this.hubService.currentPlayerId!)
+
+    await this.hubService.hubConnect!.invoke("StartMatch", this.matchService.userId, this.matchService.matchData?.match)
+
+    // await this.matchService.applyEvent(this.hubService.StartMatchEvent)
+
   }
 
   async initTest() {
     // Pendant les tests, on est le joueur B
     let cards = await this.apiService.getPlayersCards();
     let matchData = this.matchService.playTestMatch(cards);
-    console.log(cards.length);
     let nbCardsToDraw = 3;
     let drawCardEvents = this.createDrawCardEventsForTest(matchData.match.playerDataA, nbCardsToDraw);
     drawCardEvents = drawCardEvents.concat(this.createDrawCardEventsForTest(matchData.match.playerDataB, nbCardsToDraw + 1));
@@ -55,7 +49,7 @@ export class MatchComponent implements OnInit {
       $type: "StartMatch",
       Events: drawCardEvents
     }
-    this.matchService.applyEvent(fakeStartMatchEvent);
+    console.log(fakeStartMatchEvent)
   }
 
   createDrawCardEventsForTest(playerData:PlayerData, nbCards:number) : any[]{
@@ -79,60 +73,62 @@ export class MatchComponent implements OnInit {
 
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
+    await this.hubService.hubConnect!.invoke('EndTurn', this.matchService.match?.id)
+    await this.matchService.applyEvent(this.hubService.EndTurnEvent);
     // Pour TEST
-    this.hubService.hubConnect!.invoke('endTurn', this.matchService.match?.id)
 
-    let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
-    events.push({
-      $type: "GainMana",
-      Mana: 3,
-      PlayerId: this.matchService.adversaryData?.playerId
-    });
-
-    let fakeStartTurnEvent = {
-      $type: "PlayerStartTurn",
-      PlayerId: this.matchService.adversaryData?.playerId,
-      Events: events
-    }
-
-    let fakeEndTurnEvent = {
-      $type: "PlayerEndTurn",
-      PlayerId: this.matchService.playerData?.playerId,
-      Events: [fakeStartTurnEvent]
-    }
-    await this.matchService.applyEvent(fakeEndTurnEvent);
-
-    // On attend 3 secondes pour faire semblant que l'autre joueur attend pour terminer son tour
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    events = this.createDrawCardEventsForTest(this.matchService.playerData!, 1);
-    events.push({
-      $type: "GainMana",
-      Mana: 3,
-      PlayerId: this.matchService.playerData?.playerId
-    });
-
-    fakeStartTurnEvent = {
-      $type: "PlayerStartTurn",
-      PlayerId: this.matchService.playerData?.playerId,
-      Events: events
-    }
-
-    fakeEndTurnEvent = {
-      $type: "PlayerEndTurn",
-      PlayerId: this.matchService.adversaryData?.playerId,
-      Events: [fakeStartTurnEvent]
-    }
-    await this.matchService.applyEvent(fakeEndTurnEvent);
+    // let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
+    // events.push({
+    //   $type: "GainMana",
+    //   Mana: 3,
+    //   PlayerId: this.matchService.adversaryData?.playerId
+    // });
+    //
+    // let fakeStartTurnEvent = {
+    //   $type: "PlayerStartTurn",
+    //   PlayerId: this.matchService.adversaryData?.playerId,
+    //   Events: events
+    // }
+    //
+    // let fakeEndTurnEvent = {
+    //   $type: "PlayerEndTurn",
+    //   PlayerId: this.matchService.playerData?.playerId,
+    //   Events: [fakeStartTurnEvent]
+    // }
+    // await this.matchService.applyEvent(fakeEndTurnEvent);
+    //
+    // // On attend 3 secondes pour faire semblant que l'autre joueur attend pour terminer son tour
+    // await new Promise(resolve => setTimeout(resolve, 3000));
+    // events = this.createDrawCardEventsForTest(this.matchService.playerData!, 1);
+    // events.push({
+    //   $type: "GainMana",
+    //   Mana: 3,
+    //   PlayerId: this.matchService.playerData?.playerId
+    // });
+    //
+    // fakeStartTurnEvent = {
+    //   $type: "PlayerStartTurn",
+    //   PlayerId: this.matchService.playerData?.playerId,
+    //   Events: events
+    // }
+    //
+    // fakeEndTurnEvent = {
+    //   $type: "PlayerEndTurn",
+    //   PlayerId: this.matchService.adversaryData?.playerId,
+    //   Events: [fakeStartTurnEvent]
+    // }
+    // await this.matchService.applyEvent(fakeEndTurnEvent);
   }
 
-  surrender() {
+  async surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
-    this.hubService.hubConnect!.invoke('surrender', this.matchService.match?.id)
-    let fakeEndMatchEvent = {
-      $type: "EndMatch",
-      WinningPlayerId: this.matchService.adversaryData?.playerId
-    }
-    this.matchService.applyEvent(fakeEndMatchEvent);
+    await this.hubService.hubConnect!.invoke('Surrender', this.matchService.match?.id)
+    // await this.matchService.applyEvent(this.hubService.SurrenderEvent);
+    // let fakeEndMatchEvent = {
+    //   $type: "EndMatch",
+    //   WinningPlayerId: this.matchService.adversaryData?.playerId
+    // }
+    // this.matchService.applyEvent(fakeEndMatchEvent);
   }
 
   isVictory() {
