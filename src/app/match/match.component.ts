@@ -18,16 +18,10 @@ export class MatchComponent implements OnInit {
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService) { }
 
   async ngOnInit() {
-    let matchId:number  = parseInt(this.route.snapshot.params["id"]);
+    //let matchId:number  = parseInt(this.route.snapshot.params["id"]);
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
-    await this.hubService.hubConnect?.invoke("GetMatchData", matchId)
 
     this.matchService.playMatch(this.hubService.matchData!, this.hubService.currentPlayerId!)
-
-    await this.hubService.hubConnect!.invoke("StartMatch", this.matchService.userId, this.matchService.matchData?.match)
-
-    // await this.matchService.applyEvent(this.hubService.StartMatchEvent)
-
   }
 
   async initTest() {
@@ -74,49 +68,6 @@ export class MatchComponent implements OnInit {
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
     await this.hubService.hubConnect!.invoke('EndTurn', this.matchService.userId, this.matchService.matchData?.match.id)
-    // Pour TEST
-
-    // let events = this.createDrawCardEventsForTest(this.matchService.adversaryData!, 1);
-    // events.push({
-    //   $type: "GainMana",
-    //   Mana: 3,
-    //   PlayerId: this.matchService.adversaryData?.playerId
-    // });
-    //
-    // let fakeStartTurnEvent = {
-    //   $type: "PlayerStartTurn",
-    //   PlayerId: this.matchService.adversaryData?.playerId,
-    //   Events: events
-    // }
-    //
-    // let fakeEndTurnEvent = {
-    //   $type: "PlayerEndTurn",
-    //   PlayerId: this.matchService.playerData?.playerId,
-    //   Events: [fakeStartTurnEvent]
-    // }
-    // await this.matchService.applyEvent(fakeEndTurnEvent);
-    //
-    // // On attend 3 secondes pour faire semblant que l'autre joueur attend pour terminer son tour
-    // await new Promise(resolve => setTimeout(resolve, 3000));
-    // events = this.createDrawCardEventsForTest(this.matchService.playerData!, 1);
-    // events.push({
-    //   $type: "GainMana",
-    //   Mana: 3,
-    //   PlayerId: this.matchService.playerData?.playerId
-    // });
-    //
-    // fakeStartTurnEvent = {
-    //   $type: "PlayerStartTurn",
-    //   PlayerId: this.matchService.playerData?.playerId,
-    //   Events: events
-    // }
-    //
-    // fakeEndTurnEvent = {
-    //   $type: "PlayerEndTurn",
-    //   PlayerId: this.matchService.adversaryData?.playerId,
-    //   Events: [fakeStartTurnEvent]
-    // }
-    // await this.matchService.applyEvent(fakeEndTurnEvent);
   }
 
   async surrender() {
@@ -124,10 +75,6 @@ export class MatchComponent implements OnInit {
     console.log("surrender")
     await this.hubService.hubConnect!.invoke('Surrender', this.matchService.userId, this.matchService.matchData?.match?.id)
     this.endMatch()
-    // let fakeEndMatchEvent = {
-    //   $type: "EndMatch",
-    //   WinningPlayerId: this.matchService.adversaryData?.playerId
-    // }
   }
 
   isVictory() {

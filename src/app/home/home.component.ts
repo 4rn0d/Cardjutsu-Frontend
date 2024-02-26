@@ -28,7 +28,9 @@ export class HomeComponent implements OnInit {
 
     await this.hubService.hubConnect?.invoke("JoinMatch", this.matchService.userId)
 
-    await this.router.navigate(['/match/' + this.matchService.matchId]);
+    if (this.matchService.matchId){
+      await this.router.navigate(['/match/' + this.matchService.matchId]);
+    }
   }
 
   async connectToHub(){

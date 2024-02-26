@@ -29,6 +29,7 @@ export class MatchService {
   clearMatch(){
     this.match = null;
     this.matchData = null;
+    this.matchId = undefined;
     this.playerData = undefined;
     this.adversaryData = undefined;
     this.opponentSurrendered = false;
@@ -141,7 +142,7 @@ export class MatchService {
         if(this.match)
         {
           this.match.isPlayerATurn = !this.match.isPlayerATurn;
-          
+          console.log(event.PlayerId + "  testing  " + this.currentPlayerId)
           this.isCurrentPlayerTurn = event.PlayerId != this.currentPlayerId;
           console.log(this.isCurrentPlayerTurn)
         }
@@ -169,7 +170,7 @@ export class MatchService {
       for(let e of event.Events){
         await this.applyEvent(e);
       }
-      console.log(event.PlayerId + "  testing  " + this.currentPlayerId)
+      
     }
   }
 
