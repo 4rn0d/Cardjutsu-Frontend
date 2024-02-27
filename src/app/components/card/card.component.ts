@@ -10,8 +10,10 @@ export class CardComponent implements OnInit {
 
   @Input() card?:Card;
   @Input() show:string = "front";
-  @Input() health:number = 0;
+  @Input() defense:number = 0;
   beautifulBackUrl = "https://static.miraheze.org/cpfanonwiki/f/f7/Formation_of_Water_Dojo.png";
+  cardBorder = "/assets/card-border/Card-Jitsu_Border_"
+  webp = ".webp"
 
   constructor() { }
 
