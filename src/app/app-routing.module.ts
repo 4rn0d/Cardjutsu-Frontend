@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '', component: HomeComponent, children: [
+  { path: '', component: HomeComponent, canActivate:[apiGuard], children: [
       { path: '', component: MyCardsComponent, pathMatch: 'full' },
       { path: 'shop', component: ShopComponent },
       { path: 'myCards', component: MyCardsComponent }
