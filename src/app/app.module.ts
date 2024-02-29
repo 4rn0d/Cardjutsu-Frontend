@@ -18,6 +18,10 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
+import { ShopComponent } from './home/shop/shop.component';
+import { MyCardsComponent } from './home/my-cards/my-cards.component';
+import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting.component';
+import { DialogFinComponent } from './components/dialogFin/dialogFin.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,11 @@ import {RegisterComponent} from "./register/register.component";
     EnemyhandComponent,
     HealthComponent,
     LoginComponent,
-      RegisterComponent
+    RegisterComponent,
+    ShopComponent,
+    MyCardsComponent,
+    DialogWaitingComponent,
+    DialogFinComponent,
    ],
   imports: [
     BrowserModule,

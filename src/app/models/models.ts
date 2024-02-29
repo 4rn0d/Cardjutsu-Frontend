@@ -10,6 +10,7 @@ export interface Card {
     defense: number;
     cost: number;
     imageUrl: string;
+    colour: string;
 }
 
 export interface MatchData {
