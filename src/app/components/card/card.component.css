@@ -1,6 +1,6 @@
 .infinite-card {
     width: 250px;
-    height: 290px;
+    height: 285px;
     background-size: cover;
     background-position: center;
     border-radius: 15px;
@@ -11,7 +11,7 @@
 }
 
 .card-image{
-  height: 105%;
+  height: 110%;
   width: 105%;
 }
 
