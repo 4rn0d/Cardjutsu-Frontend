@@ -1,28 +1,40 @@
 .infinite-card {
     width: 250px;
-    height: 300px;
+    height: 285px;
     background-size: cover;
     background-position: center;
+    border-radius: 15px;
   }
 
 .red {
   color: red;
 }
 
+.card-image{
+  height: 110%;
+  width: 105%;
+}
+
 .infinite-card-content{
+  padding-top: 13px;
+  padding-left: 13px;
   display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  justify-content: flex-start;
   flex-direction: column;
   align-content: center;
-  height: 100%;
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  z-index: 100;
 }
 
-.infinite-card-mana-cost {
+.infinite-card-back{
+  width: 250px;
+  height: 300px;
   background-size: cover;
-  font-size: 20px;
-  margin-bottom: 0px;
+  background-position: center;
+  border-color:white;
+  border-width: 10px;
+  border-style: solid;
 }

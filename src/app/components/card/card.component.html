@@ -1,25 +1,27 @@
-<mat-card *ngIf="show=='front'" class="infinite-card">
-  <mat-card-header>
-    <div mat-card-avatar class="infinite-card-mana-cost">
-      {{card?.cost}} <i class="fas fa-gem"></i>
-    </div>
-    <mat-card-title>{{card?.name}}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content class="infinite-card-content" style="background-image: url({{card?.imageUrl}});">
-    <table style="font-size: 2em; font-size: 2em; width: fit-content; text-shadow: 2px 2px 2px black;">
+<mat-card *ngIf="show=='front'" class="infinite-card" style="background-image:url({{card?.imageUrl}});">
+  <img class="card-image" src="{{cardBorder + card?.colour + webp}}" alt="">
+  <mat-card-content class="infinite-card-content">
+    <table style="font-size: 25px; width: fit-content; text-shadow: 2px 2px 2px black;">
+      <tr>
+        <td><i class="fas fa-gem"></i></td>
+        <td>{{card?.cost}}</td>
+      </tr>
+      <tr>
+        <br>
+      </tr>
       <tr>
         <td><i class="fas fa-fist-raised"></i></td>
         <td>{{card?.attack}}</td>
       </tr>
-      <tr [class.red]="health < card?.defense! && health>0">
+      <tr [class.red]="defense < card?.defense! && defense>0">
         <td><i class="fas fa-shield-alt"></i></td>
-        <td *ngIf="health>0">{{health}}</td>
-        <td *ngIf="health==0">{{card?.defense}}</td>
+        <td *ngIf="defense>0">{{defense}}</td>
+        <td *ngIf="defense==0">{{card?.defense}}</td>
       </tr>
     </table>
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="show=='back'"  class="infinite-card" style="background-image: url({{beautifulBackUrl}});">
+<mat-card *ngIf="show=='back'" class="infinite-card-back" style="background-image: url({{beautifulBackUrl}});">
 
 </mat-card>

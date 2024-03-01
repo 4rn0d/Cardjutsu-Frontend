@@ -1,0 +1,29 @@
+<mat-card class="artist-card" style="margin: 16px; padding: 16px;">
+  <form [formGroup]="loginForm">
+
+    <mat-form-field style="width: 100%">
+      <input matInput placeholder="Email" formControlName="usernameQuestion" name="usernameQuestion">
+
+      <mat-error *ngIf="loginForm.get('usernameQuestion')?.hasError('required')">
+        Ce champs est <strong>requis</strong>
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('usernameQuestion')?.hasError('email')">
+        Votre email n'est pas <strong>conforme</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+
+      <input matInput type="password" placeholder="Password" formControlName="passwordQuestion" name="passwordQuestion">
+      <mat-error *ngIf="loginForm.get('passwordQuestion')?.hasError('required')">
+        Ce champs est <strong>requis</strong>
+      </mat-error>
+</mat-form-field>
+
+    <div *ngIf="problemeLogin"  style="color: red">
+      {{ problemeLogin.error }}
+    </div>
+    <br>
+    <button mat-raised-button color="primary" [disabled]="!loginForm.valid" (click)="login()">Login</button>
+    <button mat-raised-button color="accent" [routerLink]="['/register']" style="margin-left:30px" >Creer un compte</button>
+ </form>
+</mat-card>

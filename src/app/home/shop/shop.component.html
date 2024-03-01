@@ -1,0 +1,8 @@
+<header style="background-color: #212121; padding: 15px">
+  <h1>Le magasin</h1>
+</header>
+<div class="card_list">
+  <div *ngFor="let card of cards">
+    <app-card [card]="card"></app-card>
+  </div>
+</div>

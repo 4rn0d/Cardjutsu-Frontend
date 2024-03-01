@@ -6,6 +6,9 @@ import { ApiService } from '../services/api.service';
 import * as signalR from "@microsoft/signalr"
 import {environment} from "../../environments/environment.development";
 import {HubService} from "../services/hub.service";
+import {DialogWaitingComponent} from "../components/dialogWaiting/dialogWaiting.component";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogFinComponent} from "../components/dialogFin/dialogFin.component";
 
 @Component({
   selector: 'app-match',
@@ -15,10 +18,9 @@ import {HubService} from "../services/hub.service";
 export class MatchComponent implements OnInit {
 
 
-  constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService) { }
+  constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService, public dialog: MatDialog) { }
 
   async ngOnInit() {
-    //let matchId:number  = parseInt(this.route.snapshot.params["id"]);
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
 
     this.matchService.playMatch(this.hubService.matchData!, this.hubService.currentPlayerId!)
@@ -61,19 +63,24 @@ export class MatchComponent implements OnInit {
   }
 
   endMatch() {
-    this.matchService.clearMatch();
-    this.router.navigate(['/'])
+    const dialogRef = this.dialog.open(DialogFinComponent);
+    let instance = dialogRef.componentInstance
+    instance.win = this.isVictory()
+    dialogRef.afterClosed().subscribe(_ => {
+        this.matchService.clearMatch();
+        this.router.navigate(['/'])
+    })
   }
 
   async endTurn() {
     // TODO Tâche Hub: Faire l'action sur le Hub
-    await this.hubService.hubConnect!.invoke('EndTurn', this.matchService.userId, this.matchService.matchData?.match.id)
+    await this.hubService.hubConnect!.invoke('EndTurn', this.matchService.matchData?.match.id)
   }
 
   async surrender() {
     // TODO Tâche Hub: Faire l'action sur le Hub
     console.log("surrender")
-    await this.hubService.hubConnect!.invoke('Surrender', this.matchService.userId, this.matchService.matchData?.match?.id)
+    await this.hubService.hubConnect!.invoke('Surrender', this.matchService.matchData?.match?.id)
     this.endMatch()
   }
 

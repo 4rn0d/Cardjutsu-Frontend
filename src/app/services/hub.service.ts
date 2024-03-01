@@ -28,8 +28,8 @@ export class HubService {
 
       this.hubConnect!.on('GetMatchData', (data) => {
         this.matchData = data
-        this.currentPlayerId = this.matchData?.playerB.id
         this.matchService.matchId = this.matchData?.match.id
+        console.log(data)
       });
 
       this.hubConnect!.on('StartMatch', (data) => {
