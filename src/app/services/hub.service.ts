@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
+import {HubConnectionState} from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
-import {Match, MatchData} from "../models/models";
+import {MatchData} from "../models/models";
 import {MatchService} from "./match.service";
-import {MatchComponent} from "../match/match.component";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,9 @@ export class HubService {
   constructor(public matchService: MatchService) { }
 
   async ConnectToHub(){
+    if(this.hubConnect?.state == HubConnectionState.Connected)
+      return;
+
     this.hubConnect = new signalR.HubConnectionBuilder().withUrl(environment.apiUrl + "matchHub").build();
 
     this.hubConnect.start().then(()=>{
