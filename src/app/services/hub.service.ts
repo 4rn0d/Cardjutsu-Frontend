@@ -3,6 +3,7 @@ import * as signalR from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
 import {Match, MatchData} from "../models/models";
 import {MatchService} from "./match.service";
+import {MatchComponent} from "../match/match.component";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class HubService {
   currentPlayerId?: number
 
   isWaiting: boolean = true
+
+  isCompleted: boolean = false
 
   constructor(public matchService: MatchService) { }
 
@@ -50,6 +53,7 @@ export class HubService {
       this.hubConnect!.on('Surrender', (data) =>{
         console.log('Surrender');
         this.matchService.applyEvent(JSON.parse(data))
+        this.isCompleted = true
       })
 
     }).catch(err => console.log('Error connection : ' + err))

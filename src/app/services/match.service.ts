@@ -165,6 +165,7 @@ export class MatchService {
         break;
       }
       case "EndMatch": {
+        console.log("hgashdgaskjgdsjkagdjksghadjksgadjkgjkhag")
         this.matchData!.winningPlayerId = event.WinningPlayerId;
         break;
       }

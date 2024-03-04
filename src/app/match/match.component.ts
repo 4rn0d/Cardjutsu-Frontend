@@ -8,7 +8,6 @@ import {environment} from "../../environments/environment.development";
 import {HubService} from "../services/hub.service";
 import {DialogWaitingComponent} from "../components/dialogWaiting/dialogWaiting.component";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogFinComponent} from "../components/dialogFin/dialogFin.component";
 
 @Component({
   selector: 'app-match',
@@ -16,6 +15,8 @@ import {DialogFinComponent} from "../components/dialogFin/dialogFin.component";
   styleUrls: ['./match.component.css']
 })
 export class MatchComponent implements OnInit {
+
+  isComplete: boolean = false
 
 
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService, public dialog: MatDialog) { }
@@ -63,13 +64,8 @@ export class MatchComponent implements OnInit {
   }
 
   endMatch() {
-    const dialogRef = this.dialog.open(DialogFinComponent);
-    let instance = dialogRef.componentInstance
-    instance.win = this.isVictory()
-    dialogRef.afterClosed().subscribe(_ => {
-        this.matchService.clearMatch();
-        this.router.navigate(['/'])
-    })
+    this.matchService.clearMatch();
+    this.router.navigate(['/'])
   }
 
   async endTurn() {
@@ -81,7 +77,6 @@ export class MatchComponent implements OnInit {
     // TODO Tâche Hub: Faire l'action sur le Hub
     console.log("surrender")
     await this.hubService.hubConnect!.invoke('Surrender', this.matchService.matchData?.match?.id)
-    this.endMatch()
   }
 
   isVictory() {
