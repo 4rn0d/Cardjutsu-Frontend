@@ -18,6 +18,7 @@ export class MatchService {
 
   playerData: PlayerData | undefined;
   adversaryData: PlayerData | undefined;
+  isCompleted: boolean = false
 
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
@@ -32,6 +33,7 @@ export class MatchService {
     this.adversaryData = undefined;
     this.opponentSurrendered = false;
     this.isCurrentPlayerTurn = false;
+    this.isCompleted = false;
   }
 
   playTestMatch(cards:Card[]){

@@ -22,11 +22,11 @@
   <app-health [maxhealth]="matchService.playerData!.maxhealth" [health]="matchService.playerData!.health" [mana]="matchService.playerData!.mana" [playername]="matchService.playerData!.playerName"></app-health>
 </div>
 
-<div class="end" *ngIf="isVictory() && this.hubService.isCompleted">
+<div class="end" *ngIf="isVictory() && this.matchService.isCompleted">
   Victoire
   <button mat-button mat-raised-button (click)="endMatch()">Retour</button>
 </div>
-<div class="end" *ngIf="!isVictory() && this.hubService.isCompleted">
+<div class="end" *ngIf="!isVictory() && this.matchService.isCompleted">
   Defaite
   <button mat-button mat-raised-button (click)="endMatch()">Retour</button>
 </div>

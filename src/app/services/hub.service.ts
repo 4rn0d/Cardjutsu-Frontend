@@ -20,8 +20,6 @@ export class HubService {
 
   isWaiting: boolean = true
 
-  isCompleted: boolean = false
-
   constructor(public matchService: MatchService) { }
 
   async ConnectToHub(){
@@ -53,7 +51,7 @@ export class HubService {
       this.hubConnect!.on('Surrender', (data) =>{
         console.log('Surrender');
         this.matchService.applyEvent(JSON.parse(data))
-        this.isCompleted = true
+        this.matchService.isCompleted = true
       })
 
     }).catch(err => console.log('Error connection : ' + err))
