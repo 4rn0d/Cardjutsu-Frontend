@@ -136,9 +136,15 @@ export class MatchService {
       case "GainMana": {
         // TODO
         let playerData = this.getPlayerData(event.PlayerId);
-        if(playerData)
+        if(event.PlayerId == localStorage["currentPlayerId"])
         {
+          console.log(playerData)
           this.playerData!.mana += event.Mana;
+          await new Promise(resolve => setTimeout(resolve, 250));
+        }
+        else
+        {
+          this.adversaryData!.mana += event.Mana
           await new Promise(resolve => setTimeout(resolve, 250));
         }
         break;
