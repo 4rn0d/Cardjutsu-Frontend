@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {DataService} from "../../services/data.service";
+import {HubService} from "../../services/hub.service";
 
 @Component({
   selector: 'app-dialogWaiting',
@@ -8,6 +9,6 @@ import {DataService} from "../../services/data.service";
 })
 export class DialogWaitingComponent {
 
-  constructor(public data:DataService) {}
+  constructor(public data:DataService, public hubService: HubService) {}
 
 }

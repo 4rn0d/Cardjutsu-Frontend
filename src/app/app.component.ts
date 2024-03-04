@@ -24,6 +24,7 @@ export class AppComponent implements OnInit{
  async ngOnInit(): Promise<void> {
     if(this.isLoggedIn()){
         this.username = await this.apiService.getUsername();
+        await this.apiService.getCurrentPlayerId();
 
     }else{
       this.router.navigate(['/login']);

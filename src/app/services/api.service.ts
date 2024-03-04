@@ -27,7 +27,13 @@ export class ApiService {
   }
   async getUsername(){
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'GetUsername'));
-    this.matchService.currentPlayerId = result.id
+    localStorage.setItem("currentPlayerId", result.id)
+    return result.email;
+  }
+
+  async getCurrentPlayerId(){
+    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'getCurrentPlayerId'));
+    localStorage.setItem("currentPlayerId", result.id)
     return result.email;
   }
 

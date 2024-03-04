@@ -17,6 +17,8 @@ export class HubService {
 
   currentPlayerId?: number
 
+  isWaiting: boolean = true
+
   constructor(public matchService: MatchService) { }
 
   async ConnectToHub(){
@@ -31,6 +33,10 @@ export class HubService {
         this.matchService.matchId = this.matchData?.match.id
         console.log(data)
       });
+
+      this.hubConnect!.on('IsWaiting', (data) => {
+        this.isWaiting = data
+      })
 
       this.hubConnect!.on('StartMatch', (data) => {
         this.matchService.applyEvent(JSON.parse(data))
@@ -47,6 +53,10 @@ export class HubService {
       })
 
     }).catch(err => console.log('Error connection : ' + err))
+  }
+
+  disconnect(){
+    this.hubConnect?.stop()
   }
 
 }
