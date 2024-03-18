@@ -27,42 +27,6 @@ export class MatchComponent implements OnInit {
     this.matchService.playMatch(this.hubService.matchData!, localStorage["currentPlayerId"])
   }
 
-  async initTest() {
-    // Pendant les tests, on est le joueur B
-    let cards = await this.apiService.getPlayersCards();
-    let matchData = this.matchService.playTestMatch(cards);
-    let nbCardsToDraw = 3;
-    let drawCardEvents = this.createDrawCardEventsForTest(matchData.match.playerDataA, nbCardsToDraw);
-    drawCardEvents = drawCardEvents.concat(this.createDrawCardEventsForTest(matchData.match.playerDataB, nbCardsToDraw + 1));
-    drawCardEvents.push(
-      {
-        $type: "GainMana",
-        Mana: 3,
-        PlayerId: this.matchService.playerData?.playerId
-      }
-    );
-
-    let fakeStartMatchEvent = {
-      $type: "StartMatch",
-      Events: drawCardEvents
-    }
-    console.log(fakeStartMatchEvent)
-  }
-
-  createDrawCardEventsForTest(playerData:PlayerData, nbCards:number) : any[]{
-    let drawCardEvents:any[] = [];
-    for(let i = 0; i < nbCards; i++){
-      drawCardEvents.push(
-        {
-          $type: "DrawCard",
-          PlayerId: playerData.playerId,
-          PlayableCardId: playerData.cardsPile[i].id
-        }
-      )
-    }
-    return drawCardEvents;
-  }
-
   endMatch() {
     this.matchService.clearMatch();
     this.router.navigate(['/'])

@@ -36,68 +36,6 @@ export class MatchService {
     this.isCompleted = false;
   }
 
-  playTestMatch(cards:Card[]){
-    let matchData:MatchData = {
-      match: {
-        id: -1,
-        isMatchCompleted: false,
-        isPlayerATurn: false,
-        playerDataA: {
-          id: -1,
-          health: 20,
-          maxhealth: 20,
-          mana: 0,
-          playerId: 1,
-          playerName: "Adversaire",
-          cardsPile: [],
-          hand: [],
-          battleField: [],
-          graveyard: []
-        },
-        playerDataB: {
-          id: -1,
-          health: 20,
-          maxhealth: 20,
-          mana: 0,
-          playerId: 2,
-          playerName: "Joueur",
-          cardsPile: [],
-          hand: [],
-          battleField: [],
-          graveyard: []
-        }
-      },
-      playerA: {
-        id: 1,
-        name: "Adversaire"
-      },
-      playerB: {
-        id: 2,
-        name: "Joueur"
-      },
-      winningPlayerId: -1
-    }
-    let playableCardId: number = 1;
-    for(let c of cards){
-
-      let playableCardA:PlayableCard = {
-        id: playableCardId++,
-        card: c,
-        health: c.health,
-      };
-      matchData.match.playerDataA.cardsPile.push(playableCardA);
-
-      let playableCardB:PlayableCard = {
-        id: playableCardId++,
-        card: c,
-        health: c.health,
-      };
-      matchData.match.playerDataB.cardsPile.push(playableCardB);
-    }
-    this.playMatch(matchData, 2);
-    return matchData;
-  }
-
   playMatch(matchData:MatchData, currentPlayerId:number) {
 
     this.matchData = matchData;

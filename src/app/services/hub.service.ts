@@ -40,6 +40,7 @@ export class HubService {
 
       this.hubConnect!.on('IsWaiting', (data) => {
         this.isWaiting = data
+        console.log("Is Waiting result : " + data)
       })
 
       this.hubConnect!.on('StartMatch', (data) => {
