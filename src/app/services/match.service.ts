@@ -2,17 +2,23 @@ import { Card, MatchData, PlayableCard } from 'src/app/models/models';
 import { PlayerData } from '../models/models';
 import { Injectable } from '@angular/core';
 import { Match } from '../models/models';
+import * as signalR from "@microsoft/signalr";
+import {environment} from "../../environments/environment.development";
+import {HubService} from "./hub.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
+
+  matchId?:number;
   match:Match | null = null;
   matchData:MatchData | null = null;
   currentPlayerId:number = -1;
 
   playerData: PlayerData | undefined;
   adversaryData: PlayerData | undefined;
+  isCompleted: boolean = false
 
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
@@ -22,75 +28,16 @@ export class MatchService {
   clearMatch(){
     this.match = null;
     this.matchData = null;
+    this.matchId = undefined;
     this.playerData = undefined;
     this.adversaryData = undefined;
     this.opponentSurrendered = false;
     this.isCurrentPlayerTurn = false;
-  }
-
-  playTestMatch(cards:Card[]){
-    let matchData:MatchData = {
-      match: {
-        id: -1,
-        isMatchCompleted: false,
-        isPlayerATurn: false,
-        playerDataA: {
-          id: -1,
-          health: 20,
-          maxhealth: 20,
-          mana: 0,
-          playerId: 1,
-          playerName: "Adversaire",
-          cardsPile: [],
-          hand: [],
-          battleField: [],
-          graveyard: []
-        },
-        playerDataB: {
-          id: -1,
-          health: 20,
-          maxhealth: 20,
-          mana: 0,
-          playerId: 2,
-          playerName: "Joueur",
-          cardsPile: [],
-          hand: [],
-          battleField: [],
-          graveyard: []
-        }
-      },
-      playerA: {
-        id: 1,
-        name: "Adversaire"
-      },
-      playerB: {
-        id: 2,
-        name: "Joueur"
-      },
-      winningPlayerId: -1
-    }
-    let playableCardId: number = 1;
-    for(let c of cards){
-
-      let playableCardA:PlayableCard = {
-        id: playableCardId++,
-        card: c,
-        health: c.defense,
-      };
-      matchData.match.playerDataA.cardsPile.push(playableCardA);
-
-      let playableCardB:PlayableCard = {
-        id: playableCardId++,
-        card: c,
-        health: c.defense,
-      };
-      matchData.match.playerDataB.cardsPile.push(playableCardB);
-    }
-    this.playMatch(matchData, 2);
-    return matchData;
+    this.isCompleted = false;
   }
 
   playMatch(matchData:MatchData, currentPlayerId:number) {
+
     this.matchData = matchData;
     this.match = matchData.match;
     this.currentPlayerId = currentPlayerId;
@@ -120,6 +67,7 @@ export class MatchService {
     switch(event.$type){
       case "StartMatch": {
         await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log("starting...")
         break;
       }
 
@@ -128,7 +76,7 @@ export class MatchService {
         let playerData = this.getPlayerData(event.PlayerId);
         if(playerData)
         {
-          this.playerData!.mana += event.Mana;
+          playerData!.mana += event.Mana;
           await new Promise(resolve => setTimeout(resolve, 250));
         }
         break;
@@ -138,13 +86,16 @@ export class MatchService {
         if(this.match)
         {
           this.match.isPlayerATurn = !this.match.isPlayerATurn;
+          console.log(event.PlayerId + "  testing  " + this.currentPlayerId)
           this.isCurrentPlayerTurn = event.PlayerId != this.currentPlayerId;
+          console.log(this.isCurrentPlayerTurn)
         }
 
         break;
       }
       case "DrawCard": {
         let playerData = this.getPlayerData(event.PlayerId);
+        console.log(playerData)
         if(playerData)
         {
           this.moveCard(playerData.cardsPile, playerData.hand, event.PlayableCardId);
@@ -154,14 +105,17 @@ export class MatchService {
         break;
       }
       case "EndMatch": {
+        console.log("hgashdgaskjgdsjkagdjksghadjksgadjkgjkhag")
         this.matchData!.winningPlayerId = event.WinningPlayerId;
         break;
       }
     }
     if(event.Events){
+      console.log(event)
       for(let e of event.Events){
         await this.applyEvent(e);
       }
+
     }
   }
 

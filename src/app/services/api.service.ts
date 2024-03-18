@@ -5,6 +5,7 @@ import { Card } from '../models/models';
 import { environment } from 'src/environments/environment';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
+import {MatchService} from "./match.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ApiService {
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
 
-  constructor(public http: HttpClient, public cookieService: CookieService) { }
+  constructor(public http: HttpClient, public cookieService: CookieService, public matchService: MatchService) { }
 
   async getAllCards(): Promise<Card[]> {
     let result = await lastValueFrom(this.http.get<Card[]>(environment.apiUrl+'api/card/GetAllCards'));
@@ -26,6 +27,13 @@ export class ApiService {
   }
   async getUsername(){
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'GetUsername'));
+    localStorage.setItem("currentPlayerId", result.id)
+    return result.email;
+  }
+
+  async getCurrentPlayerId(){
+    let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'getCurrentPlayerId'));
+    localStorage.setItem("currentPlayerId", result.id)
     return result.email;
   }
 
