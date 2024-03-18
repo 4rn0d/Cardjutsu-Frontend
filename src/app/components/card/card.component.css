@@ -15,18 +15,25 @@
   width: 105%;
 }
 
+.mat-mdc-card-content {
+  display: block;
+  padding: 0px;
+}
+
 .infinite-card-content{
-  padding-top: 13px;
-  padding-left: 13px;
+  width: 73px;
+  height: 132px;
   display: flex;
   position: absolute;
-  justify-content: flex-start;
+  justify-content: space-around;
   flex-direction: column;
   align-content: center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 100;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .infinite-card-back{

@@ -83,14 +83,14 @@ export class MatchService {
       let playableCardA:PlayableCard = {
         id: playableCardId++,
         card: c,
-        health: c.defense,
+        health: c.health,
       };
       matchData.match.playerDataA.cardsPile.push(playableCardA);
 
       let playableCardB:PlayableCard = {
         id: playableCardId++,
         card: c,
-        health: c.defense,
+        health: c.health,
       };
       matchData.match.playerDataB.cardsPile.push(playableCardB);
     }
