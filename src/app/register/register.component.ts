@@ -25,7 +25,7 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder,public router: Router, public appcompenemt: AppComponent,public http: HttpClient, public apiService:ApiService) {
 
     this.loginForm = this.fb.group({
-      usernameQuestion: ['', [Validators.required, Validators.email, this.gmailValidator]],
+      usernameQuestion: ['', [Validators.required, Validators.email]],
       passwordConfirmQuestion: ['', [Validators.required]],
       passwordQuestion: ['', [Validators.required], this.passwordLength],
     }, {validators: this.ConformePassword});
@@ -50,17 +50,6 @@ export class RegisterComponent {
         resolve(null);
       }
     });
-  }
-
-  gmailValidator(control: AbstractControl): ValidationErrors | null {
-
-    const email = control.value;
-    if (!email) {
-      return null;
-    }
-    let formValid = email.includes('@gmail.com');
-
-    return !formValid?{gmailValidator:true}:null;
   }
 
   ConformePassword(control: AbstractControl): ValidationErrors | null{
