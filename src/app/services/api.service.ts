@@ -13,6 +13,7 @@ import {MatchService} from "./match.service";
 export class ApiService {
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
+  deckBaseURL = this.baseUrl+ "Deck/"
 
   constructor(public http: HttpClient, public cookieService: CookieService, public matchService: MatchService) { }
 
@@ -67,5 +68,17 @@ export class ApiService {
   async test() {
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'PrivateData'));
     console.log(result)
+  }
+
+  //DECK
+  async PostDeck(Name: string | null | undefined, ListCards: Card[] | null | undefined){
+
+    let deck ={
+      name: Name,
+
+    }
+
+    let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'PostDeck'));
+
   }
 }

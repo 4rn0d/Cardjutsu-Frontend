@@ -1,0 +1,26 @@
+<div class="wrapper">
+
+  <mat-dialog-actions style="display: flex;flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: flex-start;">
+    <div class="Titre">Créer Deck</div>
+    <br>
+    <input type="text" placeholder="Deck's name" name="name" id="name">
+    <br>
+    <div class="card_list">
+      <div *ngFor="let card of cards">
+
+        <div [class.selected]="isCardSelected(card)" (click)="toggleCardSelection(card)">
+
+          <app-card [card]="card"></app-card>
+        </div>
+      </div>
+    </div>
+    <button mat-button (click)="closeDialog()">Enregistrer</button>
+    <br>
+    <button mat-button mat-dialog-close>Annuler</button>
+
+  </mat-dialog-actions>
+
+</div>

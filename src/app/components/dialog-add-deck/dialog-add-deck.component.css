@@ -1,0 +1,11 @@
+.card_list{
+  margin: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: space-around;
+}
+.selected {
+  border: 4px solid black;
+  border-radius: 10px;
+}
