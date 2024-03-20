@@ -32,18 +32,18 @@ export class HubService {
       console.log("connection au hub");
       this.isConnected = true;
 
-      this.hubConnect!.on('GetMatchData', (data) => {
-        this.matchData = data
-        this.matchService.matchId = this.matchData?.match.id
-        console.log(data)
-      });
-
       this.hubConnect!.on('IsWaiting', (data) => {
         this.isWaiting = data
         console.log("Is Waiting result : " + data)
       })
 
+      this.hubConnect!.on('GetMatchData',  (data) => {
+        this.matchData = data
+        this.matchService.matchId = this.matchData?.match.id
+      });
+
       this.hubConnect!.on('StartMatch', (data) => {
+
         this.matchService.applyEvent(JSON.parse(data))
       })
 

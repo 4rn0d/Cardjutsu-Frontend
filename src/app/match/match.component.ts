@@ -23,8 +23,6 @@ export class MatchComponent implements OnInit {
 
   async ngOnInit() {
     // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
-
-    this.matchService.playMatch(this.hubService.matchData!, localStorage["currentPlayerId"])
   }
 
   endMatch() {
