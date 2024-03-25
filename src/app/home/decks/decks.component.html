@@ -1,1 +1,8 @@
 <button (click)="openDialog()">Create Deck</button>
+<div *ngFor="let deck of ListDecks">
+  <div>{{ deck.deckName }}</div>
+  <div *ngFor="let deckCard of deck.deckCards">
+    <div>{{ deckCard.card.name }}</div>
+
+  </div>
+</div>

@@ -6,7 +6,7 @@
     align-content: flex-start;">
     <div class="Titre">Créer Deck</div>
     <br>
-    <input type="text" placeholder="Deck's name" name="name" id="name">
+    <input type="text" placeholder="Deck's name" name="name" id="name" [(ngModel)]="deckName">
     <br>
     <div class="card_list">
       <div *ngFor="let card of cards">

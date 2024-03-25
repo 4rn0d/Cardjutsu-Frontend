@@ -18,6 +18,7 @@ export class DialogAddDeckComponent implements OnInit{
   }
   cards: Card[] = [];
   selectedCards: any[] = [];
+  deckName: string = '';
   async ngOnInit(): Promise<void> {
     this.cards = await this.api.getPlayersCards();
 
@@ -38,6 +39,10 @@ export class DialogAddDeckComponent implements OnInit{
     return this.selectedCards.includes(card);
   }
   closeDialog() {
-    this.dialogRef.close(this.selectedCards); // Pass selected cards back to the main page
+    const data = {
+      name: this.deckName,
+      selectedCards: this.selectedCards
+    };
+    this.dialogRef.close(data);
   }
 }
