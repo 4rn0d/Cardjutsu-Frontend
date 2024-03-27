@@ -72,11 +72,13 @@ export class ApiService {
 
   //DECK
   async PostDeck(Name: string | null | undefined, ListCards: Card[] | null | undefined){
+    let idPlayer = localStorage.getItem("currentPlayerId");
 
     let deck={
       DeckName:Name,
       IsCurrentDeck: false,
-      DeckCards:[]
+      DeckCards:[],
+      PlayerId:idPlayer
     }
     let DeckCardDTO ={
       Deck:deck,
@@ -90,6 +92,16 @@ export class ApiService {
 
     let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'GetDecks'));
     console.log(result)
+    return result
+  }
+
+  async makeCourant(deck: any) {
+    let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'MakeCurrentDeck',deck));
+    return result
+  }
+
+  async deleteDeck(id: any) {
+    let result = await lastValueFrom(this.http.delete<any>(this.deckBaseURL + 'DeleteDeck/'+id));
     return result
   }
 }
