@@ -21,17 +21,25 @@ export class DialogAddDeckComponent implements OnInit{
   deckName: string = '';
   async ngOnInit(): Promise<void> {
     this.cards = await this.api.getPlayersCards();
-
+    let uniqueCardIds:any[] = [];
+    this.cards = this.cards.filter(card => {
+      if (!uniqueCardIds.includes(card.id)) {
+        uniqueCardIds.push(card.id);
+        return true;
+      }
+      return false;
+    });
+    console.log(this.cards)
   }
 
 
-  toggleCardSelection(card: any) {
-    if (this.selectedCards.includes(card)) {
-      this.selectedCards = this.selectedCards.filter(c => c !== card);
-      console.log(this.selectedCards)
-    } else if (this.selectedCards.length < 5) {
+  toggleCardSelection(card: Card) {
+    const index = this.selectedCards.indexOf(card);
+    if (index === -1 && this.selectedCards.length < 5) {
+
       this.selectedCards.push(card);
-      console.log(this.selectedCards)
+    } else if (index !== -1) {
+      this.selectedCards.splice(index, 1);
     }
   }
 

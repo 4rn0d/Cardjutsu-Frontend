@@ -8,8 +8,22 @@
     <br>
     <input type="text" placeholder="Deck's name" name="name" id="name" [(ngModel)]="deckName">
     <br>
+    <h1>Available cards :</h1>
+    <br>
     <div class="card_list">
       <div *ngFor="let card of cards">
+
+        <div [class.selected]="isCardSelected(card)" (click)="toggleCardSelection(card)">
+
+          <app-card [card]="card"></app-card>
+        </div>
+      </div>
+    </div>
+    <br>
+    <h1>The deck's card : <h3>(max 5 cards)</h3></h1>
+    <br>
+    <div class="card_list">
+      <div *ngFor="let card of selectedCards">
 
         <div [class.selected]="isCardSelected(card)" (click)="toggleCardSelection(card)">
 

@@ -1,5 +1,7 @@
-<button (click)="openDialog()">Create Deck</button>
+<button (click)="openDialog()" color="primary">Create Deck</button>
 <div *ngFor="let deck of ListDecks">
+  <button (click)="openDialog()" color="primary">Delete Deck</button>
+  <button (click)="openDialog()" color="primary">Deck courant</button>
   <div>{{ deck.deckName }}</div>
   <div *ngFor="let deckCard of deck.deckCards">
     <div>{{ deckCard.card.name }}</div>
