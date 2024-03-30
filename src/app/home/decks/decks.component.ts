@@ -48,8 +48,9 @@ export class DecksComponent implements OnInit{
     await this.ngOnInit();
   }
 
-  async makeCourant(deck: any) {
-    await this.api.makeCourant(deck);
+  async makeCourant(deckid: any) {
+    console.log(deckid)
+    await this.api.makeCourant(deckid);
     await this.ngOnInit();
   }
 }

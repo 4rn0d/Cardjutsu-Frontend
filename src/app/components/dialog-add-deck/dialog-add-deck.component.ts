@@ -36,11 +36,21 @@ export class DialogAddDeckComponent implements OnInit{
   toggleCardSelection(card: Card) {
     const index = this.selectedCards.indexOf(card);
     if (index === -1 && this.selectedCards.length < 5) {
-
       this.selectedCards.push(card);
+
+      // Retirer la carte sélectionnée de la liste this.cards
+      const cardIndex = this.cards.findIndex(c => c.id === card.id);
+      if (cardIndex !== -1) {
+        this.cards.splice(cardIndex, 1);
+      }
+
     } else if (index !== -1) {
       this.selectedCards.splice(index, 1);
+
+      // Ajouter la carte désélectionnée à la liste this.cards
+      this.cards.push(card);
     }
+    console.log(this.selectedCards)
   }
 
   isCardSelected(card: any): boolean {
@@ -51,6 +61,7 @@ export class DialogAddDeckComponent implements OnInit{
       name: this.deckName,
       selectedCards: this.selectedCards
     };
+    console.log(data)
     this.dialogRef.close(data);
   }
 }

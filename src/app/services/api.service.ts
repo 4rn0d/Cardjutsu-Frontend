@@ -72,31 +72,31 @@ export class ApiService {
 
   //DECK
   async PostDeck(Name: string | null | undefined, ListCards: Card[] | null | undefined){
-    let idPlayer = localStorage.getItem("currentPlayerId");
+    //let idPlayer = localStorage.getItem("currentPlayerId");
 
     let deck={
       DeckName:Name,
       IsCurrentDeck: false,
       DeckCards:[],
-      PlayerId:idPlayer
+      PlayerId:0
     }
     let DeckCardDTO ={
       Deck:deck,
       cards:ListCards
     }
-    console.log(deck)
+    console.log(DeckCardDTO)
     let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'PostDeck', DeckCardDTO));
 
   }
   async GetDecks(){
-
-    let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'GetDecks'));
+    let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'GetDeck'));
     console.log(result)
     return result
   }
 
-  async makeCourant(deck: any) {
-    let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'MakeCurrentDeck',deck));
+  async makeCourant(deckId: string) {
+    console.log(deckId)
+    let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'MakeCurrentDeck/'+deckId));
     return result
   }
 

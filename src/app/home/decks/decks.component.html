@@ -7,8 +7,8 @@
 
   <br>
   <h1>{{ deck.deckName }}</h1>
-  <button mat-raised-button color="warn" (click)="deleteDeck(deck.deckId)">Delete Deck</button>
-  <button mat-raised-button color="accent" *ngIf="deck.isCurrentDeck!=true" (click)="makeCourant(deck)" >Deck courant</button>
+  <button mat-raised-button color="warn" *ngIf="deck.isCurrentDeck==false"  (click)="deleteDeck(deck.deckId)">Delete Deck</button>
+  <button mat-raised-button color="accent" *ngIf="deck.isCurrentDeck==false" (click)="makeCourant(deck.deckId)" >Deck courant</button>
   <div class="card-container">
     <div *ngFor="let deckCard of deck.ownedCards" class="card-item">
       <app-card [card]="deckCard.card"></app-card>
