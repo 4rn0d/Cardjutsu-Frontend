@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {HubService} from "../../services/hub.service";
 import {ApiService} from "../../services/api.service";
 import {Card} from "../../models/models";
@@ -14,12 +14,17 @@ import {MatCardModule} from "@angular/material/card";
   styleUrls: ['./dialog-add-deck.component.css']
 })
 export class DialogAddDeckComponent implements OnInit{
+
   constructor(public api:ApiService,private dialogRef: MatDialogRef<DialogAddDeckComponent>) {
   }
   cards: Card[] = [];
   selectedCards: any[] = [];
   deckName: string = '';
+  nbCarteMaxDeck:any;
   async ngOnInit(): Promise<void> {
+    let configDeck = await this.api.GetConfigDecks();
+    this.nbCarteMaxDeck = configDeck.nbCarteParDeck;
+
     this.cards = await this.api.getPlayersCards();
     let uniqueCardIds:any[] = [];
     this.cards = this.cards.filter(card => {
@@ -35,7 +40,7 @@ export class DialogAddDeckComponent implements OnInit{
 
   toggleCardSelection(card: Card) {
     const index = this.selectedCards.indexOf(card);
-    if (index === -1 && this.selectedCards.length < 5) {
+    if (index === -1 && this.selectedCards.length < this.nbCarteMaxDeck) {
       this.selectedCards.push(card);
 
       // Retirer la carte sélectionnée de la liste this.cards
@@ -61,7 +66,7 @@ export class DialogAddDeckComponent implements OnInit{
       name: this.deckName,
       selectedCards: this.selectedCards
     };
-    console.log(data)
+    console.log(data.name)
     this.dialogRef.close(data);
   }
 }
