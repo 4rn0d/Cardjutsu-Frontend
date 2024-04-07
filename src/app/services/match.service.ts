@@ -5,6 +5,7 @@ import { Match } from '../models/models';
 import * as signalR from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
 import {HubService} from "./hub.service";
+import {PlayerhandComponent} from "../match/playerhand/playerhand.component";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class MatchService {
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
 
-  constructor() { }
+  constructor(public playerHandComponent : PlayerhandComponent) { }
 
   clearMatch(){
     this.match = null;
@@ -68,6 +69,19 @@ export class MatchService {
       case "StartMatch": {
         await new Promise(resolve => setTimeout(resolve, 1000));
         console.log("starting...")
+        break;
+      }
+
+      case "PlayCard": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        if(playerData && this.playerHandComponent.clickedCard?.card.cost! <= playerData!.mana){
+          playerData.battleField.push(this.playerHandComponent.clickedCard!);
+          playerData!.mana -= this.playerHandComponent.clickedCard?.card.cost!;
+        }
+        break;
+      }
+
+      case "PlayerStartTurn": {
         break;
       }
 
