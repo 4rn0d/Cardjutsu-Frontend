@@ -1,4 +1,4 @@
-<mat-card *ngIf="show=='front'" class="infinite-card" style="background-image:url({{card?.imageUrl}});">
+<mat-card *ngIf="show=='front'" class="infinite-card" style="background-image:url({{card?.imageUrl}});" (click)="data.animationStart()">
   <img class="card-image" src="{{cardBorder + card?.colour + webp}}" alt="">
   <mat-card-content class="infinite-card-content">
     <table style="font-size: 25px; width: fit-content; text-shadow: 2px 2px 2px black;">
@@ -17,6 +17,15 @@
       </tr>
     </table>
   </mat-card-content>
+  <div *ngIf="card!.cardPowers.length > 0">
+    <div *ngFor="let cardPower of card!.cardPowers; index as i">
+<!--      [@translate]="this.data.isToggled ? 'moveRight' : 'moveLeft'"-->
+      <div [@move]="data.states[i]" (@move.done)="data.index==i && data.animationDone()">
+        <img src="{{cardPower.power.icone}}" style="position: absolute; width: 70px; bottom: 8px; left: 174px;" alt="">
+        <span *ngIf="cardPower.power.powerId != 1" style="position: absolute;bottom: 33px; left: 194.5px; font-size: 65px; -webkit-text-stroke: 3px black">{{cardPower.value}}</span>
+      </div>
+    </div>
+  </div>
 </mat-card>
 
 <mat-card *ngIf="show=='back'" class="infinite-card-back" style="background-image: url({{beautifulBackUrl}});">
