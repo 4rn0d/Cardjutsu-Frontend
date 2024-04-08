@@ -1,19 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Card } from 'src/app/models/models';
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import { Card, CardPower } from 'src/app/models/models';
+import {animate, style, transition, trigger, useAnimation} from "@angular/animations";
 import {DataService} from "../../services/data.service";
+import {fadeIn} from "ng-animate";
+import {lastValueFrom, timer} from "rxjs";
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
-  animations:[
-    trigger('move',[
-      state('false',style({opacity:0})),
-      state('true',style({opacity:1})),
-      transition('false => true',[
-        animate('1000ms'),
-      ])])
+  animations: [
+    trigger('fade', [
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate(2000, style({opacity: 1})),
+        animate(2000, style({opacity: 0})),
+      ])
+    ])
   ]
 })
 export class CardComponent implements OnInit {
@@ -24,6 +27,7 @@ export class CardComponent implements OnInit {
   beautifulBackUrl = "https://static.miraheze.org/cpfanonwiki/f/f7/Formation_of_Water_Dojo.png";
   cardBorder = "/assets/card-border/Card-Jitsu_Border_"
   webp = ".webp"
+
   constructor(public data: DataService) { }
 
   ngOnInit() {

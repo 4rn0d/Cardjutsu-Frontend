@@ -3,6 +3,6 @@
 </header>
 <div class="card_list">
   <div *ngFor="let card of cards">
-    <app-card [card]="card"></app-card>
+    <app-card [card]="card" (click)="data.fadeInAnimation(card)"></app-card>
   </div>
 </div>

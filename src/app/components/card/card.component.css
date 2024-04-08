@@ -17,7 +17,7 @@
 
 .mat-mdc-card-content {
   display: block;
-  padding: 0px;
+  padding: 0;
 }
 
 .infinite-card-content{
@@ -36,39 +36,12 @@
   align-items: center;
 }
 
-.infinite-card-back{
+.infinite-card-back {
   width: 250px;
   height: 300px;
   background-size: cover;
   background-position: center;
-  border-color:white;
+  border-color: white;
   border-width: 10px;
   border-style: solid;
-}
-
-.tp-box {
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  -webkit-transform         : transform 1s;
-  -ms-transform         : transform 1s;
-  transform         : transform 1s;
-}
-.tp-box__side {
-
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.tp-box__front {
-  -webkit-transform : rotateY(0deg);
-  -ms-transform     : rotateY(0deg);
-  transform         : rotateY(0deg);
-}
-.tp-box__back {
-  -webkit-transform : rotateY(-180deg);
-  -ms-transform     : rotateY(-180deg);
-  transform         : rotateY(-180deg);
 }
