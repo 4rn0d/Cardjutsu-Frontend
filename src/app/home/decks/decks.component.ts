@@ -20,17 +20,28 @@ export class DecksComponent implements OnInit{
 
   ttCartesJoueur: Card[] = [];
   nbCarteMaxDeck:any
+  uniqueNameCard:string[] = []
   constructor( public dialog:MatDialog, public api:ApiService) {
   }
 
   async ngOnInit(): Promise<void> {
+
     let configDeck = await this.api.GetConfigDecks();
     this.nbCarteMaxDeck = configDeck.nbCarteParDeck;
     this.nbDeckMax = configDeck.nbDecks;
     this.ListDecks = await this.api.GetDecks()
+
+
     this.ttCartesJoueur = await this.api.getPlayersCards();
-
-
+    let uniqueCardName:any[] = [];
+    this.ttCartesJoueur = this.ttCartesJoueur.filter(card => {
+      if (!uniqueCardName.includes(card.name)) {
+        uniqueCardName.push(card.name);
+        return true;
+      }
+      return false;
+    });
+    this.uniqueNameCard = uniqueCardName;
   }
 
 
@@ -53,27 +64,10 @@ export class DecksComponent implements OnInit{
   }
 
 
-  trouvercarte(card: Card, id:number):boolean{
-    for (let i = 0; i < this.ListDecks.length; i++) {
-      if (this.ListDecks[i].id == id){
-        for (let j = 0; j < this.ListDecks[i].ownedCards.length; j++) {
-          if (this.ListDecks[i].ownedCards[j].cardId == card.id){
-            console.log(this.ListDecks[i].ownedCards[j].cardId)
-            console.log(card.id)
-            return true
-
-          }else{
-            return false
-          }
-        }
-      }else{
-        return false
-      }
 
 
-    }
-    return false
-  }
+
+
   async deleteDeck(id: number) {
     console.log(id)
     await this.api.deleteDeck(id);
@@ -86,30 +80,49 @@ export class DecksComponent implements OnInit{
     await this.ngOnInit();
   }
 
-  trouverlescarte(ownedCards: any): (Promise<any> & NgIterable<any>) | undefined | null |Card[]  {
-    let reponse:any[] = [];
-    console.log(ownedCards)
-    for (let ttCartesJoueurKey of this.ttCartesJoueur) {
-      for (let ownedCard of ownedCards) {
-        if (ttCartesJoueurKey.id != ownedCard.cardId){
-            reponse.push(ownedCard)
-
-        }
-      }
-
+  trouverlescarte(ownedCards: any[]): (Promise<any> & NgIterable<any>) | undefined | null |string[]  {
+    let reponse = []
+    let cards:string[] = []
+    for (let ownedCard of ownedCards) {
+      cards.push(ownedCard.card.name);
     }
+    for (let name of this.uniqueNameCard) {
+      if (!cards.includes(name)) {
+        reponse.push(name)
+      }
+    }
+    console.log(reponse)
+      return reponse;
 
-   return reponse
+
+
+
+
+
+
   }
 
- async ajouterCarte(card: any, deckid: any) {
-   console.log("click card")
-    console.log(card.card)
-    console.log(deckid)
-   await this.api.AjouterCarteAuDeck(card.card, deckid);
-   await this.ngOnInit();
+ async ajouterCarte(cardName: string, deckid: any) {
+   for (let card of this.ttCartesJoueur) {
+     if (card.name === cardName){
+       console.log("click card")
+       console.log(card)
+       console.log(deckid)
+       await this.api.AjouterCarteAuDeck(card, deckid);
+       await this.ngOnInit();
+       return;
+     }
+   }
+
+   //await this.api.AjouterCarteAuDeck(card.card, deckid);
+   //await this.ngOnInit();
 
   }
 
 
+  async deleteCard(card: any, deckid: any) {
+
+    await this.api.DeleteCardDuDeck(card, deckid)
+    await this.ngOnInit();
+  }
 }

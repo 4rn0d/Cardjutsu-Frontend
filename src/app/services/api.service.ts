@@ -116,4 +116,9 @@ export class ApiService {
     console.log(id)
     let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'AjouterCarte/'+id, card));
   }
+  async DeleteCardDuDeck(card: any, id: any) {
+    console.log(card)
+    console.log(id)
+    let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'DeleteCardDuDeck/'+id, card));
+  }
 }
