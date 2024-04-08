@@ -11,6 +11,20 @@ export interface Card {
     cost: number;
     imageUrl: string;
     colour: string;
+    listCardPowers : CardPower[];
+}
+
+export interface CardPower{
+  id: number;
+  card : Card;
+  power : Power;
+  value : number;
+}
+
+export interface Power {
+  id: number;
+  name: string;
+  description: string;
 }
 
 export interface MatchData {
