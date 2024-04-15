@@ -18,19 +18,4 @@ export class DataService {
     console.log(object)
   }
 
-  async fadeInAnimation(card: Card){
-    console.log(card)
-    for (let i = 0; i < card.cardPowers.length; i++) {
-      this.animationState = true;
-      this.img = card.cardPowers[i].power.icone
-      this.value = card.cardPowers[i].value
-      console.log(card.cardPowers[i])
-      await this.waitFor(2)
-      this.animationState = false;
-    }
-  }
-
-  async waitFor(delayInSeconds:number) {
-    await lastValueFrom(timer(delayInSeconds * 1000));
-  }
 }

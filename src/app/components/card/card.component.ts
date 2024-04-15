@@ -16,15 +16,6 @@ import {lastValueFrom, timer} from "rxjs";
         animate(2000, style({opacity: 1})),
         animate(2000, style({opacity: 0})),
       ])
-    ]),
-    trigger('clickAnimation', [ // New animation
-      state('start', style({
-        transform: 'scale(1.1)'
-      })),
-      state('end', style({
-        transform: 'scale(1)'
-      })),
-      transition('start <=> end', animate('500ms'))
     ])
   ]
 })
@@ -36,6 +27,9 @@ export class CardComponent implements OnInit {
   beautifulBackUrl = "https://static.miraheze.org/cpfanonwiki/f/f7/Formation_of_Water_Dojo.png";
   cardBorder = "/assets/card-border/Card-Jitsu_Border_"
   webp = ".webp"
+  animationState = false;
+  img?: string
+  value?:number
 
   constructor(public data: DataService) { }
 
@@ -43,8 +37,25 @@ export class CardComponent implements OnInit {
 
   }
 
-  animateClick() {
-    this.data.fadeInAnimation(this.card!);
+  async fadeInAnimation(){
+    for (let i = 0; i < this.card!.cardPowers.length; i++) {
+      console.log(this.card!.cardPowers[i])
+      this.animationState = true;
+      this.img = this.card!.cardPowers[i].power.icone
+      if (this.card!.cardPowers[i].power.hasValue){
+        this.value = this.card!.cardPowers[i].value
+      }
+      else {
+        this.value = undefined
+
+      }
+      await this.waitFor(2)
+      this.animationState = false;
+    }
+  }
+
+  async waitFor(delayInSeconds:number) {
+    await lastValueFrom(timer(delayInSeconds * 1000));
   }
 
 }
