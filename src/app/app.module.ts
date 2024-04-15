@@ -21,34 +21,41 @@ import {RegisterComponent} from "./register/register.component";
 import { ShopComponent } from './home/shop/shop.component';
 import { MyCardsComponent } from './home/my-cards/my-cards.component';
 import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting.component';
+import {DialogAddDeckComponent} from "./components/dialog-add-deck/dialog-add-deck.component";
+import {DecksComponent} from "./home/decks/decks.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CardComponent,
-    HomeComponent,
-    MatchComponent,
-    BattlefieldComponent,
-    PlayerhandComponent,
-    EnemyhandComponent,
-    HealthComponent,
-    LoginComponent,
-    RegisterComponent,
-    ShopComponent,
-    MyCardsComponent,
-    DialogWaitingComponent,
-   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    HttpClientModule,
-    CanvasJSAngularChartsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        CardComponent,
+        HomeComponent,
+        MatchComponent,
+        BattlefieldComponent,
+        PlayerhandComponent,
+        EnemyhandComponent,
+        HealthComponent,
+        LoginComponent,
+        RegisterComponent,
+        ShopComponent,
+        MyCardsComponent,
+        DialogWaitingComponent,
+        DialogAddDeckComponent,
+      DecksComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HttpClientModule,
+        CanvasJSAngularChartsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+    ],
+    exports: [
+        CardComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

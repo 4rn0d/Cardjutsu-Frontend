@@ -1,0 +1,35 @@
+<header style="background-color: #212121; padding: 15px">
+  <h1>Mes Decks</h1>
+</header>
+<br>
+<button mat-raised-button (click)="openDialog()" color="primary" *ngIf="nbDeckMax > ListDecks.length" >Create Deck</button>
+<h2 *ngIf="nbDeckMax <= ListDecks.length">Vous avez atteint le maximum de deck </h2>
+<br>
+<br>
+<br>
+<div *ngFor="let deck of ListDecks">
+
+  <br>
+  <h1>{{ deck.deckName }}</h1>
+
+  <button mat-raised-button color="warn" *ngIf="deck.isCurrentDeck==false"  (click)="deleteDeck(deck.id)">Delete Deck</button>
+  <button mat-raised-button color="accent" *ngIf="deck.isCurrentDeck==false" (click)="makeCourant(deck.id)" >Deck courant</button>
+  <h3  *ngIf="deck.isCurrentDeck==true" >C'est le deck courant</h3>
+  <div class="card-container">
+    <div *ngFor="let deckCard of deck.ownedCards" class="card-item">
+      <app-card [card]="deckCard.card"></app-card>
+      <button class="delete-button" (click)="deleteCard(deckCard.card, deck.id)">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  </div>
+  <br>
+  <select ngModel (ngModelChange)="ajouterCarte($event, deck.id)" *ngIf="nbCarteMaxDeck > deck.ownedCards.length">
+    <option value="">Sélectionner une carte à ajouter</option>
+    <ng-container *ngFor="let card of trouverlescarte(deck.ownedCards)">
+      <option [ngValue]="card" >{{ card }}</option>
+    </ng-container>
+  </select>
+  <br>
+  <hr>
+</div>

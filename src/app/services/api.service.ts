@@ -13,6 +13,7 @@ import {MatchService} from "./match.service";
 export class ApiService {
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
+  deckBaseURL = this.baseUrl+ "Decks/"
 
   constructor(public http: HttpClient, public cookieService: CookieService, public matchService: MatchService) { }
 
@@ -67,5 +68,57 @@ export class ApiService {
   async test() {
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'PrivateData'));
     console.log(result)
+  }
+
+  //DECK
+  async PostDeck(Name: string | null | undefined, ListCards: Card[] | null | undefined){
+    //let idPlayer = localStorage.getItem("currentPlayerId");
+
+    let deck={
+      DeckName:Name,
+      IsCurrentDeck: false,
+      DeckCards:[],
+      PlayerId:0
+    }
+    let DeckCardDTO ={
+      Deck:deck,
+      cards:ListCards
+    }
+    console.log(DeckCardDTO)
+    let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'PostDeck', DeckCardDTO));
+
+  }
+  async GetDecks(){
+    let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'GetDeck'));
+    console.log(result)
+    return result
+  }
+
+  async makeCourant(deckId: string) {
+    console.log(deckId)
+    let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'MakeCurrentDeck/'+deckId));
+    return result
+  }
+
+  async deleteDeck(id: any) {
+    console.log(id)
+    let result = await lastValueFrom(this.http.delete<any>(this.deckBaseURL + 'DeleteDeck/'+id));
+    return result
+  }
+  async GetConfigDecks(){
+    let result = await lastValueFrom(this.http.get<any>(this.deckBaseURL + 'GetConfigDecks'));
+    console.log(result)
+    return result
+  }
+
+  async AjouterCarteAuDeck(card: any, id: any) {
+    console.log(card)
+    console.log(id)
+    let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'AjouterCarte/'+id, card));
+  }
+  async DeleteCardDuDeck(card: any, id: any) {
+    console.log(card)
+    console.log(id)
+    let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'DeleteCardDuDeck/'+id, card));
   }
 }

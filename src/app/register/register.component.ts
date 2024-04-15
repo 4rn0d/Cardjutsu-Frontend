@@ -52,6 +52,7 @@ export class RegisterComponent {
     });
   }
 
+
   ConformePassword(control: AbstractControl): ValidationErrors | null{
     const questionA = control.get('passwordConfirmQuestion')?.value;
     const questionB = control.get('passwordQuestion')?.value;

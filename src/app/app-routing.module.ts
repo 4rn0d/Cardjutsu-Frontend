@@ -7,6 +7,7 @@ import {RegisterComponent} from "./register/register.component";
 import {apiGuard} from "./guards/api.guards";
 import {ShopComponent} from "./home/shop/shop.component";
 import {MyCardsComponent} from "./home/my-cards/my-cards.component";
+import {DecksComponent} from "./home/decks/decks.component";
 
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate:[apiGuard], children: [
       { path: '', component: MyCardsComponent, pathMatch: 'full' },
       { path: 'shop', component: ShopComponent },
+      { path: 'myDecks', component: DecksComponent },
       { path: 'myCards', component: MyCardsComponent }
     ]},
   { path: '**', redirectTo: '/'}
