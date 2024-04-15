@@ -14,6 +14,13 @@ export interface Card {
     cardPowers: CardPower[];
 }
 
+export interface CardPower{
+  id: number;
+  card : Card;
+  power : Power;
+  value : number;
+}
+
 export interface MatchData {
     match:Match;
     playerA: Player;

@@ -5,6 +5,7 @@ import { Match } from '../models/models';
 import * as signalR from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
 import {HubService} from "./hub.service";
+import {PlayerhandComponent} from "../match/playerhand/playerhand.component";
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,100 @@ export class MatchService {
         break;
       }
 
+      case "PlayCard": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData?.hand.find(x => x.id == event.PlayableCardId);
+
+        if(card!.card.cost <= playerData!.mana){
+          this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
+        }
+        console.log("HAND -- " + playerData?.hand);
+        console.log("BF -- " + playerData?.battleField);
+        console.log("GRAVE -- " + playerData?.graveyard);
+        break;
+      }
+
+      case "Combat" : {
+        break;
+      }
+
+      case "CardActivation" : {
+        break;
+      }
+
+      case "CardDamage" : {
+        break;
+      }
+
+      case "CardDeath" : {
+        break;
+      }
+
+      case "PlayerDamage" : {
+        break;
+      }
+
+      case "PlayerDeath" : {
+        break;
+      }
+
+      case "Heal": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+        if(this.hasPower(3, card, playerData!.battleField)){
+          let amountHeal = this.getPowerValue(3, card, playerData!.battleField);
+          this.heal(amountHeal, playerData!.battleField);
+        }
+        break;
+      }
+
+      case "Thorns": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let enemy = this.getPlayerData(this.adversaryData!.playerId);
+        let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+        let position = playerData!.battleField.indexOf(card!);
+        let enemyCard = enemy?.battleField.at(position!);
+
+        if(this.hasPower(2, enemyCard, enemy!.battleField)){
+          let amount = this.getPowerValue(2, enemyCard!.id, enemy!.battleField);
+          card!.health -= amount;
+        }
+        break;
+      }
+
+      case "Thief": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let enemy = this.getPlayerData(this.adversaryData!.playerId);
+        let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+        if(this.hasPower(4, card, playerData!.battleField)){
+          let amountStolen = this.getPowerValue(4, card, playerData!.battleField);
+
+          if(enemy!.mana < amountStolen){
+            amountStolen = enemy!.mana;
+            enemy!.mana = 0;
+            playerData!.mana += amountStolen;
+          }else{
+            enemy!.mana -= amountStolen;
+            playerData!.mana += amountStolen;
+          }
+        }
+        break;
+      }
+
+      case "FirstStrike": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let enemy = this.getPlayerData(this.adversaryData!.playerId);
+        let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+        let position = playerData!.battleField.indexOf(card!);
+        let enemyCard = enemy?.battleField.at(position!);
+
+        if(this.hasPower(1, card, playerData!.battleField)){
+          let amount = this.getPowerValue(1, card!.id, playerData!.battleField);
+          enemyCard!.health -= amount;
+        }
+        break;
+      }
+
       case "GainMana": {
         // TODO
         let playerData = this.getPlayerData(event.PlayerId);
@@ -79,6 +174,11 @@ export class MatchService {
           playerData!.mana += event.Mana;
           await new Promise(resolve => setTimeout(resolve, 250));
         }
+        break;
+      }
+
+      case "PlayerStartTurn" : {
+        this.playerData = event.PlayerData;
         break;
       }
 
@@ -127,6 +227,28 @@ export class MatchService {
         return this.match.playerDataB;
     }
     return null;
+  }
+
+  hasPower(id:number, playableCardId : any, playableCardList : PlayableCard[]) : boolean{
+    let card = playableCardList.find(x => x.id == playableCardId);
+    if(card!.card.cardPowers != undefined && card!.card.cardPowers.find(x => x.power.powerId == id) != undefined){
+      return true;
+    }
+    return false;
+  }
+
+  getPowerValue(id:number, playableCardId : any, playableCardList : PlayableCard[]):number{
+    let card = playableCardList.find(x => x.id == playableCardId);
+    if(this.hasPower(id, playableCardId, playableCardList )){
+      return card!.card.cardPowers.find(x => x.power.powerId == id)!.value;
+    }
+    return 0;
+  }
+
+  heal(amountHealth : number, playableCardList : PlayableCard[]){
+    for(let playableCard of playableCardList){
+      playableCard.health += amountHealth;
+    }
   }
 
   moveCard(src:PlayableCard[], dst:PlayableCard[], playableCardId:any){

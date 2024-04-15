@@ -42,6 +42,10 @@ export class HubService {
         this.matchService.matchId = this.matchData?.match.id
       });
 
+      this.hubConnect!.on('PlayCard',  (data) => {
+        console.log(data)
+      });
+
       this.hubConnect!.on('StartMatch', (data) => {
         console.log("joinMatch")
         this.matchService.applyEvent(JSON.parse(data))
