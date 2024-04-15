@@ -53,6 +53,7 @@ export interface Power {
   name: string;
   description: string;
   icone: string;
+  hasValue: boolean;
 }
 
 export interface CardPower {

@@ -21,7 +21,7 @@
     <div *ngFor="let cardPower of card!.cardPowers; index as i" [@fade]="data.animationState" style="opacity: 0">
       <div>
         <img src="{{data.img}}" style="position: absolute; width: 70px; bottom: 8px; left: 174px;" alt="">
-        <span *ngIf="cardPower.power.powerId != 1" style="position: absolute;bottom: 33px; left: 194.5px; font-size: 65px; -webkit-text-stroke: 3px black">{{data.value}}</span>
+        <span *ngIf="cardPower.power.hasValue" style="position: absolute;bottom: 33px; left: 194.5px; font-size: 65px; -webkit-text-stroke: 3px black">{{data.value}}</span>
       </div>
     </div>
   </div>
