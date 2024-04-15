@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Card, CardPower } from 'src/app/models/models';
-import {animate, style, transition, trigger, useAnimation} from "@angular/animations";
+import {animate, state, style, transition, trigger, useAnimation} from "@angular/animations";
 import {DataService} from "../../services/data.service";
 import {fadeIn} from "ng-animate";
 import {lastValueFrom, timer} from "rxjs";
@@ -16,6 +16,15 @@ import {lastValueFrom, timer} from "rxjs";
         animate(2000, style({opacity: 1})),
         animate(2000, style({opacity: 0})),
       ])
+    ]),
+    trigger('clickAnimation', [ // New animation
+      state('start', style({
+        transform: 'scale(1.1)'
+      })),
+      state('end', style({
+        transform: 'scale(1)'
+      })),
+      transition('start <=> end', animate('500ms'))
     ])
   ]
 })
@@ -32,6 +41,10 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  animateClick() {
+    this.data.fadeInAnimation(this.card!);
   }
 
 }

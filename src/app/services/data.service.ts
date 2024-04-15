@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import {lastValueFrom, timer} from "rxjs";
-import {Card} from "../models/models";
+import {Card, CardPower} from "../models/models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   img?:string
-  value?:number
+  value = 0
   animationState?: boolean
+  currentPowerIndex = 0;
+  cardPowers: CardPower[] = []
 
   constructor() { }
 
@@ -17,14 +19,17 @@ export class DataService {
   }
 
   async fadeInAnimation(card: Card){
-    this.animationState = true;
-    card.cardPowers.forEach((value, index) => {
-      this.img = value.power.icone
-      this.value = value.value
-      console.log(value)
-      console.log(this.animationState)
-    })
+    console.log(card)
+    for (let i = 0; i < card.cardPowers.length; i++) {
+      this.animationState = true;
+      this.img = card.cardPowers[i].power.icone
+      this.value = card.cardPowers[i].value
+      console.log(card.cardPowers[i])
+      await this.waitFor(2)
+      this.animationState = false;
+    }
   }
+
   async waitFor(delayInSeconds:number) {
     await lastValueFrom(timer(delayInSeconds * 1000));
   }
