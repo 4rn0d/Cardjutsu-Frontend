@@ -20,7 +20,6 @@ export class PlayerhandComponent implements OnInit {
 
   click(playableCardId:any) : void {
     // TODO: Utiliser seulement une fois que l'on peut jouer des cartes (TP2)
-    this.clickedCard = this.cards.find(x => x.id == playableCardId);
-    console.log(this.clickedCard);
+    // this.clickedCard = this.cards.find(x => x.id == playableCardId);
   }
 }

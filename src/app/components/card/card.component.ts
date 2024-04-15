@@ -4,6 +4,7 @@ import {animate, state, style, transition, trigger, useAnimation} from "@angular
 import {DataService} from "../../services/data.service";
 import {fadeIn} from "ng-animate";
 import {lastValueFrom, timer} from "rxjs";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: 'app-card',
@@ -31,10 +32,10 @@ export class CardComponent implements OnInit {
   img?: string
   value?:number
 
-  constructor(public data: DataService) { }
+  constructor(public data: DataService, public api: ApiService) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    this.card!.cardPowers = await this.api.GetCardPowers(this.card!.id)
   }
 
   async fadeInAnimation(){
@@ -49,7 +50,7 @@ export class CardComponent implements OnInit {
         this.value = undefined
 
       }
-      await this.waitFor(2)
+      await this.waitFor(1)
       this.animationState = false;
     }
   }

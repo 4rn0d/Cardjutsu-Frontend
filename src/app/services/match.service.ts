@@ -195,7 +195,7 @@ export class MatchService {
       }
       case "DrawCard": {
         let playerData = this.getPlayerData(event.PlayerId);
-        console.log(playerData)
+        console.log(event.playerId)
         if(playerData)
         {
           this.moveCard(playerData.cardsPile, playerData.hand, event.PlayableCardId);
@@ -221,17 +221,19 @@ export class MatchService {
 
   getPlayerData(playerId:any) : PlayerData | null{
     if(this.match){
-      if(playerId == this.match.playerDataA.playerId)
+      if(playerId == this.match.playerDataA.playerId){
         return this.match.playerDataA;
-      else if(playerId == this.match.playerDataB.playerId)
+      }
+      else if(playerId == this.match.playerDataB.playerId){
         return this.match.playerDataB;
+      }
     }
     return null;
   }
 
   hasPower(id:number, playableCardId : any, playableCardList : PlayableCard[]) : boolean{
     let card = playableCardList.find(x => x.id == playableCardId);
-    if(card!.card.cardPowers != undefined && card!.card.cardPowers.find(x => x.power.powerId == id) != undefined){
+    if (card!.card.cardPowers != undefined && card!.card.cardPowers.find(x => x.power.powerId == id) != undefined){
       return true;
     }
     return false;

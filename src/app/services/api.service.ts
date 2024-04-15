@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Card } from '../models/models';
+import {Card, CardPower} from '../models/models';
 import { environment } from 'src/environments/environment';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
@@ -120,5 +120,11 @@ export class ApiService {
     console.log(card)
     console.log(id)
     let result = await lastValueFrom(this.http.post<any>(this.deckBaseURL + 'DeleteCardDuDeck/'+id, card));
+  }
+
+  async GetCardPowers(id: number): Promise<CardPower[]>{
+    let result = await lastValueFrom(this.http.get<CardPower[]>(this.baseUrl + 'card/GetCardPowers/'+id));
+    console.log(result)
+    return result
   }
 }
