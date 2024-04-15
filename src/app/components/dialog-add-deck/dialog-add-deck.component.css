@@ -1,0 +1,10 @@
+.card_list {
+  overflow-x: auto;  /* Enable horizontal scroll for overflow */
+  white-space: nowrap;  /* Prevent cards from wrapping onto multiple lines */
+}
+
+.card-container {
+  display: inline-block;  /* Display cards side-by-side */
+  margin: 5px;  /* Add some margin between cards (optional) */
+}
+
