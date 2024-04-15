@@ -79,6 +79,9 @@ export class MatchService {
         if(card!.card.cost <= playerData!.mana){
           this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
         }
+        console.log("HAND -- " + playerData?.hand);
+        console.log("BF -- " + playerData?.battleField);
+        console.log("GRAVE -- " + playerData?.graveyard);
         break;
       }
 
@@ -150,7 +153,16 @@ export class MatchService {
       }
 
       case "FirstStrike": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let enemy = this.getPlayerData(this.adversaryData!.playerId);
+        let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+        let position = playerData!.battleField.indexOf(card!);
+        let enemyCard = enemy?.battleField.at(position!);
 
+        if(this.hasPower(1, card, playerData!.battleField)){
+          let amount = this.getPowerValue(1, card!.id, playerData!.battleField);
+          enemyCard!.health -= amount;
+        }
         break;
       }
 
