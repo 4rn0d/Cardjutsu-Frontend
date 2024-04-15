@@ -43,7 +43,7 @@ export class HubService {
       });
 
       this.hubConnect!.on('StartMatch', (data) => {
-
+        console.log("joinMatch")
         this.matchService.applyEvent(JSON.parse(data))
       })
 

@@ -11,6 +11,7 @@ export interface Card {
     cost: number;
     imageUrl: string;
     colour: string;
+    cardPowers: CardPower[];
 }
 
 export interface MatchData {
@@ -45,4 +46,19 @@ export interface PlayerData {
     hand: PlayableCard[];
     battleField: PlayableCard[];
     graveyard: PlayableCard[];
+}
+
+export interface Power {
+  powerId: number;
+  name: string;
+  description: string;
+  icone: string;
+  hasValue: boolean;
+}
+
+export interface CardPower {
+  cardPowerId: number;
+  value: number;
+  card: Card;
+  power: Power
 }

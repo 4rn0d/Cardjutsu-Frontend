@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import {Card} from "../../models/models";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-my-cards',
@@ -11,10 +12,11 @@ export class MyCardsComponent implements OnInit{
 
   cards: Card[] = [];
 
-  constructor(public api:ApiService) {}
+  constructor(public api:ApiService, public data: DataService) {}
 
   async ngOnInit() {
     this.cards = await this.api.getPlayersCards();
+    console.log(this.cards)
   }
 
 }
