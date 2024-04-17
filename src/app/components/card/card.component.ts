@@ -5,7 +5,7 @@ import {DataService} from "../../services/data.service";
 import {fadeIn} from "ng-animate";
 import {lastValueFrom, timer} from "rxjs";
 import {ApiService} from "../../services/api.service";
-
+import {rubberBand} from "ng-animate";
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -17,7 +17,10 @@ import {ApiService} from "../../services/api.service";
         animate(2000, style({opacity: 1})),
         animate(2000, style({opacity: 0})),
       ])
-    ])
+    ]),
+    trigger('attack', [
+      transition(':increment', useAnimation(rubberBand, {params: {timing: 1, delay: 0}})),
+    ]),
   ]
 })
 export class CardComponent implements OnInit {
@@ -25,6 +28,7 @@ export class CardComponent implements OnInit {
   @Input() card?:Card;
   @Input() show:string = "front";
   @Input() defense:number = 0;
+  @Input() playableCardId:number = 0;
   beautifulBackUrl = "https://static.miraheze.org/cpfanonwiki/f/f7/Formation_of_Water_Dojo.png";
   cardBorder = "/assets/card-border/Card-Jitsu_Border_"
   webp = ".webp"

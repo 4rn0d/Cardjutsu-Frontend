@@ -8,9 +8,7 @@ import {Card, CardPower} from "../models/models";
 export class DataService {
   img?:string
   value = 0
-  animationState?: boolean
-  currentPowerIndex = 0;
-  cardPowers: CardPower[] = []
+  animationStateRubber?: boolean
 
   constructor() { }
 

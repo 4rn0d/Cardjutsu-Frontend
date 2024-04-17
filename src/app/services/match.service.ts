@@ -6,6 +6,7 @@ import * as signalR from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
 import {HubService} from "./hub.service";
 import {PlayerhandComponent} from "../match/playerhand/playerhand.component";
+import {DataService} from "./data.service";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class MatchService {
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
 
-  constructor() { }
+  constructor(public Data:DataService) { }
 
   clearMatch(){
     this.match = null;
@@ -89,29 +90,26 @@ export class MatchService {
         break;
       }
 
-      case "Combat" : {
-        console.log(event)
-        break;
-      }
-
       case "CardActivation" : {
         console.log(event)
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
+        // this.attackAnimation(card!)
         break;
       }
 
       case "CardDamage" : {
         let playerData = this.getPlayerData(event.PlayerId);
-        console.log(playerData)
         let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
+        let opposingCard = this.adversaryData?.battleField.find(x => x.id == event.OpposingCardId);
+        console.log(this.adversaryData)
+        console.log(opposingCard)
         console.log(card)
-        if(card){
-          card.health -= event.Damage;
-        }
-        if (card!.health < 0){
-          card!.health = 0;
-        }
-
-        console.log(card)
+        this.attackAnimation(event.playableCardId)
+        setTimeout(() => {
+          card!.health -= event.Damage;
+          this.cardDamageAnimation(event.OpposingCardId);
+        }, 1000);
         break;
       }
 
@@ -119,13 +117,17 @@ export class MatchService {
         let playerData = this.getPlayerData(event.PlayerId);
         let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
         if(card){
-          this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
+          this.deathAnimation(card!);
+          setTimeout(() => {
+            this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
+          }, 1000);
         }
         break;
       }
 
       case "PlayerDamage" : {
         let playerData = this.getPlayerData(event.PlayerId);
+
         playerData!.health -= event.Damage;
         break;
       }
@@ -288,5 +290,32 @@ export class MatchService {
       src.splice(index, 1);
       dst.push(playableCard);
     }
+  }
+
+  attackAnimation(card:PlayableCard){
+    var doc = document.getElementById("card" + card.card.id);
+    console.log(doc)
+    doc?.classList.add("attack");
+    setTimeout(() => {
+      doc?.classList.remove("attack");
+    }, 1000);
+  }
+
+  cardDamageAnimation(card:PlayableCard){
+    var doc = document.getElementById("card" + card.card.id);
+    console.log(doc)
+    doc?.classList.add("damage");
+    setTimeout(() => {
+      doc?.classList.remove("damage");
+    }, 1000);
+  }
+
+  deathAnimation(card:PlayableCard){
+    var doc = document.getElementById("card" + card.card.id);
+    console.log(doc)
+    doc?.classList.add("death");
+    setTimeout(() => {
+      doc?.classList.remove("death");
+    }, 1000);
   }
 }
