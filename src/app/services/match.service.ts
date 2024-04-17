@@ -148,8 +148,10 @@ export class MatchService {
         console.log(event)
         let playerData = this.getPlayerData(event.PlayerId);
         let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
-        if(this.hasPower(3, card, playerData!.battleField)){
-          let amountHeal = this.getPowerValue(3, card, playerData!.battleField);
+        console.log(card)
+        console.log(playerData!)
+        if(this.hasPower(3, card?.id, playerData!.battleField)){
+          let amountHeal = this.getPowerValue(3, card?.id, playerData!.battleField);
           this.heal(amountHeal, playerData!.battleField);
         }
         break;
