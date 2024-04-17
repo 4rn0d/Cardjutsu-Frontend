@@ -84,16 +84,19 @@ export class MatchService {
           playerData!.mana = event.Mana;
           console.log(event.Mana)
         }
-        console.log("HAND -- " + playerData?.hand);
+        console.log("HAND -- ");
+        console.log(playerData?.hand)
         console.log("BF -- " + playerData?.battleField);
+        console.log(playerData?.battleField)
         console.log("GRAVE -- " + playerData?.graveyard);
+        console.log(playerData?.graveyard)
         break;
       }
 
       case "CardDamage" : {
-        let playerData = this.getPlayerData(event.PlayerId);
-        let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
         setTimeout(() => {
+          let playerData = this.getPlayerData(event.PlayerId);
+          let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
           if (event.PlayerId == this.currentPlayerId){
             this.attackAnimationBot(event.OpposingCardId);
           } else {
@@ -103,14 +106,14 @@ export class MatchService {
             this.cardDamageAnimation(event.PlayableCardId);
             card!.health -= event.Damage;
           }, 1000);
-        }, 500);
+        }, 1000);
         break;
       }
 
       case "CardDeath" : {
-        let playerData = this.getPlayerData(event.PlayerId);
-        let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
         setTimeout(() => {
+          let playerData = this.getPlayerData(event.PlayerId);
+          let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
           if (event.PlayerId == this.currentPlayerId){
             this.deathAnimationPlayer(event.PlayableCardId);
           } else {
@@ -118,8 +121,15 @@ export class MatchService {
           }
           setTimeout(() => {
             this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
+            console.log(playerData?.battleField.length)
+            console.log(playerData?.hand.length)
+            // if (playerData?.battleField.length == 0 && playerData?.hand.length == 0){
+            //   this.isCompleted = true;
+            //   this.matchData!.winningPlayerId = event.playerId;
+            // }
           }, 500);
-        }, 1500);
+        }, 2000);
+
         break;
       }
 
@@ -164,8 +174,13 @@ export class MatchService {
         let position = playerData!.battleField.indexOf(card!);
         let enemyCard = enemy?.battleField.at(position!);
 
-        if(this.hasPower(2, enemyCard, enemy!.battleField)){
+        if(this.hasPower(2, enemyCard!.id, enemy!.battleField)){
           let amount = this.getPowerValue(2, enemyCard!.id, enemy!.battleField);
+          if (event.PlayerId == this.currentPlayerId){
+            this.attackAnimationBot(event.PlayableCardId);
+          } else {
+            this.attackAnimationTop(event.PlayableCardId);
+          }
           card!.health -= amount;
         }
         break;
@@ -175,8 +190,8 @@ export class MatchService {
         let playerData = this.getPlayerData(event.PlayerId);
         let enemy = this.getPlayerData(this.adversaryData!.playerId);
         let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
-        if(this.hasPower(4, card, playerData!.battleField)){
-          let amountStolen = this.getPowerValue(4, card, playerData!.battleField);
+        if(this.hasPower(4, card?.id, playerData!.battleField)){
+          let amountStolen = this.getPowerValue(4, card?.id, playerData!.battleField);
 
           if(enemy!.mana < amountStolen){
             amountStolen = enemy!.mana;
@@ -197,7 +212,7 @@ export class MatchService {
         let position = playerData!.battleField.indexOf(card!);
         let enemyCard = enemy?.battleField.at(position!);
 
-        if(this.hasPower(1, card, playerData!.battleField)){
+        if(this.hasPower(1, card?.id, playerData!.battleField)){
           let amount = this.getPowerValue(1, card!.id, playerData!.battleField);
           enemyCard!.health -= amount;
         }
@@ -232,7 +247,6 @@ export class MatchService {
       }
       case "DrawCard": {
         let playerData = this.getPlayerData(event.PlayerId);
-        console.log(event.playerId)
         if(playerData)
         {
           this.moveCard(playerData.cardsPile, playerData.hand, event.PlayableCardId);

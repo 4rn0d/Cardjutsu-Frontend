@@ -124,7 +124,6 @@ export class ApiService {
 
   async GetCardPowers(id: number): Promise<CardPower[]>{
     let result = await lastValueFrom(this.http.get<CardPower[]>(this.baseUrl + 'card/GetCardPowers/'+id));
-    console.log(result)
     return result
   }
 }
