@@ -44,7 +44,6 @@ export class HubService {
 
       this.hubConnect!.on('PlayCard',  (data) => {
         console.log('PlayCard')
-        console.log(data)
         this.matchService.applyEvent(JSON.parse(data))
       });
 

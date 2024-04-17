@@ -16,13 +16,10 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class MatchComponent implements OnInit {
 
-  isComplete: boolean = false
-
 
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService, public dialog: MatDialog) { }
 
   async ngOnInit() {
-    // TODO Tâche Hub: Se connecter au Hub et obtenir le matchData
   }
 
   endMatch() {

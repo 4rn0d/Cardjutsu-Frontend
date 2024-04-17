@@ -80,7 +80,8 @@ export class MatchService {
 
         if(card!.card.cost <= playerData!.mana){
           this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
-          playerData!.mana -= card!.card.cost;
+          playerData!.mana = event.Mana;
+          console.log(event.Mana)
         }
         console.log("HAND -- " + playerData?.hand);
         console.log("BF -- " + playerData?.battleField);
@@ -89,26 +90,50 @@ export class MatchService {
       }
 
       case "Combat" : {
+        console.log(event)
         break;
       }
 
       case "CardActivation" : {
+        console.log(event)
         break;
       }
 
       case "CardDamage" : {
+        let playerData = this.getPlayerData(event.PlayerId);
+        console.log(playerData)
+        let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
+        console.log(card)
+        if(card){
+          card.health -= event.Damage;
+        }
+        if (card!.health < 0){
+          card!.health = 0;
+        }
+
+        console.log(card)
         break;
       }
 
       case "CardDeath" : {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
+        if(card){
+          this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
+        }
         break;
       }
 
       case "PlayerDamage" : {
+        let playerData = this.getPlayerData(event.PlayerId);
+        playerData!.health -= event.Damage;
         break;
       }
 
       case "PlayerDeath" : {
+        console.log(event)
+        this.isCompleted = true
+        this.matchData!.winningPlayerId = event.WinningPlayerId;
         break;
       }
 
@@ -207,8 +232,8 @@ export class MatchService {
         break;
       }
       case "EndMatch": {
-        console.log("hgashdgaskjgdsjkagdjksghadjksgadjkgjkhag")
         this.matchData!.winningPlayerId = event.WinningPlayerId;
+        this.isCompleted = true;
         break;
       }
     }
