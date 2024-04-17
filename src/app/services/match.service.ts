@@ -90,45 +90,50 @@ export class MatchService {
         break;
       }
 
-      case "CardActivation" : {
-        console.log(event)
-        let playerData = this.getPlayerData(event.PlayerId);
-        let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
-        // this.attackAnimation(card!)
-        break;
-      }
-
       case "CardDamage" : {
         let playerData = this.getPlayerData(event.PlayerId);
         let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
-        let opposingCard = this.adversaryData?.battleField.find(x => x.id == event.OpposingCardId);
-        console.log(this.adversaryData)
-        console.log(opposingCard)
-        console.log(card)
-        this.attackAnimation(event.playableCardId)
         setTimeout(() => {
-          card!.health -= event.Damage;
-          this.cardDamageAnimation(event.OpposingCardId);
-        }, 1000);
+          if (event.PlayerId == this.currentPlayerId){
+            this.attackAnimationBot(event.OpposingCardId);
+          } else {
+            this.attackAnimationTop(event.OpposingCardId);
+          }
+          setTimeout(() => {
+            this.cardDamageAnimation(event.PlayableCardId);
+            card!.health -= event.Damage;
+          }, 1000);
+        }, 500);
         break;
       }
 
       case "CardDeath" : {
         let playerData = this.getPlayerData(event.PlayerId);
         let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
-        if(card){
-          this.deathAnimation(card!);
+        setTimeout(() => {
+          if (event.PlayerId == this.currentPlayerId){
+            this.deathAnimationPlayer(event.PlayableCardId);
+          } else {
+            this.deathAnimationOpponent(event.PlayableCardId);
+          }
           setTimeout(() => {
             this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
-          }, 1000);
-        }
+          }, 500);
+        }, 1500);
         break;
       }
 
       case "PlayerDamage" : {
         let playerData = this.getPlayerData(event.PlayerId);
-
-        playerData!.health -= event.Damage;
+        console.log(playerData)
+        if (event.PlayerId == this.currentPlayerId){
+          this.attackAnimationBot(event.PlayableCardId);
+        } else {
+          this.attackAnimationTop(event.PlayableCardId);
+        }
+        setTimeout(() => {
+          playerData!.health -= event.Damage;
+        }, 500);
         break;
       }
 
@@ -292,30 +297,47 @@ export class MatchService {
     }
   }
 
-  attackAnimation(card:PlayableCard){
-    var doc = document.getElementById("card" + card.card.id);
+  attackAnimationTop(cardId:number){
+    var doc = document.getElementById(""+cardId);
     console.log(doc)
-    doc?.classList.add("attack");
+    doc?.firstElementChild!.classList.add("attack-top");
     setTimeout(() => {
-      doc?.classList.remove("attack");
+      doc?.firstElementChild!.classList.remove("attack-top");
+    }, 1000);
+  }
+  attackAnimationBot(cardId:number){
+    var doc = document.getElementById(""+cardId);
+    console.log(doc)
+    doc?.firstElementChild!.classList.add("attack-bot");
+    setTimeout(() => {
+      doc?.firstElementChild!.classList.remove("attack-bot");
     }, 1000);
   }
 
-  cardDamageAnimation(card:PlayableCard){
-    var doc = document.getElementById("card" + card.card.id);
+  cardDamageAnimation(cardId:number){
+    var doc = document.getElementById(""+cardId);
     console.log(doc)
-    doc?.classList.add("damage");
+    doc?.firstElementChild!.classList.add("damage");
     setTimeout(() => {
-      doc?.classList.remove("damage");
+      doc?.firstElementChild!.classList.remove("damage");
     }, 1000);
   }
 
-  deathAnimation(card:PlayableCard){
-    var doc = document.getElementById("card" + card.card.id);
-    console.log(doc)
-    doc?.classList.add("death");
+  deathAnimationPlayer(cardId:number){
+    var doc = document.getElementById(""+cardId);
+    console.log(doc!.firstElementChild)
+    doc?.firstElementChild!.classList.add("death-player");
     setTimeout(() => {
-      doc?.classList.remove("death");
+      doc?.firstElementChild!.classList.remove("death-player");
+    }, 1000);
+  }
+
+  deathAnimationOpponent(cardId:number){
+    var doc = document.getElementById(""+cardId);
+    console.log(doc!.firstElementChild)
+    doc?.firstElementChild!.classList.add("death-opponent");
+    setTimeout(() => {
+      doc?.firstElementChild!.classList.remove("death-opponent");
     }, 1000);
   }
 }

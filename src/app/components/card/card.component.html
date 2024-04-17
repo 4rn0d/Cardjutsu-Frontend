@@ -1,4 +1,4 @@
-<mat-card *ngIf="show=='front'" id="card{{playableCardId}}" class="infinite-card" style="background-image:url({{card?.imageUrl}});" (click)="fadeInAnimation()">
+<mat-card *ngIf="show=='front'" id="{{playableCardId}}" class="infinite-card" style="background-image:url({{card?.imageUrl}});" (click)="fadeInAnimation()">
   <img class="card-image" src="{{cardBorder + card?.colour + webp}}" alt="">
   <mat-card-content class="infinite-card-content">
     <table style="font-size: 25px; width: fit-content; text-shadow: 2px 2px 2px black;">
