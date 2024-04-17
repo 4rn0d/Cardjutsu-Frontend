@@ -4,15 +4,49 @@
 }
 
 .end {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #0008;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.end h2 {
+  color: #000000;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.end p {
+  color: #000000;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.end button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.end button:hover {
+  background-color: #0056b3;
+}
+
+.end.victory {
+  background-color: #4caf50; /* Couleur de fond pour la victoire */
+}
+
+.end.defeat {
+  background-color: #f44336; /* Couleur de fond pour la défaite */
 }
 
 .endtext {
