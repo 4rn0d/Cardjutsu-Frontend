@@ -178,7 +178,6 @@ export class MatchService {
       }
 
       case "PlayerStartTurn" : {
-        this.playerData = event.PlayerData;
         break;
       }
 
