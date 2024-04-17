@@ -8,7 +8,8 @@ import {Card, CardPower} from "../models/models";
 export class DataService {
   img?:string
   value = 0
-  animationStateRubber?: boolean
+  isInShop?: boolean
+  isInMyCards?: boolean
 
   constructor() { }
 

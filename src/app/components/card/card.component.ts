@@ -43,19 +43,21 @@ export class CardComponent implements OnInit {
   }
 
   async fadeInAnimation(){
-    for (let i = 0; i < this.card!.cardPowers.length; i++) {
-      console.log(this.card!.cardPowers[i])
-      this.animationState = true;
-      this.img = this.card!.cardPowers[i].power.icone
-      if (this.card!.cardPowers[i].power.hasValue){
-        this.value = this.card!.cardPowers[i].value
-      }
-      else {
-        this.value = undefined
+    if (this.data.isInShop || this.data.isInMyCards){
+      for (let i = 0; i < this.card!.cardPowers.length; i++) {
+        console.log(this.card!.cardPowers[i])
+        this.animationState = true;
+        this.img = this.card!.cardPowers[i].power.icone
+        if (this.card!.cardPowers[i].power.hasValue){
+          this.value = this.card!.cardPowers[i].value
+        }
+        else {
+          this.value = undefined
 
+        }
+        await this.waitFor(1)
+        this.animationState = false;
       }
-      await this.waitFor(1)
-      this.animationState = false;
     }
   }
 

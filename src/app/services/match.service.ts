@@ -145,6 +145,7 @@ export class MatchService {
       }
 
       case "Heal": {
+        console.log(event)
         let playerData = this.getPlayerData(event.PlayerId);
         let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
         if(this.hasPower(3, card, playerData!.battleField)){
