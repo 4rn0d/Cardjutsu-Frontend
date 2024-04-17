@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {Card, PlayableCard} from 'src/app/models/models';
 import {MatchService} from "../../services/match.service";
+import {HubService} from "../../services/hub.service";
 
 @Component({
   selector: 'app-playerhand',
@@ -11,7 +12,7 @@ export class PlayerhandComponent implements OnInit {
 
   @Input() cards: PlayableCard[] = [];
 
-  constructor(public matchService: MatchService) { }
+  constructor(public matchService: MatchService, public hub: HubService) { }
 
   clickedCard : PlayableCard | undefined ;
 
@@ -20,6 +21,6 @@ export class PlayerhandComponent implements OnInit {
 
   click(playableCardId:any) : void {
     // TODO: Utiliser seulement une fois que l'on peut jouer des cartes (TP2)
-    // this.clickedCard = this.cards.find(x => x.id == playableCardId);
+    this.hub.hubConnect?.invoke("PlayCard", this.matchService.matchId, playableCardId);
   }
 }

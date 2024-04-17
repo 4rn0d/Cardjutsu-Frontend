@@ -75,9 +75,12 @@ export class MatchService {
       case "PlayCard": {
         let playerData = this.getPlayerData(event.PlayerId);
         let card = playerData?.hand.find(x => x.id == event.PlayableCardId);
+        console.log(event.PlayableCardId);
+        console.log(event.PlayerId);
 
         if(card!.card.cost <= playerData!.mana){
           this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
+          playerData!.mana -= card!.card.cost;
         }
         console.log("HAND -- " + playerData?.hand);
         console.log("BF -- " + playerData?.battleField);
