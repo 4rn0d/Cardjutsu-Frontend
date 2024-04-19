@@ -40,6 +40,7 @@ export interface PlayableCard {
   id: number;
   card: Card;
   health: number;
+  OrdreId:number;
 }
 
 export interface PlayerData {
