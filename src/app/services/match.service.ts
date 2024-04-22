@@ -85,7 +85,6 @@ export class MatchService {
         playerData?.battleField.sort((a, b) => a.OrdreId - b.OrdreId);
 
 
-
         if(card!.card.cost <= playerData!.mana){
           this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
           playerData!.mana = event.Mana;
@@ -103,7 +102,10 @@ export class MatchService {
       case "CardDamage" : {
         setTimeout(() => {
           let playerData = this.getPlayerData(event.PlayerId);
+          console.log(playerData?.playerName + " "+playerData?.playerId + " ___ damage event")
+          console.log(event.PlayableCardId)
           let card = playerData?.battleField.find(x => x.id == event.PlayableCardId);
+          console.log(card?.card.name);
           if (event.PlayerId == this.currentPlayerId){
             this.attackAnimationBot(event.OpposingCardId);
           } else {
@@ -111,6 +113,7 @@ export class MatchService {
           }
           setTimeout(() => {
             this.cardDamageAnimation(event.PlayableCardId);
+            console.log(card)
             card!.health -= event.Damage;
           }, 1000);
         }, 1000);
@@ -130,10 +133,6 @@ export class MatchService {
             this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
             console.log(playerData?.battleField.length)
             console.log(playerData?.hand.length)
-            // if (playerData?.battleField.length == 0 && playerData?.hand.length == 0){
-            //   this.isCompleted = true;
-            //   this.matchData!.winningPlayerId = event.playerId;
-            // }
           }, 500);
         }, 2000);
 
@@ -144,9 +143,9 @@ export class MatchService {
         let playerData = this.getPlayerData(event.PlayerId);
         console.log(playerData)
         if (event.PlayerId == this.currentPlayerId){
-          this.attackAnimationBot(event.PlayableCardId);
+          this.attackAnimationBot(event.AttackingCardId);
         } else {
-          this.attackAnimationTop(event.PlayableCardId);
+          this.attackAnimationTop(event.AttackingCardId);
         }
         setTimeout(() => {
           playerData!.health -= event.Damage;
@@ -195,7 +194,9 @@ export class MatchService {
 
       case "Thief": {
         let playerData = this.getPlayerData(event.PlayerId);
-        let enemy = this.getPlayerData(this.adversaryData!.playerId);
+        let enemy = this.getPlayerData(event.EnemyId);
+        console.log("Thief is " + playerData?.playerName);
+        console.log("victim is " + enemy?.playerName);
         let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
         if(this.hasPower(4, card?.id, playerData!.battleField)){
           let amountStolen = this.getPowerValue(4, card?.id, playerData!.battleField);
@@ -208,32 +209,75 @@ export class MatchService {
             enemy!.mana -= amountStolen;
             playerData!.mana += amountStolen;
           }
+          console.log("THIEF FROM -- " + playerData?.playerName);
+          console.log(playerData?.playerName + " ___ " + playerData?.mana);
+          console.log(enemy?.playerName + " ___ " + enemy?.mana);
+
         }
         break;
       }
 
+      // case "Thief": {
+      //
+      //   let playerData = this.getPlayerData(event.PlayerId);
+      //   console.log("CURRENT IS " + playerData?.playerName);
+      //   console.log(this.adversaryData!.playerName);
+      //   let enemy = this.getPlayerData(this.adversaryData!.playerId);
+      //   console.log("ENEMY IS " + enemy?.playerName);
+      //   let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+      //
+      //   console.log(card?.card.name + " from player " + playerData?.playerName);
+      //
+      //   let amountStolen = this.getPowerValue(4, card?.id, playerData!.battleField);
+      //
+      //   if(playerData?.battleField.indexOf(card!) == -1){
+      //
+      //   }
+      //
+      //
+      //
+      //   if(this.hasPower(4, card?.id, playerData!.battleField)){
+      //
+      //
+      //     if(enemy!.mana < amountStolen){
+      //       amountStolen = enemy!.mana;
+      //       enemy!.mana = 0;
+      //       playerData!.mana += amountStolen;
+      //     }else{
+      //       enemy!.mana -= amountStolen;
+      //       playerData!.mana += amountStolen;
+      //     }
+      //     console.log("THIEF FROM -- " + playerData?.playerName);
+      //     console.log(playerData?.playerName + " ___ " + playerData?.mana);
+      //     console.log(enemy?.playerName + " ___ " + enemy?.mana);
+      //
+      //   }
+      //   break;
+      // }
+
       case "FirstStrike": {
+        console.log(event)
         let playerData = this.getPlayerData(event.PlayerId);
+        console.log(playerData?.playerName + " has first strike")
         let enemy = this.getPlayerData(this.adversaryData!.playerId);
         let card = playerData!.battleField.find(x=>x.id == event.PlayableCardId);
+        console.log(card)
         let position = playerData!.battleField.indexOf(card!);
         let enemyCard = enemy?.battleField.at(position!);
 
-        if(this.hasPower(1, card?.id, playerData!.battleField)){
-          let amount = this.getPowerValue(1, card!.id, playerData!.battleField);
-          enemyCard!.health -= amount;
-        }
         break;
       }
 
       case "GainMana": {
         // TODO
-        let playerData = this.getPlayerData(event.PlayerId);
-        if(playerData)
-        {
-          playerData!.mana += event.Mana;
-          await new Promise(resolve => setTimeout(resolve, 250));
-        }
+        setTimeout(() => {
+          let playerData = this.getPlayerData(event.PlayerId);
+          if(playerData)
+          {
+            playerData!.mana += event.Mana;
+            // await new Promise(resolve => setTimeout(resolve, 250));
+          }
+        }, 500)
         break;
       }
 
