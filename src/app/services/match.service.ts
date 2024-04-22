@@ -83,13 +83,8 @@ export class MatchService {
         card!.ordreId = event.OrderId
 
         //mettre de l'ordre dans les playableCard dans battleField
-        // a finir
-        console.log("BF -- before sorting" + playerData?.battleField);
-        console.log(playerData?.battleField)
         playerData?.battleField.sort((a, b) => a.ordreId - b.ordreId);
-        for (let playerDataKey in playerData?.battleField) {
-          console.log(playerDataKey);
-        }
+
 
         console.log(playerData?.hand)
         console.log("BF -- " + playerData?.battleField);
