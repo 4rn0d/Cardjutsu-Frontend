@@ -1,9 +1,12 @@
 
+<app-chat style="position: absolute;left: 75%"></app-chat>
 <div class="board" style="height: 100%;background-image: url('/assets/mergedBoardImage.png'); background-size: cover;">
   <div style="height: 45%;">
     <h1 style="position: absolute;">Adversaire</h1>
     <div *ngIf="matchService.adversaryData">
+
       <app-battlefield [cards]="matchService.adversaryData.battleField"></app-battlefield>
+
       <app-enemyhand [cards]="matchService.adversaryData.hand"></app-enemyhand>
     </div>
   </div>

@@ -4,6 +4,8 @@ import {HubConnectionState} from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
 import {MatchData} from "../models/models";
 import {MatchService} from "./match.service";
+import {ChatComponent} from "../match/chat/chat.component";
+import {MessageService} from "./messageservice";
 
 @Injectable({
   providedIn: 'root'
@@ -63,11 +65,31 @@ export class HubService {
         this.matchService.isCompleted = true
       })
 
+
+      //MESSAGERIE
+      this.hubConnect!.on('GetMessagerie', (data) =>{
+        console.log('GetMessagerie');
+        console.log(data)
+        this.matchService.listMessage = data;
+        console.log(this.matchService.listMessage)
+      })
+
+
     }).catch(err => console.log('Error connection : ' + err))
   }
 
   disconnect(){
     this.hubConnect?.stop()
+  }
+
+  JoueurSeConnectChat(matchId:number) {
+    this.hubConnect!.invoke('JoueurSeConnectChat', matchId);
+  }
+  JoueurSeDeconnectChat(matchId:number) {
+    this.hubConnect!.invoke('JoueurSeDeconnectChat', matchId);
+  }
+  SendMessage(MessageText: string, matchId:number|undefined) {
+    this.hubConnect!.invoke('SendMessage', MessageText, matchId);
   }
 
 }
