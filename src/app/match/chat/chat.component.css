@@ -1,16 +1,23 @@
 .chatApp{
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   border-radius: 10px;
   z-index: 9998;
+  transition: background-color 1s ease;
+}
+.chatApp:hover {
+  background-color: #000000; /* Couleur plus foncée au survol */
+  transition: background-color 2s ease;
+
 }
 .chat-container {
-  width: 300px;
+  width: 510px;
   align-items: flex-start;
-  overflow-y: auto; /* Ajout de la propriété overflow-y pour activer le défilement vertical */
-  max-height: 200px; /* Ajout de la propriété max-height pour définir la hauteur maximale du conteneur */
+  overflow-y: auto;
+  max-height: 200px;
   display: flex;
   flex-direction: column;
+  scroll-behavior: smooth;
 
 }
 
@@ -30,15 +37,34 @@
   padding: 10px;
 }
 .message{
+  color: #FFFFFF;
   padding: 3px;
   z-index: 9999;
-  width: 250px;
+  width: 230px;
 }
-
+.inline-container {
+  display: inline-flex; /* Utilisation de flexbox pour aligner les éléments sur la même ligne */
+}
+.NomPlayer{
+  padding: 3px;
+  color: #66aaef;
+}
+.NomEnnemi{
+  color: #c389e3;
+  padding: 3px;
+}
 .messagePlayer{
-  color: black;
+  color: #ffffff;
+  padding: 3px;
+  z-index: 9999;
+  width: 350px;
 }
-
+.messageConnDec{
+  color: #b6b6b6;
+  padding: 3px;
+  z-index: 9999;
+  width: 350px;
+}
 .message-input input[type="text"] {
   flex: 1;
   padding: 10px;
@@ -63,4 +89,21 @@
 
 .messagebox{
   z-index: 9999;
+}
+.btnMute, .btnBan {
+  padding: 5px 10px; /* Ajustez le rembourrage selon vos besoins */
+  font-size: 12px; /* Ajustez la taille de la police selon vos besoins */
+  border-radius: 5px; /* Pour arrondir les coins */
+}
+
+.btnMute {
+  background-color: #007bff; /* Couleur de fond pour le bouton "Mute" */
+  border-color: #007bff; /* Couleur de la bordure pour le bouton "Mute" */
+  color: #fff; /* Couleur du texte pour le bouton "Mute" */
+}
+
+.btnBan {
+  background-color: #ff0000; /* Couleur de fond pour le bouton "Bannir" */
+  border-color: #ff0000; /* Couleur de la bordure pour le bouton "Bannir" */
+  color: #fff; /* Couleur du texte pour le bouton "Bannir" */
 }

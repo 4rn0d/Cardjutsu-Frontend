@@ -29,4 +29,8 @@ export class MessageService {
   getmessage() {
     this.hub.GetMessages(this.match.matchId);
   }
+
+  muteJoueur(PlayerName:string) {
+    this.hub.MutePlayer(PlayerName,this.match.matchId);
+  }
 }

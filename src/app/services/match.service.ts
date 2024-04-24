@@ -14,6 +14,7 @@ import {MessageService} from "./messageservice";
 })
 export class MatchService {
   listMessage:any[]=[]
+  listMutedPlayer:any[]=[];
   matchId?:number;
   match:Match | null = null;
   matchData:MatchData | null = null;
