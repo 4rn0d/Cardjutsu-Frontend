@@ -60,7 +60,7 @@ export interface Power {
   powerId: number;
   name: string;
   description: string;
-  icone: string;
+  icon: string;
   hasValue: boolean;
 }
 
