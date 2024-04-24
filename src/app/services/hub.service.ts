@@ -82,14 +82,17 @@ export class HubService {
     this.hubConnect?.stop()
   }
 
-  JoueurSeConnectChat(matchId:number) {
+  JoueurSeConnectChat(matchId:number|undefined) {
     this.hubConnect!.invoke('JoueurSeConnectChat', matchId);
   }
-  JoueurSeDeconnectChat(matchId:number) {
+  JoueurSeDeconnectChat(matchId:number|undefined) {
     this.hubConnect!.invoke('JoueurSeDeconnectChat', matchId);
   }
   SendMessage(MessageText: string, matchId:number|undefined) {
     this.hubConnect!.invoke('SendMessage', MessageText, matchId);
+  }
+  GetMessages( matchId:number|undefined) {
+    this.hubConnect!.invoke('UpdateMessagerie', matchId);
   }
 
 }

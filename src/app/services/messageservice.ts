@@ -8,7 +8,7 @@ import {MatchService} from "./match.service";
   providedIn: 'root'
 })
 export class MessageService {
- 
+
   listMessages:Message[]=[]
   constructor(public hub:HubService, public match:MatchService) { }
 
@@ -18,4 +18,15 @@ export class MessageService {
  }
 
 
+ async joueurRejoin() {
+   this.hub.JoueurSeConnectChat(this.match.matchId);
+  }
+
+  async joueurQuitte() {
+    this.hub.JoueurSeDeconnectChat(this.match.matchId);
+  }
+
+  getmessage() {
+    this.hub.GetMessages(this.match.matchId);
+  }
 }

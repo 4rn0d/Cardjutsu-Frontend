@@ -1,8 +1,17 @@
+.chatApp{
+  background-color: #000000;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 9998;
+}
 .chat-container {
   width: 300px;
-  margin: 20px auto;
+  align-items: flex-start;
+  overflow-y: auto; /* Ajout de la propriété overflow-y pour activer le défilement vertical */
+  max-height: 200px; /* Ajout de la propriété max-height pour définir la hauteur maximale du conteneur */
+  display: flex;
+  flex-direction: column;
 
-  padding: 10px;
 }
 
 .chat-message {
@@ -10,43 +19,24 @@
   padding: 8px 12px;
   border-radius: 8px;
   max-width: 70%;
-}
-
-.outgoing {
-  background-color: #007bff;
-  color: white;
-  align-self: flex-end;
-}
-
-.incoming {
-  background-color: #f1f0f0;
-  color: #333;
-}
-
-/* Styling for better visualization */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-}
-
-.chat-message p {
-  margin: 0;
-}
-
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.chat-message {
   z-index: 9999;
   display: inline-block;
 }
+
 .message-input {
   z-index: 9999;
   display: flex;
   align-items: center;
+  padding: 10px;
+}
+.message{
+  padding: 3px;
+  z-index: 9999;
+  width: 250px;
+}
+
+.messagePlayer{
+  color: black;
 }
 
 .message-input input[type="text"] {
@@ -60,17 +50,17 @@ body {
 
 .message-input button {
   padding: 10px 20px;
-  border: none;
   border-radius: 20px;
   background-color: #007bff;
   color: white;
-  cursor: pointer;
+  z-index: 9999;
 }
 
 .message-input button:hover {
   background-color: #0056b3;
 }
-.message{
+
+
+.messagebox{
   z-index: 9999;
-  width: 200px;
 }

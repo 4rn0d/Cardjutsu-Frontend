@@ -1,14 +1,20 @@
-<div class="chat-container">
-  <div *ngFor="let messageTxt of matchService.listMessage" style="width: 100px">
-    <div class="messagebox">
-      <div class="message">{{messageTxt.messageText}}</div>
+<div class="chatApp">
+  <div class="chat-container">
+    <div class="messagebox" *ngFor="let messageTxt of matchService.listMessage" style="width: 100px">
+
+
+
+        <div class="message">{{messageTxt.messageText}}</div>
+
     </div>
+
+
   </div>
+
   <div class="message-input">
 
     <input type="text" placeholder="Type your message..."[(ngModel)]="message">
     <button (click)="envoyerMessageAuService(message)">Send</button>
   </div>
-
 </div>
 
