@@ -24,6 +24,7 @@ import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting
 import {DialogAddDeckComponent} from "./components/dialog-add-deck/dialog-add-deck.component";
 import {DecksComponent} from "./home/decks/decks.component";
 import {ChatComponent} from "./match/chat/chat.component";
+import {SpectateurComponent} from "./home/spectateur/spectateur.component";
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import {ChatComponent} from "./match/chat/chat.component";
         DialogWaitingComponent,
         DialogAddDeckComponent,
       DecksComponent,
-      ChatComponent
+      ChatComponent,
+      SpectateurComponent
     ],
     imports: [
         BrowserModule,

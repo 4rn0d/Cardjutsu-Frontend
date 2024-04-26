@@ -15,6 +15,7 @@ import {MessageService} from "./messageservice";
 export class MatchService {
   listMessage:any[]=[]
   listMutedPlayer:Player[]=[];
+  listMatchDisponible: any[]=[];
 
   matchId?:number;
   match:Match | null = null;
@@ -27,6 +28,7 @@ export class MatchService {
 
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
+
 
   constructor(public Data:DataService) { }
 

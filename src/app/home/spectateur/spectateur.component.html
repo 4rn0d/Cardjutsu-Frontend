@@ -1,1 +1,12 @@
-<p>spectateur works!</p>
+<header style="background-color: #212121; padding: 15px">
+  <h1>Match en cours</h1>
+</header>
+
+<div class="mat-app-background">
+  <div class="listMatchDisponible">
+          <div *ngFor="let match of matchService.listMatchDisponible">
+                <h2>Les players sont {{match.playerDataA.player.name}} et {{match.playerDataB.player.name}}</h2>
+              <button mat-raised-button color="primary" (click)="hub.rejoindreMatch(match.id)">Rejoindre le match</button>
+          </div>
+  </div>
+</div>

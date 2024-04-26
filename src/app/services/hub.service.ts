@@ -81,6 +81,14 @@ export class HubService {
         console.log(this.matchService.listMutedPlayer)
       });
 
+      //LISTMATCH
+      this.hubConnect!.on('ListMatch', (data) =>{
+        console.log('ListMatch');
+        console.log(data)
+        this.matchService.listMatchDisponible = data;
+        console.log(this.matchService.listMutedPlayer)
+      });
+
 
     }).catch(err => console.log('Error connection : ' + err))
   }
@@ -108,4 +116,11 @@ export class HubService {
     this.hubConnect!.invoke('DemutePlayer',PlayerName, matchId, );
   }
 
+  GetListMatches() {
+    this.hubConnect!.invoke('GetListMatchs');
+  }
+
+  rejoindreMatch(id:number) {
+    this.hubConnect!.invoke('RejoindreMatchSpectateur',id);
+  }
 }

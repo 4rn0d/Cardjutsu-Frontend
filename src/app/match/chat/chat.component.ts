@@ -20,11 +20,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
   async ngOnInit(): Promise<void> {
-    console.log(this.matchService.listMessage)
+
     this.useremail = await this.api.getUsername();
     console.log(this.useremail);
     await this.messageService.joueurRejoin();
-    this.messageService.getmessage()
+    this.messageService.getmessage();
 
 
     //list de mute
