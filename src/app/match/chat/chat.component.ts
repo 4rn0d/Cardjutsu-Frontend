@@ -1,5 +1,5 @@
 import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Message} from "../../models/models";
+import {Message, Player} from "../../models/models";
 import {MessageService} from "../../services/messageservice";
 import {MatchService} from "../../services/match.service";
 import {ApiService} from "../../services/api.service";
@@ -25,6 +25,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     console.log(this.useremail);
     await this.messageService.joueurRejoin();
     this.messageService.getmessage()
+
+
+    //list de mute
+
   }
 
   ngOnDestroy() {
@@ -40,6 +44,19 @@ export class ChatComponent implements OnInit, OnDestroy {
       await this.messageService.envoyerMessage(message);
       this.message = "";
     }
+
+  }
+
+  voirsiMute(player:Player){
+
+    for (let listMutedPlayerKey of this.matchService.listMutedPlayer) {
+      if (player.name == listMutedPlayerKey.name) {
+        return true;
+        console.log(true)
+      }
+
+    }
+    return false
 
   }
 

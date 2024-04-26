@@ -1,4 +1,4 @@
-import {Card, MatchData, Message, PlayableCard} from 'src/app/models/models';
+import {Card, MatchData, Message, PlayableCard, Player} from 'src/app/models/models';
 import { PlayerData } from '../models/models';
 import { Injectable } from '@angular/core';
 import { Match } from '../models/models';
@@ -14,7 +14,8 @@ import {MessageService} from "./messageservice";
 })
 export class MatchService {
   listMessage:any[]=[]
-  listMutedPlayer:any[]=[];
+  listMutedPlayer:Player[]=[];
+
   matchId?:number;
   match:Match | null = null;
   matchData:MatchData | null = null;

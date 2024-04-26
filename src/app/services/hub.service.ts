@@ -104,5 +104,8 @@ export class HubService {
   MutePlayer(PlayerName:string,matchId:number|undefined) {
     this.hubConnect!.invoke('MutePlayer',PlayerName, matchId, );
   }
+  DemutePlayer(PlayerName:string,matchId:number|undefined) {
+    this.hubConnect!.invoke('DemutePlayer',PlayerName, matchId, );
+  }
 
 }

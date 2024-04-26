@@ -33,4 +33,8 @@ export class MessageService {
   muteJoueur(PlayerName:string) {
     this.hub.MutePlayer(PlayerName,this.match.matchId);
   }
+
+  demuteJoueur(PlayerName:string) {
+    this.hub.DemutePlayer(PlayerName,this.match.matchId);
+  }
 }

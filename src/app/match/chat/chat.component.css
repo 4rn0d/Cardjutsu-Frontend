@@ -43,7 +43,7 @@
   width: 230px;
 }
 .inline-container {
-  display: inline-flex; /* Utilisation de flexbox pour aligner les éléments sur la même ligne */
+  display: inline-flex;
 }
 .NomPlayer{
   padding: 3px;
