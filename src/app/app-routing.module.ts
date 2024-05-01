@@ -12,6 +12,7 @@ import {SpectateurComponent} from "./home/spectateur/spectateur.component";
 
 const routes: Routes = [
   { path: 'match/:id', component: MatchComponent },
+  { path: 'match/spectateur/:id', component: MatchComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, canActivate:[apiGuard], children: [

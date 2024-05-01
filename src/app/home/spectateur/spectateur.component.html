@@ -6,7 +6,7 @@
   <div class="listMatchDisponible">
           <div *ngFor="let match of matchService.listMatchDisponible">
                 <h2>Les players sont {{match.playerDataA.player.name}} et {{match.playerDataB.player.name}}</h2>
-              <button mat-raised-button color="primary" (click)="hub.rejoindreMatch(match.id)">Rejoindre le match</button>
+              <button mat-raised-button color="primary" (click)="rejoindrematch(match.id)">Rejoindre le match</button>
           </div>
   </div>
 </div>

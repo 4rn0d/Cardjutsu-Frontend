@@ -18,8 +18,18 @@ export class MatchComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService, public dialog: MatDialog) { }
+  isSpectateur:boolean = false;
 
   async ngOnInit() {
+    const urlSegment = this.route.snapshot.url.find(segment => segment.path.includes('spectateur'));
+    if (urlSegment) {
+      this.isSpectateur= true;
+      console.log('Spectateur');
+    } else {
+      this.isSpectateur= false;
+      console.log('Not spectateur');
+    }
+
   }
 
   endMatch() {

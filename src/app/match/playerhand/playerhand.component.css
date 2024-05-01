@@ -14,7 +14,10 @@
   left: 0px;
   border-radius: 15px;
 }
-
+.white-border {
+  border: 6px solid white;
+ 
+}
 .example-card {
   margin: 0 !important;
 }
