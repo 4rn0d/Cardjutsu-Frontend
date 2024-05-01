@@ -3,6 +3,7 @@ import {Card, PlayableCard} from 'src/app/models/models';
 import {MatchService} from "../../services/match.service";
 import {HubService} from "../../services/hub.service";
 import {ActivatedRoute, Router, Routes} from "@angular/router";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: 'app-playerhand',
@@ -13,10 +14,9 @@ export class PlayerhandComponent implements OnInit {
 
   @Input() cards: PlayableCard[] = [];
 
-  constructor(public matchService: MatchService, public hub: HubService, private route: ActivatedRoute,) { }
+  constructor(public matchService: MatchService, public hub: HubService, private route: ActivatedRoute,public api:ApiService,) { }
 
   clickedCard : PlayableCard | undefined ;
-
   isSpectateur:boolean = false;
 
   async ngOnInit() {
@@ -35,8 +35,15 @@ export class PlayerhandComponent implements OnInit {
     // TODO: Utiliser seulement une fois que l'on peut jouer des cartes (TP2)
     this.hub.hubConnect?.invoke("PlayCard", this.matchService.matchId, playableCardId);
   }
-  shouldShowWhiteBorder(cardId: number): boolean {
-
-    return true;
+  async shouldShowWhiteBorder(cardId: number): Promise<boolean> {
+    console.log("whiteBorder")
+    console.log(cardId)
+    const cardss:any = this.cards.find(c => c.id == cardId); // Trouver la carte correspondante à cardId
+    console.log(cardss)
+    if (cardss.card.cost < 3) {
+      return true;
+    }else{
+      return false;
+    }
   }
 }
