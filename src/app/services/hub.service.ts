@@ -93,6 +93,7 @@ export class HubService {
         console.log('ListBanPlayer');
         this.matchService.listMatchBanPlayer = data;
         console.log(this.matchService.listMutedPlayer)
+
       });
 
     }).catch(err => console.log('Error connection : ' + err))
