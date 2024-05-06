@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HubService} from "../../services/hub.service";
 import {MatchService} from "../../services/match.service";
 import {Router} from "@angular/router";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: 'app-spectateur',
@@ -10,11 +11,14 @@ import {Router} from "@angular/router";
 })
 export class SpectateurComponent implements OnInit {
 
-  constructor(public hub: HubService, public matchService: MatchService, public router: Router) {
+  constructor(public hub: HubService, public matchService: MatchService, public router: Router, public api :ApiService) {
   }
-
-  ngOnInit(): void {
+  useremail:string = "";
+  listBan :any
+  async ngOnInit(): Promise<void> {
     this.hub.GetListMatches();
+    this.useremail = await this.api.getUsername();
+    this.listBan=this.matchService.listMatchBanPlayer;
   }
 
   async rejoindrematch(matchId: number) {
@@ -30,4 +34,18 @@ export class SpectateurComponent implements OnInit {
     });
 
   }
+
+/* async EstBannis(match: any) {
+    if (match){
+      for (let ma of match.spectateurBannis) {
+        if (this.useremail.includes(ma.name)){
+          return true;
+          console.log("true")
+        }
+      }
+      console.log("fakse")
+      return false;
+    }
+return;
+  }*/
 }

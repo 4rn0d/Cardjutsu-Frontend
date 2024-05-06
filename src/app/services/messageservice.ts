@@ -37,4 +37,7 @@ export class MessageService {
   demuteJoueur(PlayerName:string) {
     this.hub.DemutePlayer(PlayerName,this.match.matchId);
   }
+  BanPlayerDuMatch(PlayerName:string){
+    this.hub.BanPlayerDuMatch(PlayerName,this.match.matchId);
+  }
 }

@@ -16,7 +16,7 @@ export class MatchService {
   listMessage:any[]=[]
   listMutedPlayer:Player[]=[];
   listMatchDisponible: any[]=[];
-
+  listMatchBanPlayer:any[]=[];
   matchId?:number;
   match:Match | null = null;
   matchData:MatchData | null = null;

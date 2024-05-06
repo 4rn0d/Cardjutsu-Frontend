@@ -88,7 +88,12 @@ export class HubService {
         this.matchService.listMatchDisponible = data;
         console.log(this.matchService.listMutedPlayer)
       });
-
+      //Ban
+      this.hubConnect!.on('ListBanPlayer', (data) =>{
+        console.log('ListBanPlayer');
+        this.matchService.listMatchBanPlayer = data;
+        console.log(this.matchService.listMutedPlayer)
+      });
 
     }).catch(err => console.log('Error connection : ' + err))
   }
@@ -109,6 +114,7 @@ export class HubService {
   GetMessages( matchId:number|undefined) {
     this.hubConnect!.invoke('UpdateMessagerie', matchId);
   }
+
   MutePlayer(PlayerName:string,matchId:number|undefined) {
     this.hubConnect!.invoke('MutePlayer',PlayerName, matchId, );
   }
@@ -123,4 +129,7 @@ export class HubService {
   rejoindreMatch(id:number) {
     this.hubConnect!.invoke('RejoindreMatchSpectateur',id);
   }
+  BanPlayerDuMatch(PlayerName:string,matchId:number|undefined){
+  this.hubConnect!.invoke('BanPlayerDuMatch',PlayerName,matchId);
+}
 }
