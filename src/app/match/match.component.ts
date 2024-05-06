@@ -22,6 +22,8 @@ export class MatchComponent implements OnInit {
   async ngOnInit() {
   }
 
+  elo : number =0;
+
   endMatch() {
     this.matchService.clearMatch();
     this.router.navigate(['/'])
@@ -39,8 +41,19 @@ export class MatchComponent implements OnInit {
   }
 
   isVictory() {
-    if(this.matchService.matchData?.winningPlayerId)
+
+    // if(this.matchService.matchData?.winningPlayerId == this.matchService.matchData!.playerA.id){
+    //   this.elo = this.matchService.matchData.playerA.elo;
+    // }
+    // else{
+    //   this.elo = this.matchService.matchData!.playerB.elo;
+    // }
+
+    // this.elo = this.matchService.matchData!.playerA.elo; //test
+
+    if(this.matchService.matchData?.winningPlayerId){
       return this.matchService.matchData!.winningPlayerId === this.matchService.playerData!.playerId
+    }
     return false;
   }
 }
