@@ -4,12 +4,18 @@
 
 <div class="mat-app-background">
   <div class="listMatchDisponible">
-          <div *ngFor="let match of matchService.listMatchDisponible">
+    <div *ngIf="matchService.listMatchDisponible.length !=0">
+      <div *ngFor="let match of matchService.listMatchDisponible">
 
-              <h2>Les players sont {{match.playerDataA.player.name}} et {{match.playerDataB.player.name}}</h2>
-              <button mat-raised-button color="primary" (click)="rejoindrematch(match.id)">Rejoindre le match</button>
+        <h2>Les players sont {{match.playerDataA.player.name}} et {{match.playerDataB.player.name}}</h2>
+        <button mat-raised-button color="primary" (click)="rejoindrematch(match.id)">Rejoindre le match</button>
 
 
-          </div>
+      </div>
+    </div>
+    <div *ngIf="matchService.listMatchDisponible.length ==0">
+      <div class="NoMatch">Il n'y a aucune partie courrante</div>
+    </div>
+
   </div>
 </div>

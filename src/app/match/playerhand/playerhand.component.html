@@ -1,7 +1,7 @@
 <div style="display: flex;position: absolute; width: 100%; bottom: 0px">
 
   <div class="container" *ngIf="!isSpectateur">
-    <app-card *ngFor="let card of cards" [card]="card.card" [playableCardId]="card.id" [id]="card.id" class="card fadeIn" (click)="click(card.id)" [ngClass]="{'white-border': shouldShowWhiteBorder(card.id)}"></app-card>
+    <app-card *ngFor="let card of cards" [card]="card.card" [playableCardId]="card.id" [id]="card.id" class="card fadeIn" (click)="click(card.id)" [ngClass]="IsEnoghtMana(card.id)?'white-border':'nothing'"></app-card>
   </div>
   <div class="container" *ngIf="isSpectateur">
     <app-card *ngFor="let card of cards" [card]="card.card"  [id]="card.id" class="card fadeIn" [show]="'back'" ></app-card>

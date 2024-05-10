@@ -6,6 +6,7 @@ import {MatchData} from "../models/models";
 import {MatchService} from "./match.service";
 import {ChatComponent} from "../match/chat/chat.component";
 import {MessageService} from "./messageservice";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class HubService {
 
   isWaiting: boolean = true
 
-  constructor(public matchService: MatchService) { }
+  constructor(public matchService: MatchService, public router:Router) { }
 
   async ConnectToHub(){
     if(this.hubConnect?.state == HubConnectionState.Connected)
@@ -93,6 +94,11 @@ export class HubService {
         console.log('ListBanPlayer');
         this.matchService.listMatchBanPlayer = data;
         console.log(this.matchService.listMutedPlayer)
+
+      });
+      this.hubConnect!.on('BanJoueurDuMatch', (data) =>{
+        console.log('BanJoueurDuMatch');
+        this.router.navigate(['/Spectateur']);
 
       });
 

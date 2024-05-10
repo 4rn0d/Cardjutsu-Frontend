@@ -60,5 +60,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   }
 
+  isPlayer(message:any){
+
+   if(message.player.isPlayer==false){
+     return false
+    }else{
+     return true;
+   }
+  }
 
 }

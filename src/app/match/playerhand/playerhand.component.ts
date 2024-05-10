@@ -23,24 +23,25 @@ export class PlayerhandComponent implements OnInit {
     const urlSegment = this.route.snapshot.url.find(segment => segment.path.includes('spectateur'));
     if (urlSegment) {
       this.isSpectateur= true;
-      console.log('Spectateur');
     } else {
       this.isSpectateur= false;
-      console.log('Not spectateur');
     }
 
   }
 
   click(playableCardId:any) : void {
     // TODO: Utiliser seulement une fois que l'on peut jouer des cartes (TP2)
-    this.hub.hubConnect?.invoke("PlayCard", this.matchService.matchId, playableCardId);
+    if (this.IsEnoghtMana(playableCardId)){
+      this.hub.hubConnect?.invoke("PlayCard", this.matchService.matchId, playableCardId);
+    }
+
   }
-  async shouldShowWhiteBorder(cardId: number): Promise<boolean> {
-    console.log("whiteBorder")
-    console.log(cardId)
-    const cardss:any = this.cards.find(c => c.id == cardId); // Trouver la carte correspondante à cardId
-    console.log(cardss)
-    if (cardss.card.cost < 3) {
+  IsEnoghtMana(cardId: number): boolean {
+    let mana = this.matchService.playerData!.mana;
+
+    const cardTrouver:any = this.cards.find(c => c.id == cardId); // Trouver la carte correspondante à cardId
+
+    if (cardTrouver.card.cost <= mana) {
       return true;
     }else{
       return false;
