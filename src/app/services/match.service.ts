@@ -415,4 +415,11 @@ export class MatchService {
   }
 
 
+  changePercpective() {
+    let playerData: PlayerData | undefined = this.playerData;
+    let adversaryData: PlayerData | undefined=this.adversaryData;
+
+    this.playerData = adversaryData;
+    this.adversaryData=playerData;
+  }
 }

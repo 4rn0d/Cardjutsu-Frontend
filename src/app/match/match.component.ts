@@ -19,7 +19,7 @@ export class MatchComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, public router: Router, public matchService:MatchService, public apiService:ApiService, public hubService: HubService, public dialog: MatDialog) { }
   isSpectateur:boolean = false;
-
+  isLookingPlayerB = false;
   async ngOnInit() {
     const urlSegment = this.route.snapshot.url.find(segment => segment.path.includes('spectateur'));
     if (urlSegment) {
@@ -52,5 +52,13 @@ export class MatchComponent implements OnInit {
     if(this.matchService.matchData?.winningPlayerId)
       return this.matchService.matchData!.winningPlayerId === this.matchService.playerData!.playerId
     return false;
+  }
+
+  changePercpective() {
+    this.isLookingPlayerB= !this.isLookingPlayerB;
+  }
+
+  QuiterMatch() {
+    this.router.navigate(['/Spectateur']);
   }
 }

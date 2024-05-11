@@ -1,23 +1,27 @@
 
 <app-chat style="position: absolute;left: 70%; top:5%; z-index: max(10)"></app-chat>
-<div class="board" style="height: 100%;background-image: url('/assets/mergedBoardImage.png'); background-size: cover;">
-  <div style="height: 45%;">
-    <h1 style="position: absolute;">Adversaire</h1>
-    <div *ngIf="matchService.adversaryData">
 
-      <app-battlefield [cards]="matchService.adversaryData.battleField"></app-battlefield>
+  <div class="board" style="height: 100%;background-image: url('/assets/mergedBoardImage.png'); background-size: cover;">
+    <div style="height: 45%;">
+      <h1 style="position: absolute;">Adversaire</h1>
+      <div *ngIf="matchService.adversaryData">
 
-      <app-enemyhand [cards]="matchService.adversaryData.hand"></app-enemyhand>
+        <app-battlefield [cards]="matchService.adversaryData.battleField"></app-battlefield>
+
+        <app-enemyhand [cards]="matchService.adversaryData.hand"></app-enemyhand>
+      </div>
+    </div>
+    <div style="height: 45%;">
+      <h1 style="position: absolute;">Mon jeu</h1>
+      <div *ngIf="matchService.playerData">
+        <app-battlefield [cards]="matchService.playerData.battleField"></app-battlefield>
+      </div>
+
     </div>
   </div>
-  <div style="height: 45%;">
-    <h1 style="position: absolute;">Mon jeu</h1>
-    <div *ngIf="matchService.playerData">
-      <app-battlefield [cards]="matchService.playerData.battleField"></app-battlefield>
-    </div>
 
-  </div>
-</div>
+
+
 <div *ngIf="!isSpectateur">
   <div *ngIf="matchService.playerData">
     <app-playerhand [cards]="matchService.playerData.hand"></app-playerhand>
@@ -30,12 +34,13 @@
 <div *ngIf="isSpectateur">
   <div *ngIf="matchService.playerData">
     <app-playerhand [cards]="matchService.playerData.hand"></app-playerhand>
+    <button mat-raised-button class="endturn" color="accent" style="margin-right: 20px;" (click)="matchService.changePercpective()">Changer la vue</button>
+    <button mat-raised-button class="surrender" color="warn" style="margin-right: 20px;" (click)="QuiterMatch()">Quitter le match</button>
     <app-health [enemy]="true" [maxhealth]="matchService.adversaryData!.maxhealth" [health]="matchService.adversaryData!.health" [mana]="matchService.adversaryData!.mana" [playername]="matchService.adversaryData!.playerName"></app-health>
     <app-health [maxhealth]="matchService.playerData!.maxhealth" [health]="matchService.playerData!.health" [mana]="matchService.playerData!.mana" [playername]="matchService.playerData!.playerName"></app-health>
+
   </div>
 </div>
-
-
 <div class="end victory" *ngIf="isVictory() && this.matchService.isCompleted">
   <h2>Victoire!</h2>
   <p>Félicitations! Vous avez remporté la partie.</p>
