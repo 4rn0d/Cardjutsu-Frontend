@@ -1,4 +1,4 @@
-import { Card, MatchData, PlayableCard } from 'src/app/models/models';
+import {Card, MatchData, Message, PlayableCard, Player} from 'src/app/models/models';
 import { PlayerData } from '../models/models';
 import { Injectable } from '@angular/core';
 import { Match } from '../models/models';
@@ -7,12 +7,16 @@ import {environment} from "../../environments/environment.development";
 import {HubService} from "./hub.service";
 import {PlayerhandComponent} from "../match/playerhand/playerhand.component";
 import {DataService} from "./data.service";
+import {MessageService} from "./messageservice";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
-
+  listMessage:any[]=[]
+  listMutedPlayer:Player[]=[];
+  listMatchDisponible: any[]=[];
+  listMatchBanPlayer:any[]=[];
   matchId?:number;
   match:Match | null = null;
   matchData:MatchData | null = null;
@@ -24,6 +28,7 @@ export class MatchService {
 
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
+
 
   constructor(public Data:DataService) { }
 
@@ -407,5 +412,14 @@ export class MatchService {
     setTimeout(() => {
       doc?.firstElementChild!.classList.remove("death-opponent");
     }, 1000);
+  }
+
+
+  changePercpective() {
+    let playerData: PlayerData | undefined = this.playerData;
+    let adversaryData: PlayerData | undefined=this.adversaryData;
+
+    this.playerData = adversaryData;
+    this.adversaryData=playerData;
   }
 }

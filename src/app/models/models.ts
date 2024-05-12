@@ -70,3 +70,11 @@ export interface CardPower {
   card: Card;
   power: Power
 }
+export interface Message {
+  MessageId: number;
+  MessageText: string;
+  Player:Player;
+  PlayerId: number;
+  Match:Match;
+  MatchId: number;
+}

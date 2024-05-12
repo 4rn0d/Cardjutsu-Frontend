@@ -1,0 +1,47 @@
+<div class="chatApp" #chatContainer>
+  <div class="chat-container">
+    <div class="messagebox" *ngFor="let messageTxt of matchService.listMessage" style="width: 100px">
+
+<div *ngIf="messageTxt.isMessage">
+  <div *ngIf="useremail == messageTxt.player.name" class="inline-container">
+    <div class="NomPlayer">You:</div>
+    <div class="messagePlayer">{{messageTxt.messageText}}</div>
+
+  </div>
+  <div *ngIf="useremail != messageTxt.player.name" >
+    <div *ngIf="!voirsiMute(messageTxt.player)" class="inline-container">
+      <div class="NomEnnemi">{{messageTxt.player.name}}:</div>
+      <div class="message">{{messageTxt.messageText}}</div>
+      <button class="btnMute" (click)="messageService.muteJoueur(messageTxt.player.name)"><i class="fas fa-volume-mute"></i></button>
+      <div *ngIf="!isPlayer(messageTxt)">
+        <button class="btnBan" (click)="messageService.BanPlayerDuMatch(messageTxt.player.name)"><i class="fas fa-ban"></i> </button>
+
+      </div>
+    </div>
+    <div *ngIf="voirsiMute(messageTxt.player)" class="inline-container">
+      <div class="messageConnDec">Message caché de {{messageTxt.player.name}}</div>
+      <button class="btnMute" (click)="messageService.demuteJoueur(messageTxt.player.name)"><i class="fas fa-volume-up unmute-icon"></i></button>
+      <div *ngIf="!isPlayer(messageTxt)">
+      <button class="btnBan" (click)="messageService.BanPlayerDuMatch(messageTxt.player.name)"><i class="fas fa-ban"></i> </button>
+      </div>
+      </div>
+  </div>
+</div>
+      <div *ngIf="!messageTxt.isMessage">
+          <div class="messageConnDec">{{messageTxt.messageText}}</div>
+      </div>
+
+
+
+    </div>
+
+
+  </div>
+
+  <div class="message-input">
+
+    <input type="text" placeholder="Type your message..."[(ngModel)]="message">
+    <button (click)="envoyerMessageAuService(message)">Send</button>
+  </div>
+</div>
+

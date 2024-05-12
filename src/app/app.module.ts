@@ -23,6 +23,8 @@ import { MyCardsComponent } from './home/my-cards/my-cards.component';
 import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting.component';
 import {DialogAddDeckComponent} from "./components/dialog-add-deck/dialog-add-deck.component";
 import {DecksComponent} from "./home/decks/decks.component";
+import {ChatComponent} from "./match/chat/chat.component";
+import {SpectateurComponent} from "./home/spectateur/spectateur.component";
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import {DecksComponent} from "./home/decks/decks.component";
         DialogWaitingComponent,
         DialogAddDeckComponent,
       DecksComponent,
+      ChatComponent,
+      SpectateurComponent
     ],
     imports: [
         BrowserModule,
