@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.messageService.getmessage();
     setInterval(() => {
       this.scrollToBottom();
-    }, 5000);
+    }, 2000);
 
     //list de mute
 

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {HubConnectionState} from "@microsoft/signalr";
 import {environment} from "../../environments/environment.development";
@@ -23,7 +23,7 @@ export class HubService {
 
   isWaiting: boolean = true
 
-  constructor(public matchService: MatchService, public router:Router) { }
+  constructor(public matchService: MatchService, public router:Router, private zone: NgZone) { }
 
   async ConnectToHub(){
     if(this.hubConnect?.state == HubConnectionState.Connected)
@@ -36,69 +36,90 @@ export class HubService {
       this.isConnected = true;
 
       this.hubConnect!.on('IsWaiting', (data) => {
-        this.isWaiting = data
-        console.log("Is Waiting result : " + data)
+        this.zone.run(() => {
+          this.isWaiting = data
+          console.log("Is Waiting result : " + data)
+        });
       })
 
       this.hubConnect!.on('GetMatchData',  (data) => {
-        this.matchData = data
-        this.matchService.matchId = this.matchData?.match.id
+        this.zone.run(() => {
+          this.matchData = data
+          this.matchService.matchId = this.matchData?.match.id
+        });
       });
 
       this.hubConnect!.on('PlayCard',  (data) => {
-        console.log('PlayCard')
-        this.matchService.applyEvent(JSON.parse(data))
+        this.zone.run(() => {
+          console.log('PlayCard')
+          this.matchService.applyEvent(JSON.parse(data))
+        });
       });
 
       this.hubConnect!.on('StartMatch', (data) => {
-        console.log("joinMatch")
-        this.matchService.applyEvent(JSON.parse(data))
+        this.zone.run(() => {
+          console.log("joinMatch")
+          this.matchService.applyEvent(JSON.parse(data))
+        });
       })
 
       this.hubConnect!.on('EndTurn', (data) =>{
-        console.log('EndTurn');
-        this.matchService.applyEvent(JSON.parse(data))
+        this.zone.run(() => {
+          console.log('EndTurn');
+          this.matchService.applyEvent(JSON.parse(data))
+        });
       })
 
       this.hubConnect!.on('Surrender', (data) =>{
-        console.log('Surrender');
-        this.matchService.applyEvent(JSON.parse(data))
-        this.matchService.isCompleted = true
+        this.zone.run(() => {
+          console.log('Surrender');
+          this.matchService.applyEvent(JSON.parse(data))
+          this.matchService.isCompleted = true
+        });
       })
 
 
       //MESSAGERIE
       this.hubConnect!.on('GetMessagerie', (data) =>{
-        console.log('GetMessagerie');
-        console.log(data)
-        this.matchService.listMessage = data;
-        console.log(this.matchService.listMessage)
+        this.zone.run(() => {
+          console.log('GetMessagerie');
+          console.log(data)
+          this.matchService.listMessage = data;
+          console.log(this.matchService.listMessage)
+        })
       });
 
       this.hubConnect!.on('ListMutedPlayer', (data) =>{
-        console.log('ListMutedPlayer');
-        console.log(data)
-        this.matchService.listMutedPlayer = data;
-        console.log(this.matchService.listMutedPlayer)
+        this.zone.run(() => {
+          console.log('ListMutedPlayer');
+          console.log(data)
+          this.matchService.listMutedPlayer = data;
+          console.log(this.matchService.listMutedPlayer)
+        });
       });
 
       //LISTMATCH
       this.hubConnect!.on('ListMatch', (data) =>{
-        console.log('ListMatch');
-        console.log(data)
-        this.matchService.listMatchDisponible = data;
-        console.log(this.matchService.listMutedPlayer)
+        this.zone.run(() => {
+          console.log('ListMatch');
+          console.log(data)
+          this.matchService.listMatchDisponible = data;
+          console.log(this.matchService.listMutedPlayer)
+        });
       });
       //Ban
       this.hubConnect!.on('ListBanPlayer', (data) =>{
-        console.log('ListBanPlayer');
-        this.matchService.listMatchBanPlayer = data;
-        console.log(this.matchService.listMutedPlayer)
-
+        this.zone.run(() => {
+          console.log('ListBanPlayer');
+          this.matchService.listMatchBanPlayer = data;
+          console.log(this.matchService.listMutedPlayer)
+        });
       });
       this.hubConnect!.on('BanJoueurDuMatch', (data) =>{
-        console.log('BanJoueurDuMatch');
-        this.router.navigate(['/Spectateur']);
+        this.zone.run(() => {
+          console.log('BanJoueurDuMatch');
+          this.router.navigate(['/Spectateur']);
+        });
 
       });
 
