@@ -313,6 +313,14 @@ export class MatchService {
         break
       }
 
+      case "Stun" :{
+        setTimeout(() => {
+          var doc = document.getElementById(""+event.StunnedPlayableCardId);
+          doc!.firstElementChild!.classList.add("stunned");
+        },1500)
+        break
+      }
+
       case "GainMana": {
         // TODO
         setTimeout(() => {

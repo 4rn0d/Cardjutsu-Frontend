@@ -46,6 +46,11 @@
   border-style: solid;
 }
 
+.stunned {
+  color: #6fead9;
+  animation: stunned 0.5s infinite;
+}
+
 .boost-attack {
   color: #7cff7c;
 }
