@@ -46,6 +46,10 @@
   border-style: solid;
 }
 
+.boost-attack {
+  color: #7cff7c;
+}
+
 @keyframes attack-top {
   0% {
     transform: translateY(0%);

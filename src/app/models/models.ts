@@ -41,6 +41,7 @@ export interface PlayableCard {
   id: number;
   card: Card;
   health: number;
+  attack: number;
   ordreId:number;
 }
 

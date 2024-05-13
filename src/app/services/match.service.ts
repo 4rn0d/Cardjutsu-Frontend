@@ -282,6 +282,18 @@ export class MatchService {
         break
       }
 
+      case "BoostAttack": {
+        console.log(event)
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData!.battleField.find(x => x.id == event.PlayableCardId);
+        console.log(card)
+        card!.card.attack += event.BoostAmount;
+        console.log(card)
+        var doc = document.getElementById(""+event.PlayableCardId);
+        doc!.firstElementChild!.classList.add("boost-attack");
+        break;
+      }
+
       case "GainMana": {
         // TODO
         setTimeout(() => {
