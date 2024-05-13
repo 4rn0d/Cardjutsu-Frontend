@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: "https://apisupercartesinfinies.azurewebsites.net/"
+    apiUrl: "https://cardgamec-p.azurewebsites.net/"
 };
