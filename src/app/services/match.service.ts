@@ -294,6 +294,14 @@ export class MatchService {
         break;
       }
 
+      case "Resurrect": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData!.graveyard.find(x => x.id == event.ResurrectedCardId);
+        this.moveCard(playerData!.graveyard, playerData!.battleField, event.ResurrectedCardId);
+        card!.health = 1;
+        break;
+      }
+
       case "GainMana": {
         // TODO
         setTimeout(() => {
