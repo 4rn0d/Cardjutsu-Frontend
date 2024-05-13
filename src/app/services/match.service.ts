@@ -302,6 +302,17 @@ export class MatchService {
         break;
       }
 
+      case "Chaos": {
+        let playerData = this.getPlayerData(event.PlayerId);
+        let card = playerData!.battleField.find(x => x.id == event.PlayableCardId);
+        console.log(card)
+        let temp = card?.attack;
+        card!.card.attack = card!.health;
+        card!.health = temp!;
+
+        break
+      }
+
       case "GainMana": {
         // TODO
         setTimeout(() => {
