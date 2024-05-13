@@ -9,6 +9,7 @@
   <mat-chip *ngIf="isLoggedIn()" style="margin-right: 20px;">
     {{username}}
   </mat-chip>
+  <mat-chip >ELO : {{this.matchService.elo}}</mat-chip>
   <button mat-raised-button color="warn" *ngIf="isLoggedIn()" (click)="logout()" >Se déconnecter</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

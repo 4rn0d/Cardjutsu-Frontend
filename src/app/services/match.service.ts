@@ -24,6 +24,7 @@ export class MatchService {
 
   opponentSurrendered:boolean = false;
   isCurrentPlayerTurn:boolean = false;
+  elo: number = 0;
 
   constructor(public Data:DataService) { }
 
@@ -308,6 +309,12 @@ export class MatchService {
       }
       case "EndMatch": {
         this.matchData!.winningPlayerId = event.WinningPlayerId;
+        if(this.currentPlayerId == event.WinningPlayerId){
+          this.elo = event.WinnerNewElo;
+        }
+        else{
+          this.elo = event.LoserNewElo;
+        }
         this.isCompleted = true;
         break;
       }

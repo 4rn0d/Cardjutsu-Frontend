@@ -54,7 +54,8 @@ export class ApiService {
 
     }
     let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
-
+    this.matchService.elo = result.elo;
+    console.log(result.elo);
   }
   async logout(){
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'Logout'));

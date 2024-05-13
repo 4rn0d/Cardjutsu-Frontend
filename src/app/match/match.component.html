@@ -26,14 +26,14 @@
 <div class="end victory" *ngIf="isVictory() && this.matchService.isCompleted">
   <h2>Victoire!</h2>
   <p>Félicitations! Vous avez remporté la partie.</p>
-  <p>Vous avez gagné du ELO : {{this.elo}}</p>
+  <p>Vous avez gagné du ELO : {{this.matchService.elo}}</p>
   <button mat-button mat-raised-button (click)="endMatch()">Retour</button>
 </div>
 
 <div class="end defeat" *ngIf="!isVictory() && this.matchService.isCompleted">
   <h2>Défaite</h2>
   <p>Dommage! Vous avez perdu la partie. Essayez encore!</p>
-  <p>Vous avez perdu du ELO : {{this.elo}}</p>
+  <p>Vous avez perdu du ELO : {{this.matchService.elo}}</p>
   <button mat-button mat-raised-button (click)="endMatch()">Retour</button>
 </div>
 
