@@ -270,6 +270,18 @@ export class MatchService {
         break
       }
 
+      case "RandomPain": {
+        let playerData = this.getPlayerData(event.OpponentId)!;
+        let card = playerData.battleField.find(x => x.id == event.PlayableCardId);
+        console.log(playerData)
+        console.log(card)
+        this.cardDamageAnimation(card!.id);
+        setTimeout(() => {
+          card!.health -= event.RandomPain;
+        }, 1000);
+        break
+      }
+
       case "GainMana": {
         // TODO
         setTimeout(() => {
