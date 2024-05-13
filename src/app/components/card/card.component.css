@@ -55,6 +55,10 @@
   color: #7cff7c;
 }
 
+.poisonned {
+  color: #c07cff;
+}
+
 @keyframes attack-top {
   0% {
     transform: translateY(0%);

@@ -317,7 +317,28 @@ export class MatchService {
         setTimeout(() => {
           var doc = document.getElementById(""+event.StunnedPlayableCardId);
           doc!.firstElementChild!.classList.add("stunned");
-        },1500)
+        },2000)
+        break
+      }
+
+      case "Poison" : {
+        setTimeout(() => {
+          var doc = document.getElementById(""+event.DamagedPlayableCardId);
+          doc!.firstElementChild!.classList.add("poisonned");
+        },2000)
+        break
+      }
+
+      case "PoisonDamage" : {
+        setTimeout(() => {
+          let playerData = this.getPlayerData(event.PlayerId);
+          let card = playerData!.battleField.find(x => x.id == event.DamagedPlayableCardId);
+          console.log(card)
+          this.cardDamageAnimation(event.DamagedPlayableCardId);
+          setTimeout(() => {
+            card!.health -= event.Damage;
+          }, 1000);
+        },3000)
         break
       }
 
