@@ -1,5 +1,6 @@
-<div class="chatApp" #chatContainer>
-  <div class="chat-container">
+
+<div class="chatApp" >
+  <div class="chat-container" #chatContainer>
     <div class="messagebox" *ngFor="let messageTxt of matchService.listMessage" style="width: 100px">
 
 <div *ngIf="messageTxt.isMessage">
