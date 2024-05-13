@@ -88,13 +88,13 @@ export class MatchService {
 
         console.log(playerData?.hand)
         if(card!.card.cost <= playerData!.mana){
-          setTimeout(() => {
-            if (!card!.card.isSpell) {
-              this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
-            } else {
+          if (!card!.card.isSpell) {
+            this.moveCard(playerData!.hand, playerData!.battleField, event.PlayableCardId);
+          } else {
+            setTimeout(() => {
               this.moveCard(playerData!.hand, playerData!.graveyard, event.PlayableCardId);
-            }
-          }, 1000);
+            }, 1000);
+          }
           playerData!.mana = event.Mana;
           console.log(event.Mana)
         }
@@ -242,12 +242,32 @@ export class MatchService {
         setTimeout(() => {
           playerData!.health = event.NewOpponentHealth;
         }, 500);
-        setTimeout(() => {
-          this.moveCard(playerData!.battleField, playerData!.graveyard, event.PlayableCardId);
-          console.log(playerData?.battleField.length)
-          console.log(playerData?.hand.length)
-        }, 500);
         break;
+      }
+
+      case "Earthquake": {
+        let opponentData = this.getPlayerData(event.OpponentId);
+        let playerData = this.getPlayerData(event.PlayerId);
+        if (event.PlayerId != this.currentPlayerId) {
+          this.attackAnimationBot(event.PlayableCardId);
+        } else {
+          this.attackAnimationTop(event.PlayableCardId);
+        }
+        setTimeout(() => {
+          for (let card of opponentData!.battleField) {
+            this.cardDamageAnimation(card!.id);
+            setTimeout(() => {
+              card!.health -= event.Damage;
+            }, 1000);
+          }
+          for (let card of playerData!.battleField) {
+            this.cardDamageAnimation(card!.id);
+            setTimeout(() => {
+              card!.health -= event.Damage;
+            }, 1000);
+          }
+        }, 500);
+        break
       }
 
       case "GainMana": {
