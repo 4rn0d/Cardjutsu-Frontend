@@ -12,6 +12,7 @@ export interface Card {
   imageUrl: string;
   colour: string;
   cardPowers: CardPower[];
+  isSpell: boolean;
 }
 
 export interface CardPower{

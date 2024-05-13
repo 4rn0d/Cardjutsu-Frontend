@@ -91,7 +91,6 @@ export class DecksComponent implements OnInit{
         reponse.push(name)
       }
     }
-    console.log(reponse)
       return reponse;
 
 

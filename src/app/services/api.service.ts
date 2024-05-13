@@ -11,7 +11,7 @@ import {MatchService} from "./match.service";
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl = environment.apiUrl + "/api";
+  baseUrl = environment.apiUrl + "api/";
   accountBaseUrl = this.baseUrl + "Account/";
   deckBaseURL = this.baseUrl+ "Decks/"
 
