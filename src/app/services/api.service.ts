@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import {Card, CardPower} from '../models/models';
+import {Card, CardPower, Player} from '../models/models';
 import { environment } from 'src/environments/environment';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
@@ -126,5 +126,15 @@ export class ApiService {
   async GetCardPowers(id: number): Promise<CardPower[]>{
     let result = await lastValueFrom(this.http.get<CardPower[]>(this.baseUrl + 'card/GetCardPowers/'+id));
     return result
+  }
+
+  async GetBestPlayersScore(){
+    let result = await lastValueFrom(this.http.get<Player[]>(this.baseUrl + 'scoreboard/GetBestPlayersScore'));
+    return result;
+  }
+
+  async GetSimilarPlayersScore(id:number){
+    let result = await lastValueFrom(this.http.get<Player[]>(this.baseUrl + 'scoreboard/GetSimilarPlayersScore/' + id));
+    return result;
   }
 }

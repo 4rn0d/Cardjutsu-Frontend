@@ -23,6 +23,7 @@ import { MyCardsComponent } from './home/my-cards/my-cards.component';
 import { DialogWaitingComponent } from './components/dialogWaiting/dialogWaiting.component';
 import {DialogAddDeckComponent} from "./components/dialog-add-deck/dialog-add-deck.component";
 import {DecksComponent} from "./home/decks/decks.component";
+import {ScoreboardComponent} from "./home/scoreboard/scoreboard.component";
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import {DecksComponent} from "./home/decks/decks.component";
         RegisterComponent,
         ShopComponent,
         MyCardsComponent,
+        ScoreboardComponent,
         DialogWaitingComponent,
         DialogAddDeckComponent,
       DecksComponent,
