@@ -16,8 +16,18 @@ export class ChatComponent implements OnInit, OnDestroy {
   useremail:string = "";
   message: string = '';
 
+  @ViewChild('chatContainer') chatContainer: ElementRef | undefined;
+
+  scrollToBottom(): void {
+    try {
+      console.log(this.chatContainer)
+      this.chatContainer!.nativeElement.scrollTop = this.chatContainer!.nativeElement.scrollHeight;
 
 
+    } catch(err) {
+      console.log(err)
+    }
+  }
 
   async ngOnInit(): Promise<void> {
 
@@ -25,7 +35,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     console.log(this.useremail);
     await this.messageService.joueurRejoin();
     this.messageService.getmessage();
-
+    setInterval(() => {
+      this.scrollToBottom();
+    }, 5000);
 
     //list de mute
 
