@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import {Card, CardPower} from '../models/models';
+import {Card, CardPower, Player, PositionPlayerVM} from '../models/models';
 import { environment } from 'src/environments/environment';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
@@ -14,6 +14,7 @@ export class ApiService {
   baseUrl = environment.apiUrl + "api/";
   accountBaseUrl = this.baseUrl + "Account/";
   deckBaseURL = this.baseUrl+ "Decks/"
+  currentPlayerId = localStorage.getItem("currentPlayerId");
 
   constructor(public http: HttpClient, public cookieService: CookieService, public matchService: MatchService) { }
 
@@ -54,7 +55,8 @@ export class ApiService {
 
     }
     let result = await lastValueFrom(this.http.post<any>(this.accountBaseUrl + 'Login', registerData));
-
+    this.matchService.elo = result.elo;
+    console.log(result.elo);
   }
   async logout(){
     let result = await lastValueFrom(this.http.get<any>(this.accountBaseUrl + 'Logout'));
@@ -125,5 +127,15 @@ export class ApiService {
   async GetCardPowers(id: number): Promise<CardPower[]>{
     let result = await lastValueFrom(this.http.get<CardPower[]>(this.baseUrl + 'card/GetCardPowers/'+id));
     return result
+  }
+
+  async GetBestPlayersScore(){
+    let result = await lastValueFrom(this.http.get<Player[]>(this.baseUrl + 'scoreboard/GetBestPlayersScore'));
+    return result;
+  }
+
+  async GetSimilarPlayersScore(username: string){
+    let result = await lastValueFrom(this.http.get<PositionPlayerVM[]>(this.baseUrl + 'scoreboard/GetSimilarPlayersScore/' + username));
+    return result;
   }
 }

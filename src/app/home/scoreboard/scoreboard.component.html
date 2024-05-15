@@ -1,0 +1,62 @@
+<header style="background-color: #212121; padding: 15px">
+  <h1>Classements</h1>
+</header>
+
+<br>
+
+<div class="tablegroup">
+
+<div class="divtables">
+
+<h2>Meilleurs joueurs</h2>
+<table class="tablescorebest">
+
+  <thead>
+  <tr>
+    <th>Position</th>
+    <th>Pseudo</th>
+    <th>Classement ELO</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let player of this.bestPlayers" [ngClass]="{ 'current-player-row': player.name == currentusername }">
+    <td>{{(this.bestPlayers!.indexOf(player))+1}}</td>
+    <td>{{player.name}}</td>
+    <td>{{player.eloScore}}</td>
+  </tr>
+  </tbody>
+
+
+</table>
+
+
+</div>
+
+<div class="divtables">
+
+  <h2>Joueurs similaires</h2>
+  <table class="tablescoresimilar">
+
+    <thead>
+    <tr>
+      <th>Position</th>
+      <th>Pseudo</th>
+      <th>Classement ELO</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let player of this.similarPlayers" [ngClass]="{ 'current-player-row': player.username == currentusername }">
+      <td>{{player.position}}</td>
+      <td>{{player.username}}</td>
+      <td>{{player.elo}}</td>
+    </tr>
+    </tbody>
+
+
+  </table>
+
+
+</div>
+</div>

@@ -39,8 +39,32 @@ export class MatchComponent implements OnInit {
   }
 
   isVictory() {
-    if(this.matchService.matchData?.winningPlayerId)
+
+    let currentID = this.matchService.currentPlayerId;
+
+    console.log("currentID", currentID)
+    console.log("player a : " + this.matchService.matchData?.playerA.id + " elo : " + this.matchService.matchData?.playerA.eloScore);
+    console.log("player b : " + this.matchService.matchData?.playerB.id + " elo : " + this.matchService.matchData?.playerB.eloScore);
+
+    // if(this.matchService.matchData?.playerA.id === currentID){
+    //   this.matchService.elo = this.matchService.matchData!.playerA.elo;
+    // }else{
+    //   this.matchService.elo  = this.matchService.matchData!.playerB.elo;
+    // }
+
+
+    // if(this.matchService.matchData?.winningPlayerId == this.matchService.matchData!.playerA.id){
+    //   this.elo = this.matchService.matchData.playerA.elo;
+    // }
+    // else{
+    //   this.elo = this.matchService.matchData!.playerB.elo;
+    // }
+
+    // this.elo = this.matchService.matchData!.playerA.elo; //test
+
+    if(this.matchService.matchData?.winningPlayerId){
       return this.matchService.matchData!.winningPlayerId === this.matchService.playerData!.playerId
+    }
     return false;
   }
 }

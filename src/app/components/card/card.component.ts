@@ -47,7 +47,7 @@ export class CardComponent implements OnInit {
       for (let i = 0; i < this.card!.cardPowers.length; i++) {
         console.log(this.card!.cardPowers[i])
         this.animationState = true;
-        this.img = this.card!.cardPowers[i].power.icone
+        this.img = this.card!.cardPowers[i].power.icon
         if (this.card!.cardPowers[i].power.hasValue){
           this.value = this.card!.cardPowers[i].value
         }

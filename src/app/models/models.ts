@@ -1,6 +1,13 @@
 export interface Player {
   id: number;
   name: string;
+  eloScore: number;
+}
+
+export interface PositionPlayerVM{
+  position: number;
+  username: string;
+  elo: number;
 }
 
 export interface Card {
@@ -60,7 +67,7 @@ export interface Power {
   powerId: number;
   name: string;
   description: string;
-  icone: string;
+  icon: string;
   hasValue: boolean;
 }
 
