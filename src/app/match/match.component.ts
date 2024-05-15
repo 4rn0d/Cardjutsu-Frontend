@@ -43,8 +43,8 @@ export class MatchComponent implements OnInit {
     let currentID = this.matchService.currentPlayerId;
 
     console.log("currentID", currentID)
-    console.log("player a : " + this.matchService.matchData?.playerA.id + " elo : " + this.matchService.matchData?.playerA.elo);
-    console.log("player b : " + this.matchService.matchData?.playerB.id + " elo : " + this.matchService.matchData?.playerB.elo);
+    console.log("player a : " + this.matchService.matchData?.playerA.id + " elo : " + this.matchService.matchData?.playerA.eloScore);
+    console.log("player b : " + this.matchService.matchData?.playerB.id + " elo : " + this.matchService.matchData?.playerB.eloScore);
 
     // if(this.matchService.matchData?.playerA.id === currentID){
     //   this.matchService.elo = this.matchService.matchData!.playerA.elo;

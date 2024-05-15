@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import {Card, CardPower, Player} from '../models/models';
+import {Card, CardPower, Player, PositionPlayerVM} from '../models/models';
 import { environment } from 'src/environments/environment';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
@@ -14,6 +14,7 @@ export class ApiService {
   baseUrl = "https://localhost:7219/api/";
   accountBaseUrl = this.baseUrl + "Account/";
   deckBaseURL = this.baseUrl+ "Decks/"
+  currentPlayerId = localStorage.getItem("currentPlayerId");
 
   constructor(public http: HttpClient, public cookieService: CookieService, public matchService: MatchService) { }
 
@@ -133,8 +134,8 @@ export class ApiService {
     return result;
   }
 
-  async GetSimilarPlayersScore(id:number){
-    let result = await lastValueFrom(this.http.get<Player[]>(this.baseUrl + 'scoreboard/GetSimilarPlayersScore/' + id));
+  async GetSimilarPlayersScore(username: string){
+    let result = await lastValueFrom(this.http.get<PositionPlayerVM[]>(this.baseUrl + 'scoreboard/GetSimilarPlayersScore/' + username));
     return result;
   }
 }

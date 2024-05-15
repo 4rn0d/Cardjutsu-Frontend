@@ -1,6 +1,12 @@
 export interface Player {
   id: number;
   name: string;
+  eloScore: number;
+}
+
+export interface PositionPlayerVM{
+  position: number;
+  username: string;
   elo: number;
 }
 

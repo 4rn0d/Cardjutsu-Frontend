@@ -1,55 +1,36 @@
-.card-container {
-  display: flex; /* Make the container a flex container */
+.tablescorebest{
+  background-color: #41866c;
+  border-radius: 20px;
+  padding: 30px;
 }
 
-.card-item {
-
-
-}
-button{
-  margin: 9px;
-}
-.card-item {
-  position: relative;  /* Permet de positionner le bouton "Supprimer" */
+.current-player-row{
+  background-color: #000000;
+  color: #e54b79;
 }
 
-.delete-button {
-  position: absolute;  /* Positionne le bouton par rapport à la carte */
-  top: 5px;  /* Décalage du haut */
-  right: 5px;  /* Décalage de la droite */
-  opacity: 0;  /* Masque le bouton par défaut */
-  transition: opacity 0.2s ease-in-out;  /* Animation du bouton au survol */
-
-  /* Style du bouton */
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  padding: 5px;
-  font-size: 16px;
-  cursor: pointer;
+.tablescoresimilar{
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 30px;
 }
 
-.card-item:hover .delete-button {
-  opacity: 1;  /* Affiche le bouton au survol de la carte */
-}
-select {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #333;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  -webkit-appearance: none; /* Remove default arrow in Chrome/Safari */
+.divtables{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-/* Custom arrow */
-select::-ms-expand {
-  display: none; /* Hide for IE11 */
+.tablegroup{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 100px;
 }
 
-select::after {
-  font-family: FontAwesome; /* Adjust for chosen font icon */
-  content: "\f078"; /* Down arrow icon */
-  margin-left: 10px;
+thead{
+  font-size: 20px;
 }
+
